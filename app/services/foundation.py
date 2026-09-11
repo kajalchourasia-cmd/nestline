@@ -55,6 +55,8 @@ def read_catalogues(data: Path) -> list[CatalogueItem]:
 
 def source_freshness(source, today: date) -> list[str]:
     errors = []
+    if source.last_checked_at is None or source.last_checked_at > today:
+        errors.append("source check date is missing or future-dated")
     if source.retrieved_at is None or source.next_review_at is None:
         errors.append("capture or next-review date missing")
     elif source.retrieved_at > today or source.next_review_at < today:
@@ -76,7 +78,7 @@ def release_fingerprint(data: Path) -> str:
             if path.is_file():
                 if path.name == "coverage_matrix.csv":
                     continue  # Derived status view is checked against the manifest.
-                if path.suffix == ".pdf":
+                if path.suffix.casefold() in {".pdf", ".png", ".jpg", ".jpeg"}:
                     digest = sha256(path.read_bytes()).hexdigest()
                 else:
                     raw = path.read_text(encoding="utf-8")  # Normalises platform line endings.

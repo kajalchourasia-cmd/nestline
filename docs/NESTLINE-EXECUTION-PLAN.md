@@ -10,7 +10,10 @@
 
 **Repository:** https://github.com/kajalchourasia-cmd/nestline
 
-**Implementation status:** Stage 0 data contracts and validation have started. See [Stage 0 handoff](STAGE-0-HANDOFF.md). Other stages remain open until their acceptance evidence is recorded.
+**Implementation status:** Stage 0's draft data foundation, Stage 1 engineering and
+the Stage 2 Supabase foundation are implemented. Kajal's content/product decisions
+for the first `PC00`/`P10`/`PP01` slice are recorded; specialist and release reviews
+remain open. See [project progress](PROJECT-PROGRESS.md).
 
 ## 1. The outcome we are building toward
 
@@ -149,8 +152,8 @@ Each package is ready for a GitHub issue using the stable ID. Work is not done m
 - [ ] Record actual named licence/content/clinical/India-localisation/product reviews, resolve corrections and publish the nine representative profiles plus eight day overlays. A draft or passing software check does not satisfy this gate.
 - [x] Specify draft → reviewed → published → superseded transitions and unpublished-profile UI behavior.
 
-10 September correction pass: 14 active snapshots, 56 spans/fragments, nine
-representative drafts and eight populated day overlays. Local checks: 68 unit
+10 September correction pass: 14 active snapshots, 55 spans and 56 fragments, nine
+representative drafts and eight populated day overlays. Local checks: 95 unit
 tests and 64 visible deterministic software cases. No model benchmark has run.
 Food, movement, wellbeing, follow-up and hidden comparison catalogues plus eight
 fictional PDF/text/extraction fixtures now exist. Read STAGE-0-CORRECTION-STATUS.md:
@@ -158,42 +161,94 @@ source currency and clinical/local interpretation still need resolution, exact
 human approvals are missing, and comparisons lack verified dimensions. The
 review/publication gate is still Stage 0 work, not a later-stage promise.
 
+11 September product/content pass: Kajal accepted the wording, placement and
+conditional behaviour for the 27 exact evidence tasks behind `PC00`, `P10` and
+`PP01`. The governed Stage 1 ledger records 54 decisions. The attached comparison
+sequence was applied, but all 42 comparisons remain hidden pending measurement,
+object-dimension, clinical, localisation and licence verification. This is a
+partial review milestone; the unchecked full-release item above remains open.
+
 **Exit:** no published claim lacks approved evidence; P10/P09 applicability traps fail safely; month-only requests do not acquire an invented exact week. Team review must not be labeled clinical review unless it actually occurred.
 
 ### S1 — Governed public ingestion · 6–10 hours
 
-- [ ] Parse approved HTML sections/PDF pages, preserve headings/tables and exact source anchors, compute checksums and record corpus/parser versions.
-- [ ] Validate candidate evidence; create normalized search text and embeddings only for approved units.
-- [ ] Make ingestion idempotent; source updates create new versions and invalidate affected published content/cache.
-- [ ] Provide a dry-run report showing rejected, changed, duplicate and publishable units.
+- [x] Parse admitted HTML sections/PDF pages, preserve headings/tables and exact source anchors, compute checksums and record corpus/parser versions.
+- [x] Validate candidate evidence; create normalized search text and embeddings only for approved units.
+- [x] Make ingestion idempotent; source updates create new versions and invalidate affected published content/cache.
+- [x] Provide a dry-run report showing rejected, changed, duplicate, review-required and publishable units.
+
+Engineering complete on 10 September 2026: all 55 unique passages across 14
+evidence-bearing sources resolve to source blocks. On 11 September, Kajal's 54
+content/product decisions were attached to 27 current tasks. All tasks remain
+review-required until their remaining roles are complete; no production embeddings
+or public corpus were created.
 
 **Exit:** ingesting the same source twice creates no duplicates; rejected sources cannot appear in retrieval; every returned citation resolves to the stored supporting passage. No live web search is used for runtime health answers.
 
 ### S2 — Storage and isolation · 8–12 hours
 
-- [ ] Version Supabase SQL migrations for workspace, journey, evidence, facts, plans, graph, review and feedback data.
-- [ ] Add RLS policies and private Storage access; derive workspace from authenticated session, never model arguments.
-- [ ] Separate user-token operations from any privileged ingestion job; no ordinary retrieval with service-role credentials.
-- [ ] Clone/reset per-session demo workspaces. Personal Mode begins empty.
-- [ ] Implement version checks, idempotency keys, atomic state updates and deletion of derived artifacts.
+- [x] Version Supabase SQL migrations for workspace, journey, evidence, facts, plans, graph, review and feedback data.
+- [x] Add RLS policies and private Storage access; derive workspace from authenticated session, never model arguments.
+- [x] Separate user-token operations from any privileged ingestion job; no ordinary retrieval with service-role credentials.
+- [x] Create/reset per-session demo workspaces. Personal Mode begins empty; Storage objects must be deleted through the Storage API before database reset.
+- [x] Implement version checks, idempotency keys, atomic state updates and deletion of derived artifacts.
+
+Completed and independently corrected on 11 September 2026 in the `nestline-dev`
+Supabase project. Ten tracked migrations create 28 RLS-enabled tables, private
+Storage, pgvector, release-bound provenance, owner-only workspaces, strict journey
+states, normalized dependency invalidation and versioned per-session demo reset.
+The current Docker/pgTAP Stage 2 suite pins and passes 122 assertions against both
+an upgrade and a clean installation. It covers all 16 personal tables, vectors, Storage,
+cross-workspace references, graph cleanup and three repeatable resets. Secret-free
+remote hashes/counts are tracked in `data/supabase/remote-verification.json`.
+A separate 13-check local Auth/REST/Storage run proves owner file operations,
+outsider denial, Storage-first deletion and full temporary-fixture cleanup.
 
 **Exit:** authenticated A cannot read/search/download/mutate B's SQL, vectors, graph or files. A demo reset cannot affect another session. Migrations and seed/reset commands work on a clean test database. Deletion tests verify removal or explicit invalidation of every dependent item.
 
 ### S3 — Onboarding and journey resolution · 3–5 hours
 
-- [ ] Implement due date, manual week/day, month range, delivery date and postpartum-week inputs using deterministic functions with a testable clock.
-- [ ] Preserve effective date, timing provenance, conflicts and user confirmation. Month input remains a range.
-- [ ] Connect onboarding symptoms to S6 and store timestamped events.
+- [x] Implement due date, manual week/day, month range, delivery date and postpartum-week inputs using deterministic functions with a testable clock.
+- [x] Preserve effective date, timing provenance, conflicts and user confirmation. Month input remains a range.
+- [x] Capture optional symptoms with timestamps and source provenance.
+- [x] Store symptoms atomically with the confirmed onboarding submission.
+- [x] Force all onboarding symptom records to remain safety-evaluation-only.
+- [ ] Route symptoms through the reviewed Stage 6 classifier and escalation policy.
+
+Completed, independently exit-audited and deployed on 11 September 2026. The
+Streamlit flow includes the privacy boundary, authentication, Personal Empty/
+Fictional Demo workspaces, all timing inputs, optional allergies/history/
+restrictions/symptoms/appointments, calculation review and explicit confirmation.
+Migration 00900 commits the whole submission atomically; migration 01000 makes the
+database independently recompute timing/conflict provenance, enforce due/delivery
+arithmetic, reject backward care-episode transitions and preserve the draft-safety
+marker.
+
+Verification: 26/26 frozen date/conflict cases, 24/24 focused journey/onboarding
+unit tests, 160/160 database assertions on both exact 00900 upgrade and clean
+replay, 17/17 real Auth/PostgREST onboarding checks covering all six timing paths,
+one Streamlit render check, zero database lint findings and zero fixtures. The
+remote nestline-dev catalog has 12 migrations and no direct or legacy journey
+mutation grants. The Stage 6 rule file is still a draft, so symptom results remain
+evaluation-only until specialist review.
 
 **Exit:** golden date cases include rollover, boundaries, invalid/future dates, disagreeing timing and postpartum transition. Refresh/relogin preserves confirmed state. No model call calculates dates or silently resolves a conflict.
 
 ### S4 — Documents and confirmed state · 9–15 hours
 
-- [ ] Create the canonical eight fictional documents, editable text, watermarked PDFs, expected extraction JSON, expected graph changes and one controlled noisy variant.
-- [ ] Enforce allowed format/size and handle locked, corrupt, unsupported and wrong-person fixtures explicitly. Resolve the upload scanning policy before any broader deployment.
-- [ ] Extract typed candidate facts with page/span provenance; preserve medication instructions as documented text without treatment advice.
-- [ ] Implement edit/confirm/reject and conflicted/superseded states. An extraction proposal is never an active confirmed fact.
-- [ ] Commit updates once, reject stale versions and trigger plan dependency checks.
+Stage 4 fictional-demo engineering is complete and independently self-verified on
+11 September 2026. It includes the controlled noisy/OCR variant, typed graph truth,
+upload edge cases, private proposal/confirmation flow and protected state commit.
+Migrations `01100` and `01200` are deployed to `nestline-dev`; 206 local and remote
+pgTAP assertions pass, no migration is pending, remote lint is clean, and anonymous
+access is restricted to the six reviewed public-content reads. Live/public upload
+remains blocked until the scanner and human release gates are resolved.
+
+- [x] Create the canonical eight fictional documents, editable text, watermarked PDFs, expected extraction JSON, expected graph changes and one controlled noisy variant.
+- [x] Enforce allowed format/size and handle locked, corrupt, unsupported and wrong-person fixtures explicitly. The real-file path fails closed until a deployable scanner is configured.
+- [x] Extract typed candidate facts with page/span provenance; preserve medication instructions as documented text without treatment advice.
+- [x] Implement edit/confirm/reject and conflicted/superseded states. An extraction proposal is never an active confirmed fact.
+- [x] Commit updates once, reject stale versions and trigger plan dependency checks.
 
 **Exit:** prompt-injected document text cannot change tools or policy; a dose transcription error is visible for confirmation; duplicate upload/confirmation produces one logical update; conflicts preserve both sources.
 

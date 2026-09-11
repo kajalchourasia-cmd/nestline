@@ -2,7 +2,7 @@
 
 Generated from the local dataset. Draft review material, not a patient-facing guide.
 
-Inventory: 63 records; 31 source entries; 56 evidence spans; 56 fragments; 0 published profiles.
+Inventory: 63 records; 31 source entries; 55 evidence spans; 56 fragments; 0 published profiles.
 
 ## How Kajal and the team use this
 
@@ -10,7 +10,7 @@ Read each draft alongside its linked evidence and full official source context. 
 
 Nine representative profiles and eight early-day overlays are proposed Indian educational content. Original source countries remain unchanged; each adopted foreign passage has an explicit, unapproved localisation record. Nothing is published. BHC week 9/10 text is quotation-only and was last reviewed by that publisher in 2012: explicitly review currency before approving it. NHM CHO use is limited to free distribution. This is not commercial launch clearance.
 
-Release review fingerprint: `c14f3374b1f01c78c59d4931d7c6232333f0a2ce69ca787f718b63e4fb3f0914`
+Release review fingerprint: `fdd92ab69df4585ef368916f455d09ae62f32e78266b6c9521511d90666eb5c4`
 
 Review this exact dataset version. Any content change requires a new packet and review.
 
@@ -873,11 +873,11 @@ Codex assessment (not human approval): Complete source sentence retains three-we
 Breastfeeding does not automatically rule out another pregnancy.
 
 Timing: postpartum, week, 3 to 12.
-Evidence: E-PP-FERTILITY-FEEDING
+Evidence: E-PP-FERTILITY
 Required confirmed conditions: None specified.
 Required confirmed absences: None specified.
 
-Codex assessment (not human approval): Complete sentence now supports the breastfeeding exception; the isolated earlier clause was insufficient context. Human wording, licence and India-localisation review remains pending.
+Codex assessment (not human approval): The same complete sentence supports the breastfeeding exception without duplicating the evidence unit. Human wording, licence and India-localisation review remains pending.
 
 ### F-PP-DIET
 
@@ -1508,19 +1508,7 @@ Applicability rationale: General postpartum fertility education. Not a predictio
 Delivery: retrievable. Reuse: Selected original text only; standard NHS terms section 3 and OGL v3.0: https://www.nhs.uk/our-policies/terms-and-conditions/ . Excludes Best Start in Life, third-party content, images and videos. Unchanged quotations must carry Information from the NHS website, as at 100926, linked to the source, and the OGL notice/link. Adapted wording uses the generic OGL attribution rather than implying NHS approval of Nestline wording. No endorsement. Named review pending.
 Localisation: Proposed Indian educational use of this specific passage, not the entire foreign page. No foreign appointment schedule, drug dose, emergency number or entitlement is adopted. The original publisher jurisdiction is preserved. Check wording and applicability against the full source before approval. Named review pending.
 Snapshot: `guidelines/snapshots/NHS-PP-BODY-2026-09-10-v2.json`
-Snapshot SHA-256: `c1c740c4b2b8c40d459f54556735164b7c67bf0bf61f7786fb9059ee6e71e28f`
-
-### E-PP-FERTILITY-FEEDING
-
-Source: [Your body after the birth](https://www.nhs.uk/pregnancy/labour-and-birth/your-body/)
-Original country: UK; proposed evidence country: IN.
-Selected exact text: “You can get pregnant again just 3 weeks after the birth of your baby, even if you're breastfeeding and your periods have not started again yet.”
-Locator: How soon after giving birth can I get pregnant? / breastfeeding clause / expanded supporting unit
-Applicability rationale: Read together with the preceding fertility statement. Does not evaluate eligibility for lactational amenorrhoea contraception.
-Delivery: retrievable. Reuse: Selected original text only; standard NHS terms section 3 and OGL v3.0: https://www.nhs.uk/our-policies/terms-and-conditions/ . Excludes Best Start in Life, third-party content, images and videos. Unchanged quotations must carry Information from the NHS website, as at 100926, linked to the source, and the OGL notice/link. Adapted wording uses the generic OGL attribution rather than implying NHS approval of Nestline wording. No endorsement. Named review pending.
-Localisation: Proposed Indian educational use of this specific passage, not the entire foreign page. No foreign appointment schedule, drug dose, emergency number or entitlement is adopted. The original publisher jurisdiction is preserved. Check wording and applicability against the full source before approval. Named review pending.
-Snapshot: `guidelines/snapshots/NHS-PP-BODY-2026-09-10-v2.json`
-Snapshot SHA-256: `c1c740c4b2b8c40d459f54556735164b7c67bf0bf61f7786fb9059ee6e71e28f`
+Snapshot SHA-256: `fbc475eec72358ca1f209ce7c86517c1ea81105f7fa3a44e4670f87d2a915438`
 
 ### E-PP-DIET
 
@@ -2437,7 +2425,7 @@ Excluded: None specified.
 
 ### SIZE-P20: P20 illustrative comparison
 
-From head to heel, your baby is about as long as a banana.
+Your baby is about the size of a small orange.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2446,25 +2434,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P20",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "banana",
+  "image_key": "small-orange",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a banana.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 24–26 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a small orange.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 24–26 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P21: P21 illustrative comparison
 
-From head to heel, your baby is about as long as a large carrot.
+Your baby is about the size of an orange.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2473,25 +2461,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P21",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "carrot",
+  "image_key": "orange",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a large carrot.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 26–27 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of an orange.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 26–27 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P22: P22 illustrative comparison
 
-From head to heel, your baby is about as long as an ear of sweet corn.
+Your baby is about the size of a grapefruit.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2500,25 +2488,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P22",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "sweet-corn",
+  "image_key": "grapefruit",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as an ear of sweet corn.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 27–28 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a grapefruit.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 27–28 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P23: P23 illustrative comparison
 
-From head to heel, your baby is about as long as a small papaya.
+Your baby is about the size of a grapefruit.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2527,25 +2515,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P23",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "small-papaya",
+  "image_key": "grapefruit",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a small papaya.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 28–29 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a grapefruit.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 28–29 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P24: P24 illustrative comparison
 
-From head to heel, your baby is about as long as a drumstick (moringa) pod.
+Your baby is about the size of a small muskmelon (kharbuja).
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2554,25 +2542,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P24",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "moringa-pod",
+  "image_key": "small-muskmelon",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a drumstick (moringa) pod.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 29–31 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a small muskmelon (kharbuja).",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 29–31 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P25: P25 illustrative comparison
 
-From head to heel, your baby is about as long as a small bottle gourd (lauki).
+Your baby is about the size of a small muskmelon (kharbuja).
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2581,25 +2569,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P25",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "small-lauki",
+  "image_key": "small-muskmelon",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a small bottle gourd (lauki).",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 33–35 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a small muskmelon (kharbuja).",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 33–35 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P26: P26 illustrative comparison
 
-From head to heel, your baby is about as long as a ridge gourd (turai).
+Your baby is about the size of a small cabbage.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2608,19 +2596,19 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P26",
-  "measurement_basis": "Head-to-heel length",
+  "measurement_basis": "Round-object editorial comparison; measurement convention pending",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "ridge-gourd",
+  "image_key": "small-cabbage",
   "image_path": null,
-  "image_alt": "From head to heel, your baby is about as long as a ridge gourd (turai).",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "About 35–36 cm",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby is about the size of a small cabbage.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "About 35–36 cm; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
@@ -2653,7 +2641,7 @@ Excluded: None specified.
 
 ### SIZE-P28: P28 illustrative comparison
 
-Your baby now has roughly the overall bulk of a large brinjal.
+Your baby now has roughly the overall bulk of a cabbage.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2662,25 +2650,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P28",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "large-brinjal",
+  "image_key": "cabbage",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a large brinjal.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 0.9–1.1 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a cabbage.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 0.9–1.1 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P29: P29 illustrative comparison
 
-Your baby now has roughly the overall bulk of a butternut squash.
+Your baby now has roughly the overall bulk of a cabbage.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2689,19 +2677,19 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P29",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "butternut-squash",
+  "image_key": "cabbage",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a butternut squash.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 1.1–1.3 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a cabbage.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 1.1–1.3 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
@@ -2734,7 +2722,7 @@ Excluded: None specified.
 
 ### SIZE-P31: P31 illustrative comparison
 
-Your baby now has roughly the overall bulk of a coconut with its husk.
+Your baby now has roughly the overall bulk of a honeydew melon.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2743,25 +2731,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P31",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "husked-coconut",
+  "image_key": "honeydew",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a coconut with its husk.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 1.4–1.7 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a honeydew melon.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 1.4–1.7 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P32: P32 illustrative comparison
 
-Your baby now has roughly the overall bulk of a small ash gourd (petha).
+Your baby now has roughly the overall bulk of a honeydew melon.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2770,25 +2758,25 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P32",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "small-ash-gourd",
+  "image_key": "honeydew",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a small ash gourd (petha).",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 1.6–1.9 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a honeydew melon.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 1.6–1.9 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
 ### SIZE-P33: P33 illustrative comparison
 
-Your baby now has roughly the overall bulk of a pineapple.
+Your baby now has roughly the overall bulk of a small watermelon.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2797,19 +2785,19 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P33",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "pineapple",
+  "image_key": "small-watermelon",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a pineapple.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 1.8–2.1 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a small watermelon.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 1.8–2.1 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
@@ -2869,7 +2857,7 @@ Excluded: None specified.
 
 ### SIZE-P36: P36 illustrative comparison
 
-Your baby now has roughly the overall bulk of a ripe papaya.
+Your baby now has roughly the overall bulk of a large muskmelon.
 
 Evidence: None: hidden comparison proposal.
 Required: None specified.
@@ -2878,19 +2866,19 @@ Excluded: None specified.
 ```json
 {
   "profile_id": "P36",
-  "measurement_basis": "Approximate bulk",
+  "measurement_basis": "Approximate bulk; round-object mapping pending verification",
   "measurement_value": null,
   "object_dimension_mm": null,
   "illustrative_only": true,
-  "image_key": "papaya",
+  "image_key": "large-muskmelon",
   "image_path": null,
-  "image_alt": "Your baby now has roughly the overall bulk of a ripe papaya.",
-  "hide_reason": "Teammate editorial proposal: measurement series, object dimensions and clinical review not verified",
-  "proposed_planning_basis": "Roughly 2.4–2.8 kg",
-  "proposal_source": "Team-supplied correction plan section 12.1; not a medical authority",
+  "image_alt": "Your baby now has roughly the overall bulk of a large muskmelon.",
+  "hide_reason": "Product direction approved; measurement series, object dimensions and clinical review not verified",
+  "proposed_planning_basis": "Roughly 2.4–2.8 kg; mapping must be independently verified",
+  "proposal_source": "Kajal product review 2026-09-11; not a medical authority",
   "clinical_review_status": "pending",
-  "editorial_review_status": "pending",
-  "artwork_status": "deferred_by_review_section_12_4"
+  "editorial_review_status": "product_approved_2026-09-11",
+  "artwork_status": "deferred_pending_verification"
 }
 ```
 
