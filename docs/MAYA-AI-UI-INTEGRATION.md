@@ -2,63 +2,33 @@
 
 ## Outcome
 
-The existing React interface from `localhost:5173` is preserved in `frontend/`
-and is now the intended main user-facing interface. It was not redesigned. A
-thin FastAPI adapter in `api/` connects it to accepted backend services while
-keeping the public demo fictional-data-only.
+The React interface in `frontend/` is integrated locally through the thin FastAPI adapter in `api/`. It complements the accepted Streamlit product/evaluator surface and preserves the existing backend contracts. It is not a replacement for Stage 10 durable state behavior.
 
-## What is connected
+## Connected behavior
 
-| Existing UI surface | Backend path | Current behaviour |
+| React surface | Backend path | Verified behavior |
 |---|---|---|
-| Begin my journey | `POST /v1/demo/session` | Creates an isolated in-memory demo session. |
-| Pregnancy week | Stage 3 `JourneyResolver` | Resolves and validates weeks 1–42. |
-| Pregnancy month | Stage 3 `JourneyResolver` | Preserves an approximate week range rather than inventing an exact week. |
-| Due date | Stage 3 `JourneyResolver` | Calculates current week from the supplied date. |
-| Postpartum birth date | Stage 3 `JourneyResolver` | Calculates the supported postpartum week. |
-| Diet, allergies, symptoms | Server-built Stage 7 context | Becomes scoped fictional context; onboarding symptoms also pass through Stage 6 safety evaluation. |
-| Optional care record | Controlled demo fixture | Adds one visibly fictional record, appointment, and record-only supplement. No real file leaves the browser. |
-| Dashboard KPIs | `GET /v1/demo/home/{session}` | Shows resolved/recorded values or “not logged”; it does not invent personal status. |
-| Build my connected week | Stages 6 → 7 → 8 | Runs safety, bounded agents, Plan Composer, and validation; displays the proposed schedule only when permitted. |
-| Ask Maya | Stages 6 → 7 → 8 | Runs the existing safety, route, evidence, specialist, and display-validation path. |
+| Begin my journey | `POST /v1/demo/session` | Creates an isolated in-memory fictional session. |
+| Pregnancy week/month/due date and postpartum date | Stage 3 `JourneyResolver` | Preserves exact versus approximate timing and rejects invalid input. |
+| Diet and allergies | Server-built Stage 7 context | Applies scoped fictional constraints. |
+| Onboarding symptoms | Stage 6 Safety Gate | Urgent and clarification routes block dashboard navigation and ordinary generation. |
+| Fictional sample record | Controlled fixture | Adds one fictional appointment and record-only supplement; real upload remains disabled. |
+| Dashboard | `GET /v1/demo/home/{session}` | Shows resolved or recorded values; weekly measurements and unreleased editorial claims remain hidden. |
+| Connected plan | Stages 6 → 7 → 8 | Returns a proposed schedule only when validation permits it. |
+| Ask Maya | Stages 6 → 7 → 8 | Runs safety first; urgent output bypasses ordinary generation. Landing-page access creates a safe fictional preview context before opening chat. |
 
-## Intentional demo limits
+## Preserved boundaries
 
-- Real medical uploads are disabled. Enabling them requires authentication,
-  private storage, malware scanning, extraction, explicit fact confirmation,
-  and deletion controls.
-- Evidence used by the connected UI is the repository's controlled fictional
-  fixture, not a published clinical content release.
-- Plan output is proposal-only and is not durably saved from this frontend.
-- Personal Mode and a live selected model provider remain gated.
-- The editorial dashboard cards remain a labelled interface preview; the
-  connected agent result appears in its own controlled-demo panel.
+- The repository has 63 authored profiles and 0 published profiles. Draft weekly measurements, fetal comparisons, and health guidance are not rendered as released content.
+- The React adapter is Demo Mode only. It does not silently become Personal Mode or use a deterministic provider for Personal Mode.
+- Stage 10 durable fact confirmation, plan saving, state invalidation, and simulated-review writes remain on the accepted Streamlit/storage surface and are not claimed by this React UI.
+- Real medical uploads, live-provider selection, production evidence, deployment, remote migrations, and public/clinical release remain blocked.
+- Passing local fixture tests is software-contract evidence, not clinical validation.
 
-## Run locally
+## Local run
 
-```powershell
-.venv\Scripts\python.exe -m uvicorn api.main:app --reload --port 8000
-Set-Location frontend
-Copy-Item .env.example .env.local
-npm ci
-npm run dev
-```
+Follow `frontend/README.md`. The checked-in `frontend/.env.example` contains only the local public API placeholder. No `.env` or secret is committed.
 
-Open `http://localhost:5173`.
+## Source integration
 
-## Deployment shape
-
-- Render: deploy the repository root using `render.yaml`.
-- Vercel: import the same repository, set Root Directory to `frontend`, and set
-  `NEXT_PUBLIC_MAYA_API_URL` to the Render HTTPS URL.
-- Render: set `MAYA_ALLOWED_ORIGINS` to the final Vercel HTTPS URL (plus any
-  approved custom domain).
-- Run `/healthz`, onboarding, connected plan, chat, and urgent/clarification
-  smoke tests after deployment.
-
-## Naming
-
-Evaluator-facing branding is “Maya AI” and the assistant is “Ask Maya.” Legacy
-filenames, environment variables, schema identifiers, and historical evidence
-retain their existing names where changing them would break compatibility or
-invalidate signed verification evidence.
+The local integration branch was created from `integration/capstone-demo-final` at `40ee1ae56d96697aad5f450994cc9340e95e6a10` and merged `integration/maya-ai-ui-demo` at `7a5531635242c997bacf33b2cabe2acbf67fa751` with normal Git ancestry. Full evidence is in `docs/FINAL-CAPSTONE-MAYA-UI-INTEGRATION-VERIFICATION.md`.

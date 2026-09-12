@@ -1,8 +1,9 @@
 """Thin HTTP adapter connecting the existing Maya UI to the accepted backend.
 
 This API intentionally exposes only controlled Demo Mode. It does not accept
-real medical documents, impersonate Personal Mode, or bypass the Stage 6–10
-safety, orchestration, validation, and state boundaries.
+real medical documents, impersonate Personal Mode, or bypass the accepted Stage 6–8
+safety, orchestration, and validation boundaries. Stage 10 durable state remains
+inside the established Streamlit/storage surface.
 """
 
 from __future__ import annotations
@@ -235,6 +236,9 @@ def _symptom_checks(symptoms: list[str]) -> list[dict]:
                 result.clarification.question if result.clarification else "No urgent rule matched."
             ),
             "matched_rule_ids": [match.rule_id for match in result.matched_rules],
+            "ordinary_generation_allowed": result.ordinary_generation_allowed,
+            "trace_id": str(result.trace.trace_id),
+            "stop_reason": result.trace.stop_reason,
         })
     return values
 
@@ -266,6 +270,12 @@ def onboard(payload: OnboardingRequest) -> dict:
     session.symptoms = sorted(set(payload.symptoms))
     session.use_fictional_sample_record = payload.use_fictional_sample_record
     session.context = _context_for(session)
+    symptom_checks = _symptom_checks(session.symptoms)
+    safety_blocked = any(
+        check["route"] in {"urgent", "needs_clarification"}
+        or not check["ordinary_generation_allowed"]
+        for check in symptom_checks
+    )
     return {
         "session_id": session.session_id,
         "name": session.name,
@@ -273,7 +283,8 @@ def onboard(payload: OnboardingRequest) -> dict:
         "journey_label": session.journey_label,
         "timeline_source": session.timeline_source,
         "limitations": resolution.limitations,
-        "symptom_checks": _symptom_checks(session.symptoms),
+        "symptom_checks": symptom_checks,
+        "safety_blocked": safety_blocked,
         "mode": "demo",
         "fictional": True,
     }

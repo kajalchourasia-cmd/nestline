@@ -19,7 +19,7 @@ It covers the Streamlit application, one explicit profile for every pregnancy an
 
 ## Development status
 
-The consolidated Stage 0–10 work is merged into `main` in `kajalchourasia-cmd/nestline`. The Maya AI frontend/API integration is isolated on `integration/maya-ai-ui-demo`; it does not modify the verified Stage 9 artifact set or deploy anything.
+The consolidated Stage 0–10 work is merged into `main` in `kajalchourasia-cmd/nestline`. This local review branch merges that verified capstone ancestry with the Maya React/FastAPI demo while keeping the accepted Streamlit and Stage 10 surfaces intact. Nothing from this integration review has been pushed, merged to `main`, deployed, or applied to a remote database.
 
 The verified product path is the deterministic, fictional Demo Mode. Personal Mode storage and permission boundaries have local Supabase tests, but Personal Mode is not a complete live maternal-health assistant: 0/63 profiles are published, 0/42 comparisons are display-eligible, the safety specification is draft, real document uploads remain disabled, and no live generation or document-extraction provider is selected.
 
@@ -46,8 +46,11 @@ Passing fixture or local integration tests is software-contract evidence. It doe
 Run the integrated React frontend and API with:
 
 ```powershell
-.venv\Scripts\python.exe -m uvicorn api.main:app --reload --port 8000
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 Set-Location frontend
+Copy-Item .env.example .env.local
 npm ci
 npm run dev
 ```

@@ -1,41 +1,55 @@
 # Maya AI frontend
 
-This directory contains the existing Maya interface originally developed at
-`localhost:5173`. It is now kept with the backend so one branch contains the
-complete demo.
+This directory contains the React/Next.js Maya interface. It is a complementary local controlled-demo surface over the accepted Nestline services. The accepted Streamlit entry point remains the complete Stage 3–10 evaluator and durable-state surface.
 
-The design has been preserved. Its functional flows call the thin API in
-`../api`:
+The React demo currently provides:
 
-- onboarding resolves pregnancy week/month/due date or postpartum birth date;
-- preferences, allergies, and symptoms become trusted fictional-demo context;
-- dashboard KPIs display only recorded/resolved values rather than invented data;
-- “Build my connected week” calls the existing agents and Stage 8 validator;
-- Ask Maya calls the existing safety, routing, evidence, and validation path;
-- real medical-file upload remains disabled; a clearly marked fictional sample
-  record is available for the demo.
+- journey onboarding for pregnancy and postpartum;
+- server-derived fictional context for preferences and allergies;
+- immediate Stage 6 safety handling for onboarding symptoms and chat;
+- a dashboard that hides unreleased weekly measurements and editorial health claims;
+- a connected Stage 7 plan draft that must pass Stage 8 validation;
+- Ask Maya over the Stage 6–8 safety, routing, evidence, and validation path;
+- one clearly marked fictional sample record.
+
+It does not provide Personal Mode, real medical-file upload, published weekly guidance, or the Stage 10 durable commit/save/review lifecycle. Do not enter real personal or medical information.
+
+## Local requirements
+
+- Python 3.12
+- Node.js 22.13 or later (Node 24 is used in CI)
+- npm
 
 ## Local run
+
+From a clean checkout, create the Python environment once:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
 
 Terminal 1, from the repository root:
 
 ```powershell
-.venv\Scripts\python.exe -m uvicorn api.main:app --reload --port 8000
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 ```
 
 Terminal 2:
 
 ```powershell
-cd frontend
+Set-Location frontend
 Copy-Item .env.example .env.local
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:5173`.
+Open `http://127.0.0.1:5173`.
 
-## Deployment
+## Reset and troubleshooting
 
-Deploy `frontend/` to Vercel and the repository root API to Render. Configure
-`NEXT_PUBLIC_MAYA_API_URL` in Vercel and `MAYA_ALLOWED_ORIGINS` in Render with
-the final HTTPS origins. This demo is fictional-data-only.
+Delete `frontend/.env.local` to restore the default local API address. Browser demo sessions are temporary; clear the site's local storage or open a private window to reset the client. Restart both local processes after dependency or environment changes.
+
+If the UI reports that the API is unavailable, confirm `http://127.0.0.1:8000/healthz` returns `status: ok` and that `NEXT_PUBLIC_MAYA_API_URL` points to that API. If `npm` reports an engine mismatch, use Node 22.13 or later.
+
+Deployment, remote secrets, public URLs, and production database configuration are intentionally outside this local integration.

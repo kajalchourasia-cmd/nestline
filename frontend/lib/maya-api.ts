@@ -12,6 +12,24 @@ export type OnboardingPayload = {
   use_fictional_sample_record: boolean;
 };
 
+export type SafetyCheck = {
+  symptom: string;
+  route: "urgent" | "needs_clarification" | "non_urgent";
+  message: string;
+  matched_rule_ids: string[];
+  ordinary_generation_allowed: boolean;
+  trace_id: string;
+  stop_reason: string;
+};
+
+export type OnboardingResult = {
+  session_id: string;
+  journey: { stage: string; unit: string; exact: number | null; range_start: number | null; range_end: number | null };
+  journey_label: string;
+  symptom_checks: SafetyCheck[];
+  safety_blocked: boolean;
+};
+
 export type MayaDisplay = {
   route: string;
   title: string;
@@ -20,6 +38,7 @@ export type MayaDisplay = {
   applied_constraints: string[];
   proposed_actions: string[];
   validation_display_allowed: boolean;
+  ordinary_generation_calls: number;
 };
 
 export type HomeData = {
@@ -56,12 +75,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const mayaApi = {
   createSession: () => request<{ session_id: string }>("/v1/demo/session", { method: "POST" }),
-  onboard: (payload: OnboardingPayload) => request<{
-    session_id: string;
-    journey: { stage: string; unit: string; exact: number | null; range_start: number | null; range_end: number | null };
-    journey_label: string;
-    symptom_checks: Array<{ symptom: string; route: string; message: string }>;
-  }>("/v1/demo/onboarding", { method: "POST", body: JSON.stringify(payload) }),
+  onboard: (payload: OnboardingPayload) => request<OnboardingResult>("/v1/demo/onboarding", {
+    method: "POST", body: JSON.stringify(payload),
+  }),
   home: (sessionId: string) => request<HomeData>(`/v1/demo/home/${sessionId}`),
   chat: (sessionId: string, text: string) => request<{ display: MayaDisplay }>("/v1/demo/chat", {
     method: "POST", body: JSON.stringify({ session_id: sessionId, text }),

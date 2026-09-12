@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Maya AI — Your maternal companion",
-  description: "A calm, personalised companion for pregnancy, postpartum wellbeing, nutrition, movement and trusted weekly guidance.",
+  description: "A controlled fictional local demo of Nestline journey, safety, planning, and evidence-validation boundaries.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

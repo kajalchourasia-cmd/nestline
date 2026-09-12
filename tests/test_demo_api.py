@@ -45,6 +45,26 @@ class DemoApiTests(unittest.TestCase):
         self.assertEqual(check["symptom"], "Back ache")
         self.assertIn(check["route"], {"urgent", "needs_clarification", "non_urgent"})
 
+    def test_urgent_onboarding_is_blocked_before_product_navigation(self):
+        response = self.onboard(symptoms=["I cannot breathe right now"])
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertTrue(body["safety_blocked"])
+        check = body["symptom_checks"][0]
+        self.assertEqual(check["route"], "urgent")
+        self.assertFalse(check["ordinary_generation_allowed"])
+        self.assertTrue(check["matched_rule_ids"])
+        self.assertEqual(check["stop_reason"], "urgent_match")
+
+    def test_ambiguous_onboarding_symptom_requires_clarification(self):
+        response = self.onboard(symptoms=["I feel nauseous right now"])
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertTrue(body["safety_blocked"])
+        check = body["symptom_checks"][0]
+        self.assertEqual(check["route"], "needs_clarification")
+        self.assertFalse(check["ordinary_generation_allowed"])
+
     def test_month_due_date_and_postpartum_date_are_resolved(self):
         month = self.onboard(timeline_mode="month", timeline_value="6")
         self.assertEqual(month.status_code, 200)
@@ -75,6 +95,42 @@ class DemoApiTests(unittest.TestCase):
         body = response.json()
         self.assertTrue(body["fictional"])
         self.assertIn(body["display"]["route"], {"validated", "abstained"})
+
+    def test_urgent_chat_bypasses_ordinary_generation(self):
+        self.onboard()
+        response = self.client.post(
+            "/v1/demo/chat",
+            json={"session_id": self.session_id, "text": "I cannot breathe right now"},
+        )
+        self.assertEqual(response.status_code, 200)
+        display = response.json()["display"]
+        self.assertEqual(display["route"], "urgent")
+        self.assertEqual(display["ordinary_generation_calls"], 0)
+
+    def test_demo_sessions_are_isolated(self):
+        self.onboard(name="First", timeline_value="26", allergies=["Peanut"])
+        other_session = self.client.post("/v1/demo/session").json()["session_id"]
+        other = self.client.post(
+            "/v1/demo/onboarding",
+            json={
+                "session_id": other_session,
+                "name": "Second",
+                "journey": "pregnant",
+                "timeline_mode": "week",
+                "timeline_value": "31",
+                "diets": [],
+                "allergies": ["Sesame"],
+                "symptoms": [],
+                "use_fictional_sample_record": False,
+            },
+        )
+        self.assertEqual(other.status_code, 200)
+        first_home = self.client.get(f"/v1/demo/home/{self.session_id}").json()
+        second_home = self.client.get(f"/v1/demo/home/{other_session}").json()
+        self.assertEqual(first_home["journey"]["exact"], 26)
+        self.assertEqual(first_home["confirmed_context"]["allergies"], ["Peanut"])
+        self.assertEqual(second_home["journey"]["exact"], 31)
+        self.assertEqual(second_home["confirmed_context"]["allergies"], ["Sesame"])
 
     def test_connected_week_runs_plan_composer_and_validator(self):
         self.onboard()
