@@ -203,13 +203,21 @@ class BoundedWorker:
                 model=getattr(self.provider, "model_id", "unavailable"),
                 model_calls=1,
             )
-        except (ProviderFailure, RuntimeError):
+        except ProviderFailure as exc:
             return self._stopped(
                 request_id, context, evidence, evaluation_only,
                 WorkerStatus.FAILED, "provider_failure", started,
                 provider=getattr(self.provider, "provider_id", "unavailable"),
                 model=getattr(self.provider, "model_id", "unavailable"),
-                model_calls=1,
+                model_calls=1, input_tokens=exc.input_tokens,
+                output_tokens=exc.output_tokens, cost=exc.estimated_cost_usd,
+            )
+        except RuntimeError:
+            return self._stopped(
+                request_id, context, evidence, evaluation_only,
+                WorkerStatus.FAILED, "provider_failure", started,
+                provider=getattr(self.provider, "provider_id", "unavailable"),
+                model=getattr(self.provider, "model_id", "unavailable"), model_calls=1,
             )
 
         measured_provider_ms = (perf_counter() - provider_started) * 1000
@@ -339,6 +347,9 @@ class BoundedWorker:
         model: str = "not_called",
         model_calls: int = 0,
         repair_count: int = 0,
+        input_tokens: int = 0,
+        output_tokens: int = 0,
+        cost: float = 0.0,
     ) -> WorkerResult:
         return WorkerResult(
             request_id=request_id,
@@ -358,6 +369,7 @@ class BoundedWorker:
                 request_id=request_id, evidence=evidence, started=started,
                 provider=provider, model=model, model_calls=model_calls,
                 steps=1, repair_count=repair_count, stop_reason=reason,
+                input_tokens=input_tokens, output_tokens=output_tokens, cost=cost,
             ),
         )
 

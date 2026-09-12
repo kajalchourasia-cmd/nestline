@@ -10,22 +10,22 @@
   "controlled_engineering_stage7_ready": true,
   "verified": {
     "typed_contracts": 7,
-    "development_cases": 55,
+    "development_cases": 65,
     "critical_cases": {
-      "passed": 51,
-      "total": 51
+      "passed": 61,
+      "total": 61
     },
     "urgent_zero_generation_calls": {
-      "passed": 27,
-      "total": 27
+      "passed": 35,
+      "total": 35
     },
     "zero_unsafe_reassurance": {
-      "passed": 55,
-      "total": 55
+      "passed": 65,
+      "total": 65
     },
     "ambiguous_or_failure_cases_stopped": {
-      "passed": 19,
-      "total": 19
+      "passed": 21,
+      "total": 21
     },
     "input_channels": 5,
     "urgent_rule_categories": 10

@@ -52,7 +52,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 7.4034,
+      "latency_ms": 2.0877,
       "observed": "pass",
       "passed": true
     },
@@ -62,7 +62,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 3.6569,
+      "latency_ms": 1.4256,
       "observed": "pass",
       "passed": true
     },
@@ -72,7 +72,7 @@
       "details": [],
       "domain": "authorization",
       "expected": "pass",
-      "latency_ms": 1.4146,
+      "latency_ms": 0.2387,
       "observed": "pass",
       "passed": true
     },
@@ -82,7 +82,7 @@
       "details": [],
       "domain": "fact_confirmation",
       "expected": "pass",
-      "latency_ms": 0.9828,
+      "latency_ms": 0.6459,
       "observed": "pass",
       "passed": true
     },
@@ -92,7 +92,7 @@
       "details": [],
       "domain": "fact_confirmation",
       "expected": "pass",
-      "latency_ms": 1.0022,
+      "latency_ms": 0.7405,
       "observed": "pass",
       "passed": true
     },
@@ -102,7 +102,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 0.9225,
+      "latency_ms": 0.6375,
       "observed": "pass",
       "passed": true
     },
@@ -112,7 +112,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 3.554,
+      "latency_ms": 2.2925,
       "observed": "pass",
       "passed": true
     },
@@ -122,7 +122,7 @@
       "details": [],
       "domain": "authorization",
       "expected": "pass",
-      "latency_ms": 0.5999,
+      "latency_ms": 0.3967,
       "observed": "pass",
       "passed": true
     },
@@ -132,7 +132,7 @@
       "details": [],
       "domain": "follow_up",
       "expected": "pass",
-      "latency_ms": 0.956,
+      "latency_ms": 0.7216,
       "observed": "pass",
       "passed": true
     },
@@ -142,7 +142,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 5.2785,
+      "latency_ms": 2.8266,
       "observed": "pass",
       "passed": true
     },
@@ -152,7 +152,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 0.4964,
+      "latency_ms": 0.3144,
       "observed": "pass",
       "passed": true
     },
@@ -162,7 +162,7 @@
       "details": [],
       "domain": "idempotency",
       "expected": "pass",
-      "latency_ms": 1.0909,
+      "latency_ms": 0.7765,
       "observed": "pass",
       "passed": true
     },
@@ -172,7 +172,7 @@
       "details": [],
       "domain": "fact_confirmation",
       "expected": "pass",
-      "latency_ms": 1.1467,
+      "latency_ms": 0.7304,
       "observed": "pass",
       "passed": true
     },
@@ -182,7 +182,7 @@
       "details": [],
       "domain": "follow_up",
       "expected": "pass",
-      "latency_ms": 1.0237,
+      "latency_ms": 0.651,
       "observed": "pass",
       "passed": true
     },
@@ -192,7 +192,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 0.391,
+      "latency_ms": 0.2604,
       "observed": "pass",
       "passed": true
     },
@@ -202,7 +202,7 @@
       "details": [],
       "domain": "privacy",
       "expected": "pass",
-      "latency_ms": 0.5402,
+      "latency_ms": 0.4046,
       "observed": "pass",
       "passed": true
     },
@@ -212,7 +212,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 0.8221,
+      "latency_ms": 0.579,
       "observed": "pass",
       "passed": true
     },
@@ -222,7 +222,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 7.2293,
+      "latency_ms": 2.298,
       "observed": "pass",
       "passed": true
     },
@@ -232,7 +232,7 @@
       "details": [],
       "domain": "follow_up",
       "expected": "pass",
-      "latency_ms": 0.6163,
+      "latency_ms": 0.181,
       "observed": "pass",
       "passed": true
     },
@@ -242,7 +242,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 0.611,
+      "latency_ms": 0.1991,
       "observed": "pass",
       "passed": true
     },
@@ -252,7 +252,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 3.7428,
+      "latency_ms": 1.0162,
       "observed": "pass",
       "passed": true
     },
@@ -262,7 +262,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 5.3128,
+      "latency_ms": 2.2994,
       "observed": "pass",
       "passed": true
     },
@@ -272,7 +272,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 1.4918,
+      "latency_ms": 0.6714,
       "observed": "pass",
       "passed": true
     },
@@ -282,7 +282,7 @@
       "details": [],
       "domain": "concurrency",
       "expected": "pass",
-      "latency_ms": 1.8017,
+      "latency_ms": 0.826,
       "observed": "pass",
       "passed": true
     },
@@ -292,7 +292,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 2.632,
+      "latency_ms": 2.4736,
       "observed": "pass",
       "passed": true
     },
@@ -302,7 +302,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 2.1961,
+      "latency_ms": 1.0955,
       "observed": "pass",
       "passed": true
     },
@@ -312,7 +312,7 @@
       "details": [],
       "domain": "plan_lifecycle",
       "expected": "pass",
-      "latency_ms": 3.4197,
+      "latency_ms": 1.6439,
       "observed": "pass",
       "passed": true
     },
@@ -322,7 +322,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 1.2316,
+      "latency_ms": 0.5149,
       "observed": "pass",
       "passed": true
     },
@@ -332,7 +332,7 @@
       "details": [],
       "domain": "simulated_review",
       "expected": "pass",
-      "latency_ms": 1.4665,
+      "latency_ms": 0.6363,
       "observed": "pass",
       "passed": true
     },
@@ -342,7 +342,7 @@
       "details": [],
       "domain": "contract",
       "expected": "pass",
-      "latency_ms": 0.4528,
+      "latency_ms": 0.2976,
       "observed": "pass",
       "passed": true
     },
@@ -352,7 +352,7 @@
       "details": [],
       "domain": "constraint_validation",
       "expected": "pass",
-      "latency_ms": 1.7803,
+      "latency_ms": 1.1962,
       "observed": "pass",
       "passed": true
     },
@@ -362,7 +362,7 @@
       "details": [],
       "domain": "constraint_validation",
       "expected": "pass",
-      "latency_ms": 1.9212,
+      "latency_ms": 1.1951,
       "observed": "pass",
       "passed": true
     },
@@ -372,7 +372,7 @@
       "details": [],
       "domain": "authorization",
       "expected": "pass",
-      "latency_ms": 0.3816,
+      "latency_ms": 0.1743,
       "observed": "pass",
       "passed": true
     }
@@ -391,8 +391,8 @@
   "failures": [],
   "fixture_only": true,
   "latency_ms": {
-    "maximum": 7.4034,
-    "mean": 2.0476,
+    "maximum": 2.8266,
+    "mean": 0.9833,
     "samples": 33
   },
   "limitations": [

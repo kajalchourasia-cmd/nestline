@@ -7,42 +7,42 @@
   "clinical_validation": false,
   "specification_status": "draft",
   "cases": {
-    "passed": 55,
-    "total": 55
+    "passed": 65,
+    "total": 65
   },
   "critical_cases": {
-    "passed": 51,
-    "total": 51
+    "passed": 61,
+    "total": 61
   },
   "urgent_zero_generation_calls": {
-    "passed": 27,
-    "total": 27
+    "passed": 35,
+    "total": 35
   },
   "ambiguous_or_failure_cases_conservatively_stopped": {
-    "passed": 19,
-    "total": 19
+    "passed": 21,
+    "total": 21
   },
   "zero_unsafe_reassurance": {
-    "passed": 55,
-    "total": 55
+    "passed": 65,
+    "total": 65
   },
   "configuration_failure_cases": 5,
   "routes": {
-    "needs_clarification": 19,
+    "needs_clarification": 21,
     "non_urgent": 9,
-    "urgent": 27
+    "urgent": 35
   },
   "input_channels": {
-    "chat_message": 50,
-    "extracted_document_fact": 2,
-    "onboarding_symptom": 1,
-    "plan_generation_input": 1,
-    "symptom_check_in": 1
+    "chat_message": 56,
+    "extracted_document_fact": 3,
+    "onboarding_symptom": 2,
+    "plan_generation_input": 2,
+    "symptom_check_in": 2
   },
   "latency_ms": {
-    "samples": 55,
-    "median": 0.2174,
-    "maximum": 4.1
+    "samples": 65,
+    "median": 0.0673,
+    "maximum": 1.7293
   },
   "limitations": [
     "Passing results are software-contract evidence, not clinical validation.",

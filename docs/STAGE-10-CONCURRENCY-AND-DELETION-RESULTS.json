@@ -5,7 +5,7 @@
       "attempts": 2,
       "committed": 1,
       "rejected": 1,
-      "winner": "fact"
+      "winner": "activate"
     },
     "fact_vs_save": {
       "attempts": 2,

@@ -18,6 +18,19 @@ from app.schemas.orchestration import AgentBudget, AgentName
 class ProviderFailure(RuntimeError):
     """Raised when an adapter cannot return a bounded structured result."""
 
+    def __init__(
+        self,
+        message: str,
+        *,
+        input_tokens: int = 0,
+        output_tokens: int = 0,
+        estimated_cost_usd: float = 0.0,
+    ) -> None:
+        super().__init__(message)
+        self.input_tokens = input_tokens
+        self.output_tokens = output_tokens
+        self.estimated_cost_usd = estimated_cost_usd
+
 
 @dataclass(frozen=True)
 class ProviderResponse:

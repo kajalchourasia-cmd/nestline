@@ -97,38 +97,38 @@
     "latency_ms_by_component": {
       "exact_sql": {
         "count": 28,
-        "mean": 0.290282,
-        "max": 0.4379
+        "mean": 0.133504,
+        "max": 0.2167
       },
       "graph": {
         "count": 28,
-        "mean": 0.007375,
-        "max": 0.1702
+        "mean": 0.00345,
+        "max": 0.0807
       },
       "personal_full_text": {
         "count": 28,
-        "mean": 0.117075,
-        "max": 0.2411
+        "mean": 0.056704,
+        "max": 0.1073
       },
       "personal_vector": {
         "count": 28,
-        "mean": 0.109114,
-        "max": 0.1889
+        "mean": 0.052939,
+        "max": 0.1076
       },
       "public_full_text": {
         "count": 28,
-        "mean": 0.999111,
-        "max": 2.4517
+        "mean": 0.472464,
+        "max": 0.9506
       },
       "public_vector": {
         "count": 28,
-        "mean": 0.908175,
-        "max": 1.877
+        "mean": 0.407361,
+        "max": 0.8185
       },
       "weekly_profile": {
         "count": 28,
-        "mean": 0.002168,
-        "max": 0.0049
+        "mean": 0.001225,
+        "max": 0.0031
       }
     }
   },
