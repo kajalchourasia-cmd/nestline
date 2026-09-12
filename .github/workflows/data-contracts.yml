@@ -42,6 +42,8 @@ jobs:
       - run: python -m scripts.run_stage9_evals
       - run: python -m scripts.check_stage9_ui
       - run: python -m scripts.check_stage9
+      - run: python -m scripts.run_stage10_evals
+      - run: python -m scripts.check_stage10
       # Release readiness is intentionally a separate gate: draft shells must
       # remain legal during authoring. Unit tests verify release fails closed.
 
@@ -65,6 +67,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Start local Supabase
         run: pnpm exec supabase start
+      - name: Verify exact upgrade from the accepted Stage 9 schema
+        run: |
+          pnpm exec supabase db reset --local --version 20260911001300
+          docker exec -i supabase_db_nestline psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/fixtures/stage10_stage9_upgrade.sql
+          pnpm exec supabase migration up --local
+          docker exec -i supabase_db_nestline psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/fixtures/stage10_stage9_upgrade_check.sql
       - name: Verify exact upgrade from the deployed Stage 4 exit
         run: |
           pnpm exec supabase db reset --local --version 20260911001200
@@ -85,6 +93,7 @@ jobs:
           python -m scripts.check_stage3_onboarding_api
           python -m scripts.check_stage4_document_api
           python -m scripts.check_stage5_retrieval_api
+          python -m scripts.check_stage10_state_api
           pnpm exec supabase db lint --local
       - name: Verify a clean installation
         run: |
@@ -97,6 +106,7 @@ jobs:
           python -m scripts.check_stage3_onboarding_api
           python -m scripts.check_stage4_document_api
           python -m scripts.check_stage5_retrieval_api
+          python -m scripts.check_stage10_state_api
           pnpm exec supabase db lint --local
       - name: Stop local Supabase
         if: always()

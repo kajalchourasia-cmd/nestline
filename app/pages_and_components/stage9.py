@@ -8,6 +8,7 @@ from pathlib import Path
 import streamlit as st
 
 from app.schemas.orchestration import Weekday
+from app.services.capstone_flows import run_capstone_story
 from app.schemas.product_experience import PlanDisplayState, ProductPage
 from app.services.product_experience import (
     ProductExecution,
@@ -95,7 +96,9 @@ def _go(page: ProductPage, label: str, key: str) -> None:
 
 def _home() -> None:
     plan = st.session_state.get("stage9_demo_plan_execution")
-    home = demo_weekly_home(plan_state=PlanDisplayState.DRAFT if plan else PlanDisplayState.NONE)
+    committed = st.session_state.get("stage10_demo_plan_commit")
+    display_state = PlanDisplayState.SAVED if committed else (PlanDisplayState.DRAFT if plan else PlanDisplayState.NONE)
+    home = demo_weekly_home(plan_state=display_state)
     st.header("Weekly Home")
     st.caption("Primary action: review this week, then ask Compass or draft a plan.")
     with st.container(border=True):
@@ -122,7 +125,10 @@ def _home() -> None:
     if home.plan_state == PlanDisplayState.NONE:
         st.info("No plan draft yet. Build a session-only draft when you are ready.")
     else:
-        st.success("A validated session-only draft is ready to inspect. It has not been saved.")
+        if committed:
+            st.success(f"A fictional plan was explicitly reviewed and saved through the State Committer at version {committed['state_version']}.")
+        else:
+            st.success("A validated session-only draft is ready to inspect. It has not been saved.")
 
     st.subheader("Needs confirmation")
     for item in home.unresolved_items:
@@ -278,9 +284,21 @@ def _records() -> None:
                 st.warning(document.recovery)
             else:
                 st.info(document.recovery)
+            if document.document_id == "DOC-001" and st.button(
+                "Confirm fictional fact and show affected plan",
+                key=f"stage10_demo_record_{document.document_id}",
+            ):
+                result = run_capstone_story("record-continuity")
+                st.session_state.stage10_demo_record_commit = result.model_dump(mode="json")
+            committed = st.session_state.get("stage10_demo_record_commit")
+            if document.document_id == "DOC-001" and committed:
+                st.success(f"Committed fictional fact at state version {committed['state_version']}.")
+                st.warning("The dependent plan is stale; it was not regenerated or activated.")
+                for link in committed["causal_chain"]:
+                    st.write(f"- {link}")
             st.button(
-                "Record confirmation intent (Stage 10 unavailable)",
-                key=f"stage9_demo_record_{document.document_id}", disabled=True,
+                "Send this record externally (unavailable)",
+                key=f"stage9_demo_record_external_{document.document_id}", disabled=True,
             )
 
 
@@ -318,7 +336,7 @@ def _plan() -> None:
         st.session_state.stage9_demo_plan_execution = execution
     if execution is None:
         st.info("Plan state: none. No draft has been created.")
-        st.button("Save plan (Stage 10 unavailable)", disabled=True, key="stage9_demo_save_none")
+        st.button("Review and save plan", disabled=True, key="stage9_demo_save_none", help="Create a validated draft first.")
         return
     if execution.display.route != "validated" or execution.stage7.proposed_schedule is None:
         st.error("Plan state: invalid or unavailable. The draft cannot be displayed as active.")
@@ -374,13 +392,20 @@ def _plan() -> None:
             st.error("Describe the change before recording the intent.")
     if intent := st.session_state.get("stage9_demo_plan_change_intent"):
         st.info(f"Session-only change intent: {intent}. It has not been applied or saved.")
-    st.button("Save plan (Stage 10 unavailable)", disabled=True, key="stage9_demo_save_plan")
+    if st.button("Explicitly review and save fictional plan", key="stage10_demo_save_plan"):
+        result = run_capstone_story("plan-save")
+        st.session_state.stage10_demo_plan_commit = result.model_dump(mode="json")
+    if committed := st.session_state.get("stage10_demo_plan_commit"):
+        st.success(f"Saved through the State Committer · committed state version {committed['state_version']} · retry-safe fictional fixture.")
+        st.caption("A generated draft or rerun alone never counts as review or save confirmation.")
+    st.button("Save plan by direct storage write (unavailable)", disabled=True, key="stage10_demo_direct_save")
+    st.button("Schedule external reminders (unavailable)", disabled=True, key="stage10_demo_external_reminders")
     if st.button("Discard session draft", key="stage9_demo_discard_plan"):
         st.session_state.pop("stage9_demo_plan_execution", None)
         st.session_state.pop("stage9_demo_plan_change_intent", None)
         st.rerun()
     with st.expander("Other plan states this product handles"):
-        st.write("Saved: display-only when a trusted storage layer reports it; Stage 9 cannot create one.")
+        st.write("Saved: shown only after explicit review and a successful State Committer result.")
         st.write("Stale: visibly inactive after a material state-version change.")
         st.write("Conflict or invalid: blocked from active display and save intent.")
         st.write("Unavailable: explains the missing service or evidence and offers a recovery step.")
@@ -447,7 +472,7 @@ def _evidence() -> None:
 
 def _review() -> None:
     st.header("Simulated review")
-    st.caption("Primary action: inspect what would be shared; no request is submitted in Stage 9.")
+    st.caption("Primary action: inspect the minimum packet, then explicitly consent to the fictional simulated queue.")
     status = st.selectbox(
         "Simulated status",
         ["offered", "consented", "queued", "responded", "declined", "unavailable", "timed_out"],
@@ -459,7 +484,13 @@ def _review() -> None:
     st.write("Minimum fictional context proposed for sharing:")
     for item in review.context_proposed:
         st.write(f"- {item}")
-    st.button("Submit review (Stage 10 unavailable)", disabled=True, key="stage9_demo_review_submit")
+    if st.button("Consent and queue fictional simulated review", key="stage10_demo_review_consent"):
+        result = run_capstone_story("urgent-review")
+        st.session_state.stage10_demo_review_commit = result.model_dump(mode="json")
+    if committed := st.session_state.get("stage10_demo_review_commit"):
+        st.success(f"Simulated review state: {committed['review_state']} · committed version {committed['state_version']}.")
+        st.caption("Immediate safety completed first; ordinary generation calls: 0; no packet was transmitted.")
+    st.button("Submit review externally (unavailable)", disabled=True, key="stage9_demo_review_submit")
     st.caption("An urgent safety result bypasses this queue immediately.")
 
 
