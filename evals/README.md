@@ -89,3 +89,21 @@ It uses deterministic fixture embeddings and proves only the tested filtering an
 `stage8_controlled_holdout_manifest.json` contains 15 identifiers only. Expected answers remain outside the repository under the team-designated independent evaluator, and the manifest was not opened for this rectification.
 
 The Stage 7/8 provider adapter and benchmark harness require an explicitly injected, authorised provider transport. Deterministic fixtures remain limited to Demo/evaluation execution. `docs/STAGES-7-8-LIVE-PROVIDER-BENCHMARK-STATUS.json` records the live comparison as blocked and reports zero calls and zero cost. No provider has been selected.
+## Stage 9 Streamlit product-experience development set
+
+`stage9_product_experience.jsonl` is a visible set of 38 deterministic cases for
+the local Streamlit shell, Personal/Demo isolation, Weekly Home, Compass, records,
+plans, evidence, simulated review, evaluator truth and Stage 10-disabled behavior.
+Run it with:
+
+```text
+python -m scripts.run_stage9_evals
+python -m scripts.check_stage9_ui
+python -m scripts.check_stage9 --write-report
+```
+
+The generated three-story inventory repeats each fictional story three times after
+a deterministic Demo Mode reset. The UI evidence is an internal implementation
+walkthrough. It does not access the sealed final holdout, use real personal data,
+call a paid provider, establish clinical validity, prove WCAG conformance or count
+as external user research. Durable writes and deployment remain outside Stage 9.
