@@ -37,7 +37,7 @@
     "secret_hygiene": {
       "env_ignored": true,
       "valid": true,
-      "files_scanned": 448,
+      "files_scanned": 450,
       "findings": 0
     },
     "unit_tests": {
