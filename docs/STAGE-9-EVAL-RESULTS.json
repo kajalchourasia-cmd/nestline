@@ -7,12 +7,12 @@
   "clinical_validation": false,
   "user_research": false,
   "cases": {
-    "passed": 38,
-    "total": 38
+    "passed": 42,
+    "total": 42
   },
   "critical_cases": {
-    "passed": 25,
-    "total": 25
+    "passed": 29,
+    "total": 29
   },
   "by_domain": {
     "compass": {
@@ -32,6 +32,10 @@
       "total": 4
     },
     "privacy": {
+      "passed": 4,
+      "total": 4
+    },
+    "rapid_ui": {
       "passed": 4,
       "total": 4
     },
@@ -68,9 +72,9 @@
   "stage10_persistent_writes": 0,
   "provider_live_runs": 0,
   "latency_ms": {
-    "samples": 38,
-    "mean": 1.7341,
-    "maximum": 8.0463
+    "samples": 42,
+    "mean": 3.699,
+    "maximum": 21.1797
   },
   "case_results": [
     {
@@ -80,7 +84,7 @@
       "expected": "success",
       "observed": "success",
       "passed": true,
-      "latency_ms": 5.366
+      "latency_ms": 11.1972
     },
     {
       "case_id": "home_approximate",
@@ -89,7 +93,7 @@
       "expected": "range",
       "observed": "range",
       "passed": true,
-      "latency_ms": 3.1592
+      "latency_ms": 7.0197
     },
     {
       "case_id": "home_zero_fanout",
@@ -98,7 +102,7 @@
       "expected": "0",
       "observed": "0",
       "passed": true,
-      "latency_ms": 3.2031
+      "latency_ms": 6.8387
     },
     {
       "case_id": "home_no_unreleased_size",
@@ -107,7 +111,7 @@
       "expected": "blocked",
       "observed": "blocked",
       "passed": true,
-      "latency_ms": 3.2009
+      "latency_ms": 8.3914
     },
     {
       "case_id": "personal_empty",
@@ -116,7 +120,7 @@
       "expected": "empty",
       "observed": "empty",
       "passed": true,
-      "latency_ms": 0.0145
+      "latency_ms": 0.0476
     },
     {
       "case_id": "demo_fictional",
@@ -125,7 +129,7 @@
       "expected": "fictional",
       "observed": "fictional",
       "passed": true,
-      "latency_ms": 4.4709
+      "latency_ms": 7.5685
     },
     {
       "case_id": "nutrition_chat",
@@ -134,7 +138,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 3.302
+      "latency_ms": 10.4629
     },
     {
       "case_id": "record_chat",
@@ -143,7 +147,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 2.981
+      "latency_ms": 7.1816
     },
     {
       "case_id": "medication_chat",
@@ -152,7 +156,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 2.9557
+      "latency_ms": 6.5116
     },
     {
       "case_id": "movement_chat",
@@ -161,7 +165,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 1.7825
+      "latency_ms": 4.4789
     },
     {
       "case_id": "wellbeing_chat",
@@ -170,7 +174,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 1.7665
+      "latency_ms": 4.6119
     },
     {
       "case_id": "followup_chat",
@@ -179,7 +183,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 3.0296
+      "latency_ms": 6.2792
     },
     {
       "case_id": "nutrition_plan",
@@ -188,7 +192,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 3.8223
+      "latency_ms": 8.1273
     },
     {
       "case_id": "movement_plan",
@@ -197,7 +201,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 3.6606
+      "latency_ms": 7.5807
     },
     {
       "case_id": "wellbeing_plan",
@@ -206,7 +210,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 3.6014
+      "latency_ms": 7.7719
     },
     {
       "case_id": "holistic_plan",
@@ -215,7 +219,7 @@
       "expected": "validated",
       "observed": "validated",
       "passed": true,
-      "latency_ms": 6.3855
+      "latency_ms": 15.3141
     },
     {
       "case_id": "urgent_bypass",
@@ -224,7 +228,7 @@
       "expected": "urgent",
       "observed": "urgent",
       "passed": true,
-      "latency_ms": 1.3402
+      "latency_ms": 3.9957
     },
     {
       "case_id": "symptom_clarification",
@@ -233,7 +237,7 @@
       "expected": "clarification",
       "observed": "clarification",
       "passed": true,
-      "latency_ms": 1.0939
+      "latency_ms": 2.8499
     },
     {
       "case_id": "unsupported_intent",
@@ -242,7 +246,7 @@
       "expected": "unsupported",
       "observed": "unsupported",
       "passed": true,
-      "latency_ms": 1.0838
+      "latency_ms": 3.7398
     },
     {
       "case_id": "record_ready",
@@ -251,7 +255,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0501
+      "latency_ms": 0.1345
     },
     {
       "case_id": "record_low_confidence",
@@ -260,7 +264,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0338
+      "latency_ms": 0.0866
     },
     {
       "case_id": "record_conflict",
@@ -269,7 +273,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0439
+      "latency_ms": 0.0929
     },
     {
       "case_id": "record_locked",
@@ -278,7 +282,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0291
+      "latency_ms": 0.0676
     },
     {
       "case_id": "record_corrupt",
@@ -287,7 +291,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0294
+      "latency_ms": 0.0661
     },
     {
       "case_id": "record_unsupported",
@@ -296,7 +300,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0281
+      "latency_ms": 0.0637
     },
     {
       "case_id": "record_wrong_person",
@@ -305,7 +309,7 @@
       "expected": "present",
       "observed": "present",
       "passed": true,
-      "latency_ms": 0.0284
+      "latency_ms": 0.0651
     },
     {
       "case_id": "review_offered",
@@ -314,7 +318,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0071
+      "latency_ms": 0.0149
     },
     {
       "case_id": "review_consented",
@@ -323,7 +327,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0041
+      "latency_ms": 0.0089
     },
     {
       "case_id": "review_queued",
@@ -332,7 +336,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.003
+      "latency_ms": 0.0064
     },
     {
       "case_id": "review_responded",
@@ -341,7 +345,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0026
+      "latency_ms": 0.006
     },
     {
       "case_id": "review_declined",
@@ -350,7 +354,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0025
+      "latency_ms": 0.0054
     },
     {
       "case_id": "review_unavailable",
@@ -359,7 +363,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0026
+      "latency_ms": 0.0055
     },
     {
       "case_id": "review_timed_out",
@@ -368,7 +372,7 @@
       "expected": "simulated",
       "observed": "simulated",
       "passed": true,
-      "latency_ms": 0.0024
+      "latency_ms": 0.0056
     },
     {
       "case_id": "evaluator_artifacts",
@@ -377,7 +381,7 @@
       "expected": "4",
       "observed": "4",
       "passed": true,
-      "latency_ms": 1.1538
+      "latency_ms": 2.9736
     },
     {
       "case_id": "authentic_failed_trace",
@@ -386,7 +390,7 @@
       "expected": "55/62",
       "observed": "55/62",
       "passed": true,
-      "latency_ms": 0.1986
+      "latency_ms": 0.5705
     },
     {
       "case_id": "demo_reset_isolation",
@@ -395,7 +399,7 @@
       "expected": "isolated",
       "observed": "isolated",
       "passed": true,
-      "latency_ms": 0.0064
+      "latency_ms": 0.0177
     },
     {
       "case_id": "all_view_states",
@@ -404,7 +408,7 @@
       "expected": "8",
       "observed": "8",
       "passed": true,
-      "latency_ms": 0.0022
+      "latency_ms": 0.0076
     },
     {
       "case_id": "no_stage10_writes",
@@ -413,7 +417,43 @@
       "expected": "0",
       "observed": "0",
       "passed": true,
-      "latency_ms": 8.0463
+      "latency_ms": 21.1797
+    },
+    {
+      "case_id": "rapid_surface_inventory",
+      "domain": "rapid_ui",
+      "critical": true,
+      "expected": "9",
+      "observed": "9",
+      "passed": true,
+      "latency_ms": 0.0055
+    },
+    {
+      "case_id": "rapid_dashboard_tabs",
+      "domain": "rapid_ui",
+      "critical": true,
+      "expected": "8",
+      "observed": "8",
+      "passed": true,
+      "latency_ms": 0.0028
+    },
+    {
+      "case_id": "rapid_ask_maya_name",
+      "domain": "rapid_ui",
+      "critical": true,
+      "expected": "Ask Maya",
+      "observed": "Ask Maya",
+      "passed": true,
+      "latency_ms": 0.0027
+    },
+    {
+      "case_id": "rapid_suggestion_inventory",
+      "domain": "rapid_ui",
+      "critical": true,
+      "expected": "6",
+      "observed": "6",
+      "passed": true,
+      "latency_ms": 0.0021
     }
   ],
   "failures": [],

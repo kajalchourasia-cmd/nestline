@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from app.schemas.product_experience import ProductPage, ViewState
+from app.pages_and_components.rapid_stage9 import RAPID_PAGES
 from scripts.export_product_experience_schema import coverage_bundle, schema_bundle
 from scripts.run_stage9_evals import evaluate, load_cases
 
@@ -18,7 +19,7 @@ COVERAGE = ROOT / "docs/STAGE-9-COVERAGE-MANIFEST.json"
 EVAL_REPORT = ROOT / "docs/STAGE-9-EVAL-RESULTS.json"
 WALKTHROUGHS = ROOT / "docs/STAGE-9-DEMO-WALKTHROUGH-RESULTS.json"
 HANDOFF = ROOT / "docs/STAGE-9-IMPLEMENTATION-SELF-VERIFICATION-AND-STAGE-10-READINESS.md"
-VISUAL = ROOT / "docs/stage9-ui-evidence/visual-inspection.json"
+VISUAL = ROOT / "docs/stage9-ui-evidence/rapid-visual-inspection.json"
 KEYBOARD = ROOT / "docs/stage9-ui-evidence/keyboard-walkthrough.json"
 SELF_REVIEW = ROOT / "docs/STAGE-9-SELF-REVIEW-FINDINGS.json"
 
@@ -34,6 +35,7 @@ def check():
         ROOT / "app/schemas/product_experience.py",
         ROOT / "app/services/product_experience.py",
         ROOT / "app/pages_and_components/stage9.py",
+        ROOT / "app/pages_and_components/rapid_stage9.py",
         ROOT / "assets/stage9/week-24-journey.svg",
         ROOT / "tests/test_product_experience.py",
         ROOT / "scripts/check_stage9_ui.py",
@@ -95,6 +97,7 @@ def check():
             errors.append(f"Stage 9 self-review findings remain unresolved: {unresolved}")
 
     app_source = (ROOT / "app/pages_and_components/stage9.py").read_text(encoding="utf-8")
+    app_source += (ROOT / "app/pages_and_components/rapid_stage9.py").read_text(encoding="utf-8")
     service_source = (ROOT / "app/services/product_experience.py").read_text(encoding="utf-8")
     for unsafe in ("import openai", "import langchain", "service_role", "st.html("):
         if unsafe in (app_source + service_source).casefold():
@@ -124,11 +127,12 @@ def check():
         "public_or_clinical_release_ready": False,
         "controlled_engineering_stage10_ready": not errors,
         "verified": {
-            "pages": len(ProductPage), "shared_view_states": len(ViewState),
+            "pages": len(RAPID_PAGES) + 2, "dashboard_tabs": 8,
+            "shared_view_states": len(ViewState),
             "development_cases": {"passed": len(cases) - len(failed), "total": len(cases)},
             "demo_story_runs": 9, "home_agent_fanout": 0,
             "urgent_generation_calls": 0, "stage10_persistent_writes": 0,
-            "responsive_screenshots": 11, "keyboard_walkthroughs": 1,
+            "responsive_screenshots": 19, "keyboard_walkthroughs": 1,
         },
         "limitations": [
             "Automated and internal walkthrough checks are not WCAG conformance or external user research.",

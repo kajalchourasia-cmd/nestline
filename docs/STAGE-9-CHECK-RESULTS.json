@@ -15,15 +15,16 @@
   "stage": 9,
   "valid": true,
   "verified": {
+    "dashboard_tabs": 8,
     "demo_story_runs": 9,
     "development_cases": {
-      "passed": 38,
-      "total": 38
+      "passed": 42,
+      "total": 42
     },
     "home_agent_fanout": 0,
     "keyboard_walkthroughs": 1,
-    "pages": 7,
-    "responsive_screenshots": 11,
+    "pages": 9,
+    "responsive_screenshots": 19,
     "shared_view_states": 8,
     "stage10_persistent_writes": 0,
     "urgent_generation_calls": 0

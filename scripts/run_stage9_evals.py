@@ -9,6 +9,7 @@ from statistics import mean
 from time import perf_counter
 
 from app.schemas.product_experience import ProductMode, ViewState
+from app.pages_and_components.rapid_stage9 import DASHBOARD_TABS, PROMPTS, RAPID_PAGES
 from app.services.product_experience import (
     authentic_failed_trace, demo_documents, demo_story_results, demo_weekly_home,
     load_evaluator_metrics, personal_empty_home, reset_demo_state_keys,
@@ -63,6 +64,11 @@ def evaluate(case):
             writes = sum(item.stage7.trace.direct_write_count for item in executions)
             writes += sum(int(item.stage8.persistent_write_performed) for item in executions if item.stage8)
             return str(writes)
+    if kind == "rapid":
+        if variant == "surfaces": return str(len(RAPID_PAGES) + 2)
+        if variant == "dashboard_tabs": return str(len(DASHBOARD_TABS))
+        if variant == "suggestions": return str(len(PROMPTS))
+        if variant == "chat_name": return "Ask Maya" if "Ask Maya" in RAPID_PAGES else "missing"
     raise ValueError(f"unknown case {case['case_id']}")
 
 

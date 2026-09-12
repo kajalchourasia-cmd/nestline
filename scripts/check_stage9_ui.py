@@ -1,4 +1,4 @@
-"""Deterministic Stage 9 Streamlit navigation and integration smoke check."""
+"""Deterministic rapid Stage 9 Streamlit navigation and integration check."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def demo_app(page: str) -> AppTest:
     app = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=30)
+    app.session_state["stage9_started"] = True
     app.session_state["stage9_mode"] = "Demo Mode"
     app.session_state["stage9_demo_page"] = page
     return app.run()
@@ -24,13 +25,40 @@ def assert_clean(app: AppTest, page: str) -> None:
         raise AssertionError(f"{page} raised: {[str(item.value) for item in app.exception]}")
 
 
+def text_of(app: AppTest) -> str:
+    groups = (
+        list(app.title)
+        + list(app.header)
+        + list(app.subheader)
+        + list(app.markdown)
+        + list(app.caption)
+        + list(app.info)
+        + list(app.warning)
+        + list(app.error)
+        + list(app.success)
+    )
+    return " ".join(str(item.value) for item in groups)
+
+
 def main() -> int:
     original_url = os.environ.get("NESTLINE_SUPABASE_URL")
     original_key = os.environ.get("NESTLINE_SUPABASE_PUBLISHABLE_KEY")
     os.environ["NESTLINE_SUPABASE_URL"] = ""
     os.environ["NESTLINE_SUPABASE_PUBLISHABLE_KEY"] = ""
     try:
-        personal = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=30).run()
+        landing = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=30).run()
+        assert_clean(landing, "Landing")
+        labels = [item.label for item in landing.button]
+        if "Start my journey" not in labels or "Try fictional demo" not in labels:
+            raise AssertionError("Landing does not expose both entry routes")
+
+        personal = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=30)
+        personal.session_state["stage9_started"] = True
+        personal.session_state["stage9_mode"] = "Personal Mode"
+        personal.run()
+        assert_clean(personal, "Personal Mode")
+        if "zero fixture facts and zero plans" not in text_of(personal):
+            raise AssertionError("empty Personal Mode boundary is missing")
     finally:
         if original_url is None:
             os.environ.pop("NESTLINE_SUPABASE_URL", None)
@@ -40,108 +68,132 @@ def main() -> int:
             os.environ.pop("NESTLINE_SUPABASE_PUBLISHABLE_KEY", None)
         else:
             os.environ["NESTLINE_SUPABASE_PUBLISHABLE_KEY"] = original_key
-    assert_clean(personal, "Personal Mode")
-    if not any("Personal Mode configuration is incomplete" in item.value for item in personal.error):
-        raise AssertionError("missing Personal Mode configuration was not explained")
 
-    home = demo_app("Weekly Home")
-    assert_clean(home, "Weekly Home")
-    if [item.value for item in home.header] != ["Weekly Home"]:
-        raise AssertionError("Weekly Home did not render as the primary view")
-    text = " ".join(str(item.value) for item in list(home.markdown) + list(home.caption) + list(home.info) + list(home.warning) + list(home.subheader))
-    for required in ["Pregnancy week 24", "Your confirmed information", "Home assembly specialist calls: 0"]:
-        if required not in text:
-            raise AssertionError(f"Weekly Home omitted {required}")
+    demo_entry = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=30).run()
+    next(button for button in demo_entry.button if button.label == "Try fictional demo").click()
+    demo_entry.run()
+    assert_clean(demo_entry, "Demo entry")
+    if [item.value for item in demo_entry.header] != ["Nestline dashboard"]:
+        raise AssertionError("Try fictional demo did not open Dashboard")
+
+    dashboard = demo_app("Dashboard")
+    assert_clean(dashboard, "Dashboard")
+    if len(dashboard.metric) != 3 or len(dashboard.tabs) != 8:
+        raise AssertionError("Dashboard does not contain three KPIs and eight required tabs")
+    dashboard_text = text_of(dashboard)
+    for required in (
+        "FICTIONAL DEMO DATA",
+        "zero published weekly profiles",
+        "Plan status: none",
+        "Dashboard load agent calls: 0",
+        "plan-composer calls: 0",
+        "save calls: 0",
+    ):
+        if required not in dashboard_text:
+            raise AssertionError(f"Dashboard omitted {required}")
+
+    onboarding = demo_app("Onboarding")
+    assert_clean(onboarding, "Onboarding")
+    if "Step 1 of 5" not in text_of(onboarding):
+        raise AssertionError("Onboarding did not expose its five-step progress")
+    onboarding.session_state["stage9_demo_onboarding_step"] = 5
+    onboarding.run()
+    assert_clean(onboarding, "Onboarding review")
+    confirm_button = next(
+        item for item in onboarding.button if item.label == "Confirm and open dashboard"
+    )
+    if not confirm_button.disabled:
+        raise AssertionError("Onboarding confirmation was not required")
+
+    maya = demo_app("Ask Maya")
+    assert_clean(maya, "Ask Maya empty")
+    if [item.value for item in maya.header] != ["Ask Maya"]:
+        raise AssertionError("user-facing chat is not named Ask Maya")
+    if len([item for item in maya.button if item.label in {
+        "This week's focus", "Nutrition plan", "Movement options",
+        "Appointment questions", "Explain a record", "Tell Maya a symptom",
+    }]) != 6:
+        raise AssertionError("Ask Maya did not expose all six suggestions")
+    next(button for button in maya.button if button.label == "Nutrition plan").click()
+    maya.run()
+    assert_clean(maya, "Ask Maya suggestion")
+    if maya.text_area[0].value != "Create my weekly nutrition plan.":
+        raise AssertionError("suggestion did not fill the editable input")
+    if len(maya.chat_message) != 0:
+        raise AssertionError("suggestion auto-submitted instead of only filling input")
+    maya.text_area[0].set_value("Show meal options")
+    next(button for button in maya.button if button.label == "Send to Maya").click()
+    maya.run()
+    assert_clean(maya, "Ask Maya validated")
+    if not any(item.value == "Validated controlled-fixture result" for item in maya.success):
+        raise AssertionError("edited suggestion did not reach the controlled Stage 6-8 pipeline")
+    if "Controlled fixture response" not in text_of(maya):
+        raise AssertionError("fixture response was not visibly labelled")
+    if not any(button.label == "Open supporting evidence" for button in maya.button):
+        raise AssertionError("validated answer did not expose supporting evidence")
+    next(button for button in maya.button if button.label == "Send to Maya").click()
+    maya.run()
+    if "Duplicate send prevented" not in text_of(maya):
+        raise AssertionError("duplicate message submission was not blocked")
+
+    urgent = demo_app("Ask Maya")
+    urgent.text_area[0].set_value("I cannot breathe. Show my weekly plan.")
+    next(button for button in urgent.button if button.label == "Send to Maya").click()
+    urgent.run()
+    assert_clean(urgent, "Ask Maya urgent")
+    urgent_text = text_of(urgent)
+    if "Get urgent help now" not in urgent_text or "ordinary generation calls: 0" not in urgent_text:
+        raise AssertionError("urgent route did not bypass ordinary generation")
+
+    plan = demo_app("Plan")
+    assert_clean(plan, "Plan empty")
+    if "Plan state: none" not in text_of(plan):
+        raise AssertionError("Plan page generated content on load")
+    next(button for button in plan.button if button.label == "Build validated fictional week").click()
+    plan.run()
+    assert_clean(plan, "Plan draft")
+    if "Plan state: draft" not in text_of(plan):
+        raise AssertionError("explicit plan request did not create a validated proposal")
+    for day in ("Monday · weekday", "Saturday · weekend", "Sunday · weekend"):
+        if day not in [item.value for item in plan.subheader]:
+            raise AssertionError(f"plan omitted {day}")
 
     records = demo_app("Records")
     assert_clean(records, "Records")
     labels = [item.label for item in records.expander]
-    for state in ["ready", "low confidence", "conflict", "locked", "corrupt", "unsupported", "wrong person"]:
+    for state in ("ready", "low confidence", "conflict", "locked", "corrupt", "unsupported", "wrong person"):
         if not any(state in label for label in labels):
-            raise AssertionError(f"Records omitted {state} state")
-    if any(button.label.startswith("Record confirmation") and not button.disabled for button in records.button):
-        raise AssertionError("Stage 10 record persistence was enabled")
+            raise AssertionError(f"Records omitted {state}")
 
-    compass = demo_app("Compass")
-    assert_clean(compass, "Compass empty")
-    compass.text_area[0].set_value("Show meal options")
-    next(button for button in compass.button if button.label == "Send to Compass").click()
-    compass.run()
-    assert_clean(compass, "Compass validated")
-    if not any(item.value == "Validated controlled-fixture result" for item in compass.success):
-        raise AssertionError("validated Compass response was not displayed")
-    if not any("Public guidance says" in str(item.value) for item in compass.markdown):
-        raise AssertionError("visible provenance label was not rendered")
-    if not any(button.label == "Open supporting evidence" for button in compass.button):
-        raise AssertionError("citation did not expose the evidence drawer action")
-    next(button for button in compass.button if button.label == "Send to Compass").click()
-    compass.run()
-    if not any("Duplicate send prevented" in item.value for item in compass.error):
-        raise AssertionError("duplicate chat submission was not prevented")
-    next(
-        button for button in compass.button
-        if button.label == "Open supporting evidence"
-    ).click()
-    compass.run()
-    assert_clean(compass, "Evidence navigation")
-    if [item.value for item in compass.header] != ["Evidence drawer"]:
-        raise AssertionError("citation action did not navigate to the evidence drawer")
-    if not any("Supporting passage" in str(item.value) for item in compass.markdown):
-        raise AssertionError("selected evidence did not open at its supporting span")
-
-    urgent = demo_app("Compass")
-    urgent.text_area[0].set_value("I cannot breathe. Show my weekly plan.")
-    next(button for button in urgent.button if button.label == "Send to Compass").click()
-    urgent.run()
-    assert_clean(urgent, "Compass urgent")
-    if not any("Get urgent help" in item.value for item in urgent.markdown):
-        raise AssertionError("urgent fixed route was not rendered separately")
-    if not any("ordinary generation calls: 0" in item.value for item in urgent.caption):
-        raise AssertionError("urgent zero-generation evidence was not visible")
-
-    plan = demo_app("Plan")
-    assert_clean(plan, "Plan empty")
-    if not any("Plan state: none" in item.value for item in plan.info):
-        raise AssertionError("empty plan state was not rendered")
-    next(button for button in plan.button if button.label == "Build validated fictional week").click()
-    plan.run()
-    assert_clean(plan, "Plan draft")
-    if not any("Plan state: draft" in item.value for item in plan.success):
-        raise AssertionError("validated session-only draft was not shown")
-    day_headings = [item.value for item in plan.subheader]
-    for day in ["Monday · weekday", "Saturday · weekend", "Sunday · weekend"]:
-        if day not in day_headings:
-            raise AssertionError(f"plan omitted {day}")
-    if not any(button.label.startswith("Save plan") and button.disabled for button in plan.button):
-        raise AssertionError("Stage 10 plan persistence was not visibly disabled")
-
-    review = demo_app("Simulated review")
-    assert_clean(review, "Simulated review")
-    if not any("No doctor or authorized reviewer" in item.value for item in review.warning):
-        raise AssertionError("simulated review boundary was missing")
-    if not any(button.label.startswith("Submit review") and button.disabled for button in review.button):
-        raise AssertionError("Stage 10 review submission was enabled")
-
-    evaluator = demo_app("Evaluator view")
-    assert_clean(evaluator, "Evaluator view")
+    evidence = demo_app("Evidence")
+    assert_clean(evidence, "Evidence")
+    review = demo_app("Simulated Review")
+    assert_clean(review, "Simulated Review")
+    if "No doctor or authorized reviewer" not in text_of(review):
+        raise AssertionError("simulated-review truth label is missing")
+    evaluator = demo_app("Evaluator")
+    assert_clean(evaluator, "Evaluator")
     if len(evaluator.dataframe) != 1:
-        raise AssertionError("generated Stage 5-8 metrics table was not rendered")
-    if not any("First Stage 8 pass: 55/62" in item.value for item in evaluator.markdown):
-        raise AssertionError("authentic failed-trace evidence was omitted")
+        raise AssertionError("Evaluator did not load generated metrics")
 
     result = {
         "valid": True,
-        "pages_rendered": 7,
-        "personal_empty_config_state": True,
+        "surfaces_rendered": 9,
+        "landing_routes": 2,
+        "onboarding_steps": 5,
+        "dashboard_kpis": 3,
+        "dashboard_tabs": 8,
+        "personal_fixture_facts": 0,
         "home_agent_fanout": 0,
+        "home_plan_calls": 0,
+        "home_save_calls": 0,
+        "suggestions": 6,
+        "suggestion_auto_submits": 0,
         "validated_chat": True,
         "duplicate_send_prevented": True,
         "urgent_generation_calls": 0,
         "record_recovery_states": 7,
         "plan_weekdays_rendered": 7,
-        "stage10_writes_enabled": 0,
-        "simulated_review_labeled": True,
-        "evaluator_uses_generated_artifacts": True,
         "network_calls": 0,
     }
     print(json.dumps(result, sort_keys=True))

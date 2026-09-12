@@ -36,3 +36,7 @@
 {"case_id":"demo_reset_isolation","kind":"mode","variant":"reset","expected":"isolated","critical":true,"domain":"privacy"}
 {"case_id":"all_view_states","kind":"contract","variant":"view_states","expected":"8","critical":false,"domain":"shared_states"}
 {"case_id":"no_stage10_writes","kind":"contract","variant":"writes","expected":"0","critical":true,"domain":"persistence"}
+{"case_id":"rapid_surface_inventory","kind":"rapid","variant":"surfaces","expected":"9","critical":true,"domain":"rapid_ui"}
+{"case_id":"rapid_dashboard_tabs","kind":"rapid","variant":"dashboard_tabs","expected":"8","critical":true,"domain":"rapid_ui"}
+{"case_id":"rapid_ask_maya_name","kind":"rapid","variant":"chat_name","expected":"Ask Maya","critical":true,"domain":"rapid_ui"}
+{"case_id":"rapid_suggestion_inventory","kind":"rapid","variant":"suggestions","expected":"6","critical":true,"domain":"rapid_ui"}
