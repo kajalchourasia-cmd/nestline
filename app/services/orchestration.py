@@ -175,6 +175,9 @@ class JourneyOrchestrator:
         self.schedule_builder = schedule_builder or ScheduleBuilder()
 
     def run(self, request: OrchestrationRequest) -> OrchestrationResult:
+        from app.services.confirmed_context import ConfirmedContextService
+
+        ConfirmedContextService.validate_orchestration(request.context)
         started = perf_counter()
         route = build_route_plan(request)
         if request.safety_result.route != "non_urgent":
@@ -339,7 +342,15 @@ class JourneyOrchestrator:
                 status=WorkerStatus.FAILED, provider=getattr(self.provider, "provider_id", "unavailable"),
                 model=getattr(self.provider, "model_id", "unavailable"), model_calls=1,
             ), None
-        except (ProviderFailure, RuntimeError):
+        except ProviderFailure as exc:
+            return self._composer_stop(
+                request, context, evidence, "provider_failure", started,
+                status=WorkerStatus.FAILED, provider=getattr(self.provider, "provider_id", "unavailable"),
+                model=getattr(self.provider, "model_id", "unavailable"), model_calls=1,
+                input_tokens=exc.input_tokens, output_tokens=exc.output_tokens,
+                cost=exc.estimated_cost_usd,
+            ), None
+        except RuntimeError:
             return self._composer_stop(
                 request, context, evidence, "provider_failure", started,
                 status=WorkerStatus.FAILED, provider=getattr(self.provider, "provider_id", "unavailable"),
@@ -455,6 +466,7 @@ class JourneyOrchestrator:
         request, context, evidence, reason, started, *,
         status=WorkerStatus.NEEDS_CLARIFICATION,
         provider="not_called", model="not_called", model_calls=0, repair_count=0,
+        input_tokens=0, output_tokens=0, cost=0.0,
     ):
         definition = definition_for(AgentName.PLAN_COMPOSER)
         return WorkerResult(
@@ -470,8 +482,9 @@ class JourneyOrchestrator:
                 request_id=request.request_id, agent=AgentName.PLAN_COMPOSER,
                 agent_version=definition.version, provider=provider, model=model,
                 evidence_ids=[r.evidence_id for r in evidence.references],
-                model_call_count=model_calls, step_count=1, input_tokens=0, output_tokens=0,
-                estimated_cost_usd=0, retry_count=0, repair_count=repair_count,
+                model_call_count=model_calls, step_count=1,
+                input_tokens=input_tokens, output_tokens=output_tokens,
+                estimated_cost_usd=cost, retry_count=0, repair_count=repair_count,
                 latency_ms=(perf_counter() - started) * 1000, stop_reason=reason,
             ),
         )

@@ -64,7 +64,7 @@ def aggregate_authorized_benchmark(
         output_tokens=sum(item.output_tokens for item in observations),
         estimated_cost_usd=sum(item.estimated_cost_usd for item in observations),
         manual_tone_reviews_pending=sum(item.manual_tone_review == "pending" for item in observations),
-        paid_calls_made=True,
+        paid_calls_made=any(item.estimated_cost_usd > 0 for item in observations),
         authorization_reference=authorization_reference,
         limitations=[
             "A completed benchmark compares this named provider/model only on the named frozen dataset.",

@@ -227,6 +227,60 @@ def build_devset() -> list[dict]:
             context="third_person",
         ),
         case(
+            "adversarial_hinglish_chest",
+            "Mujhe chest pain ho raha hai",
+            "urgent", rules=["S-CHEST", "S-CLARIFY"],
+        ),
+        case(
+            "adversarial_hinglish_unrecognized_breathing",
+            "Mujhe saans lene mein dikkat ho rahi hai",
+            "needs_clarification",
+            reason="minimum_clarification_required",
+            reason_codes=["uncertain_request_type", "conservative_stop"],
+            qualified_review_status="open_specification_gap",
+        ),
+        case(
+            "adversarial_indirect_chest",
+            "My chest feels tight right now",
+            "urgent", rules=["S-CHEST"],
+        ),
+        case(
+            "adversarial_multiple_urgent",
+            "I cannot breathe and my baby stopped moving",
+            "urgent", rules=["S-BREATHING", "S-FETAL"],
+        ),
+        case(
+            "adversarial_stored_report_phrase",
+            "The document says chest pain; show my record.",
+            "needs_clarification", rules=["S-CHEST", "S-CLARIFY"],
+            context="quoted_text",
+        ),
+        case(
+            "entry_chat_equivalent",
+            "I cannot breathe",
+            "urgent", channel="chat_message", rules=["S-BREATHING"],
+        ),
+        case(
+            "entry_onboarding_equivalent",
+            "I cannot breathe",
+            "urgent", channel="onboarding_symptom", rules=["S-BREATHING"],
+        ),
+        case(
+            "entry_checkin_equivalent",
+            "I cannot breathe",
+            "urgent", channel="symptom_check_in", rules=["S-BREATHING"],
+        ),
+        case(
+            "entry_document_equivalent",
+            "I cannot breathe",
+            "urgent", channel="extracted_document_fact", rules=["S-BREATHING"],
+        ),
+        case(
+            "entry_plan_change_equivalent",
+            "I cannot breathe",
+            "urgent", channel="plan_generation_input", rules=["S-BREATHING"],
+        ),
+        case(
             "draft_public_runtime",
             "Open my dashboard",
             "needs_clarification", scenario="public_runtime_draft",

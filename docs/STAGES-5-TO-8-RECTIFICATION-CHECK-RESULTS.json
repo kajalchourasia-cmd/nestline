@@ -9,8 +9,8 @@
       "total": 12
     },
     "stage6_safety": {
-      "passed": 55,
-      "total": 55
+      "passed": 65,
+      "total": 65
     },
     "stage7_orchestration": {
       "passed": 76,

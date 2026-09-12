@@ -14,6 +14,7 @@ import re
 from typing import Any
 
 from app.schemas.content import ConditionKey, Domain
+from app.services.confirmed_context import confirmed_journey_position
 from app.schemas.retrieval import (
     AnswerabilityAssessment,
     AuthenticatedRetrievalScope,
@@ -21,7 +22,6 @@ from app.schemas.retrieval import (
     EvidenceRequirementPolicy,
     ExactPersonalContext,
     JourneyPosition,
-    JourneyStateSnapshot,
     MissingInformation,
     PersonalFactCandidate,
     PersonalPassageCandidate,
@@ -95,19 +95,6 @@ def build_evidence_policy(
     )
 
 
-def _journey_from_snapshot(snapshot: JourneyStateSnapshot | None) -> JourneyPosition | None:
-    if snapshot is None or not snapshot.user_confirmed or snapshot.has_dating_conflict:
-        return None
-    if snapshot.stage == "possible_pregnancy":
-        return JourneyPosition(stage="possible_pregnancy", unit="none")
-    if snapshot.stage == "pregnancy" and snapshot.gestational_week is not None:
-        return JourneyPosition(stage="pregnancy", unit="week", exact=snapshot.gestational_week)
-    if snapshot.stage == "postpartum" and snapshot.postpartum_day is not None:
-        return JourneyPosition(stage="postpartum", unit="day", exact=snapshot.postpartum_day)
-    if snapshot.stage == "postpartum" and snapshot.postpartum_week is not None:
-        return JourneyPosition(stage="postpartum", unit="week", exact=snapshot.postpartum_week)
-    return None
-
 
 def _same_journey(left: JourneyPosition, right: JourneyPosition) -> bool:
     return (
@@ -168,7 +155,7 @@ def build_trusted_query(
 
     if not policy.trusted_server_created or policy.domain != request.domain:
         raise ValueError("retrieval policy must be server-created for the request domain")
-    current = _journey_from_snapshot(exact.journey_state)
+    current = confirmed_journey_position(exact.journey_state)
     if current is None:
         effective = request.journey
         relation = "unconfirmed_current"

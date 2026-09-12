@@ -1851,15 +1851,58 @@
             "appointment",
             "question",
             "plan",
-            "plan_item"
+            "plan_item",
+            "person",
+            "journey_state",
+            "weekly_profile",
+            "document_fact",
+            "medication_mention",
+            "allergy",
+            "condition",
+            "guideline_evidence",
+            "human_review_case",
+            "symptom_event"
           ],
           "title": "Node Type",
           "type": "string"
         },
         "entity_id": {
-          "format": "uuid",
-          "title": "Entity Id",
-          "type": "string"
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entity Id"
+        },
+        "entity_release_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entity Release Id"
+        },
+        "entity_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entity Key"
         },
         "label": {
           "minLength": 1,
@@ -1889,7 +1932,6 @@
         "id",
         "workspace_id",
         "node_type",
-        "entity_id",
         "label",
         "created_at"
       ],

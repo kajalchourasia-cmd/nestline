@@ -53,6 +53,7 @@ from app.schemas.validation import (
     ValidationRequest,
 )
 from app.services.orchestration import JourneyOrchestrator
+from app.services.model_provider import StructuredProvider
 from app.services.validation import Stage8ValidationPipeline
 from scripts.stage7_fixture_support import make_request as make_stage7_request
 
@@ -426,9 +427,10 @@ def run_compass(
     *,
     horizon: str = "none",
     day: Weekday | None = None,
+    provider: StructuredProvider | None = None,
 ) -> ProductExecution:
     request = make_stage7_request(text, horizon=horizon, day=day)
-    result = JourneyOrchestrator().run(request)
+    result = JourneyOrchestrator(provider=provider).run(request)
     safety = result.safety_result
     if safety.route == "urgent":
         display = ChatDisplayResult(
@@ -492,9 +494,14 @@ def run_compass(
         for citation in section.citations:
             citations.append(_drawer(packet_spans[citation.span_id], citation.claim_id))
     workers = result.worker_results
+    live_provider_used = any(
+        worker.trace.provider not in {"deterministic_fixture", "scripted_test_fixture", "not_called"}
+        for worker in result.worker_results
+    )
     display = ChatDisplayResult(
         request_id=str(request.request_id), route="validated",
-        title="Validated controlled-fixture result",
+        title=("Validated live-model result over fictional evidence"
+               if live_provider_used else "Validated controlled-fixture result"),
         summary=stage8.composed_answer.summary,
         provenance_sections=sections,
         citations=citations,
