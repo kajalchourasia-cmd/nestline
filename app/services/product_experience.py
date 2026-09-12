@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Iterable
 
 from app.schemas.orchestration import (
-    AgentName,
+    AgentName, AuthenticatedContextSnapshot,
     ContextKind,
     EvidenceLane,
     FactState,
@@ -97,7 +97,7 @@ def personal_empty_home() -> WeeklyHomeView:
         mode=ProductMode.PERSONAL,
         fictional=False,
         hero_title="Start with your journey",
-        hero_body="Confirm your timing and information before Nestline assembles a weekly view.",
+        hero_body="Confirm your timing and information before Maya AI assembles a weekly view.",
         hero_alt="An empty journey card waiting for confirmed information.",
         sections=[
             HomeSection(
@@ -145,7 +145,7 @@ def demo_weekly_home(*, approximate: bool = False, plan_state: PlanDisplayState 
         hero_title="Your week, gathered in one calm place",
         hero_body=(
             "This original journey illustration marks the controlled week-24 fixture. "
-            "No public weekly-development profile has been released, so Nestline does not display an unreviewed size or development claim."
+            "No public weekly-development profile has been released, so Maya AI does not display an unreviewed size or development claim."
         ),
         hero_asset="assets/stage9/week-24-journey.svg",
         hero_alt="Abstract circular illustration with 24 dots representing fictional pregnancy week 24; it makes no size or clinical claim.",
@@ -159,12 +159,12 @@ def demo_weekly_home(*, approximate: bool = False, plan_state: PlanDisplayState 
             ),
             HomeSection(
                 heading="Nutrition focus",
-                items=["Ask Compass for a validated fictional meal framework that applies the recorded peanut allergy."],
+                items=["Ask Maya for a validated fictional meal framework that applies the recorded peanut allergy."],
                 primary_action="Draft nutrition options",
             ),
             HomeSection(
                 heading="Movement focus",
-                items=["Ask Compass for a conservative fictional movement option that preserves the recorded restriction."],
+                items=["Ask Maya for a conservative fictional movement option that preserves the recorded restriction."],
                 primary_action="Draft movement options",
             ),
             HomeSection(
@@ -205,7 +205,13 @@ def demo_weekly_home(*, approximate: bool = False, plan_state: PlanDisplayState 
     )
 
 
-def _span_for_reference(reference, *, exact_span: str | None = None, kind: ClaimKind | None = None):
+def _span_for_reference(
+    reference,
+    *,
+    exact_span: str | None = None,
+    kind: ClaimKind | None = None,
+    workspace_id=None,
+):
     personal = reference.lane in {EvidenceLane.PERSONAL_DOCUMENT, EvidenceLane.PERSONAL_SQL}
     text = exact_span or reference.exact_span
     digest = sha256(text.encode("utf-8")).hexdigest()
@@ -221,7 +227,7 @@ def _span_for_reference(reference, *, exact_span: str | None = None, kind: Claim
         span_sha256=digest,
         approval_state="confirmed_personal" if personal else "controlled_fixture",
         fixture_only=not personal,
-        workspace_id=make_stage7_request("Show meal options").context.workspace_id if personal else None,
+        workspace_id=workspace_id if personal else None,
         journey=None if personal else reference.journey,
         jurisdictions=[] if personal else ["IN"],
         evidence_version="stage9-fixture-v1",
@@ -296,6 +302,7 @@ def build_stage8_request(stage7_request, result: OrchestrationResult) -> Validat
                     reference,
                     exact_span=f"{item.item} Scheduled {item.day.value} at {item.start}.",
                     kind=kind,
+                    workspace_id=context.workspace_id,
                 )
                 spans.append(span)
                 item_spans.append(span)
@@ -339,7 +346,9 @@ def build_stage8_request(stage7_request, result: OrchestrationResult) -> Validat
                     ClaimKind.HEALTH_GUIDANCE, ClaimOrigin.PUBLIC_GUIDANCE,
                     ProvenanceCategory.PUBLIC_GUIDANCE, ClaimAction.RECOMMEND,
                 )
-            span = _span_for_reference(reference, kind=kind)
+            span = _span_for_reference(
+                reference, kind=kind, workspace_id=context.workspace_id,
+            )
             spans.append(span)
             claims.append(Claim(
                 claim_id=f"stage9-claim-{index}",
@@ -409,7 +418,7 @@ def _drawer(span, claim_id: str) -> EvidenceDrawerItem:
         evidence_id=span.evidence_id,
         source_id=span.source_id,
         source_title=("Fictional uploaded record" if personal else "Controlled development evidence"),
-        publisher=("Fictional demo workspace" if personal else "Nestline synthetic development set"),
+        publisher=("Fictional demo workspace" if personal else "Maya AI synthetic development set"),
         source_type="personal_document_fixture" if personal else "public_fixture",
         review_status=("confirmed fictional record" if personal else "controlled fixture; not publicly released"),
         current_status="current fixture",
@@ -428,8 +437,9 @@ def run_compass(
     horizon: str = "none",
     day: Weekday | None = None,
     provider: StructuredProvider | None = None,
+    context: AuthenticatedContextSnapshot | None = None,
 ) -> ProductExecution:
-    request = make_stage7_request(text, horizon=horizon, day=day)
+    request = make_stage7_request(text, horizon=horizon, day=day, context=context)
     result = JourneyOrchestrator(provider=provider).run(request)
     safety = result.safety_result
     if safety.route == "urgent":
