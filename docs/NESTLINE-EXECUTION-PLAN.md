@@ -1,4 +1,4 @@
-# Nestline execution plan
+# Maya AI execution plan
 
 **Prepared:** 9 September 2026, IST
 
@@ -6,7 +6,7 @@
 
 **Status:** full canonical scope confirmed; daily availability and elapsed delivery forecast remain to be measured
 
-**Architecture authority:** [Nestline updated architecture](<Nestline updated architecture.md>), 9 September 2026
+**Architecture authority:** [Maya AI updated architecture](<Nestline updated architecture.md>), 9 September 2026
 
 **Repository:** https://github.com/kajalchourasia-cmd/nestline
 
@@ -17,7 +17,7 @@ remain open. See [project progress](PROJECT-PROGRESS.md).
 
 ## 1. The outcome we are building toward
 
-Nestline should demonstrate that a confirmed change in a fictional maternal record changes the right downstream behavior, with visible evidence and predictable handling of uncertainty. Compass must distinguish public guidance, user reports, and confirmed records. A reviewer should be able to reproduce the result from a clean setup and inspect why it happened.
+Maya AI should demonstrate that a confirmed change in a fictional maternal record changes the right downstream behavior, with visible evidence and predictable handling of uncertainty. Ask Maya must distinguish public guidance, user reports, and confirmed records. A reviewer should be able to reproduce the result from a clean setup and inspect why it happened.
 
 The award ambition translates into five deliverables: a coherent product experience, one convincing continuity scenario, trustworthy controls, measured improvement, and a clear reproducible presentation. An award cannot be guaranteed. The competition's original rubric attachments are not present in this folder; add a rubric-to-evidence mapping when they are available rather than inventing judging weights.
 
@@ -294,7 +294,7 @@ Final consolidated Stage 5 semantic closure was completed locally on 12 Septembe
 
 ### S9 — Product experience · 6–10 hours
 
-- [ ] Build weekly home, Compass chat, records/confirmation, plan view, evidence drawer, simulated review and evaluator view.
+- [ ] Build weekly home, Ask Maya chat, records/confirmation, plan view, evidence drawer, simulated review and evaluator view.
 - [ ] Display exact/approximate journey state, review/provenance labels, saved/stale status, loading, empty, validation failure, recoverable failure and safety-blocked states.
 - [ ] Dashboard assembly uses prevalidated content and deterministic joins; no agent fan-out on page load.
 - [ ] Check phone/desktop layouts, keyboard operation, readable contrast, long content, refresh and relogin.

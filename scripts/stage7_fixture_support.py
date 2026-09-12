@@ -187,6 +187,7 @@ def make_request(
     text: str,
     *,
     context_modifier: str = "base",
+    context: AuthenticatedContextSnapshot | None = None,
     horizon: str = "none",
     day=None,
     evidence_modifier: str = "base",
@@ -195,10 +196,25 @@ def make_request(
     spec = SafetySpec.model_validate_json((ROOT / "data/safety/rule_spec.yaml").read_text(encoding="utf-8"))
     safety_input = build_safety_input(channel="chat_message", text=text)
     safety = SafetyGate(spec, mode="evaluation_only").evaluate(safety_input)
+    trusted_context = context or make_context(context_modifier)
     evidence = {agent: make_evidence(agent, evidence_modifier) for agent in AgentName}
+    if context is not None:
+        # The demo API may supply a server-built fictional journey from onboarding.
+        # Keep the controlled evidence fixture, but align its declared applicability
+        # with that trusted journey so the existing policy gates remain meaningful.
+        evidence = {
+            agent: packet.model_copy(update={
+                "references": [
+                    reference.model_copy(update={"journey": trusted_context.journey})
+                    if reference.fixture_only else reference
+                    for reference in packet.references
+                ]
+            })
+            for agent, packet in evidence.items()
+        }
     return OrchestrationRequest(
         request_id=safety_input.request_id, text=text,
-        context=make_context(context_modifier), safety_result=safety,
+        context=trusted_context, safety_result=safety,
         execution_mode="evaluation_only", requested_horizon=horizon,
         selected_day=day, evidence_by_agent=evidence,
         max_total_model_calls=max_calls,

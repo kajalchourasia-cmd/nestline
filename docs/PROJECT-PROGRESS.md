@@ -1,4 +1,4 @@
-# Nestline: current project progress
+# Maya AI: current project progress
 
 Updated 12 September 2026 from Kajal repository `main` commit `796c05cd29a055188e86685990078709fca0bfbc`. Older stage reports are retained as historical evidence; use `NESTLINE-EVALUATION-MANIFEST.md` for current denominators.
 

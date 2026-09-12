@@ -1,22 +1,22 @@
-# Nestline — Complete Product and AI Architecture
+# Maya AI — Complete Product and AI Architecture
 
-**Product:** Nestline<br>
-**Assistant:** Compass<br>
+**Product:** Maya AI<br>
+**Assistant:** Ask Maya<br>
 **Status:** Architecture decision and build plan<br>
 **Interface:** Streamlit web application<br>
 **Journey:** Possible pregnancy, pregnancy weeks 1–42, and postpartum weeks 1–12<br>
 **Language:** English<br>
 **Updated:** 9 September 2026
 
-> This is the canonical Nestline architecture. It is written in implementation order so a new contributor can understand what we are building, why every component exists, and what must happen next.
+> This is the canonical Maya AI architecture. It is written in implementation order so a new contributor can understand what we are building, why every component exists, and what must happen next.
 
-> Nestline is an educational and organizational capstone prototype. It is not a doctor, diagnostic system, prescriber, medical device, emergency service, or clinically validated product. The public demo uses fictional data and tells visitors not to upload real medical information.
+> Maya AI is an educational and organizational capstone prototype. It is not a doctor, diagnostic system, prescriber, medical device, emergency service, or clinically validated product. The public demo uses fictional data and tells visitors not to upload real medical information.
 
 ## Available tools and where each one fits
 
-Having credits does not mean every tool should be added. Nestline should use one clear tool for each responsibility so the four-day build remains understandable, testable, and safe. The access status below comes from the team-provided credit list; every API key, quota, model, and deployment entitlement must still be verified before implementation.
+Having credits does not mean every tool should be added. Maya AI should use one clear tool for each responsibility so the four-day build remains understandable, testable, and safe. The access status below comes from the team-provided credit list; every API key, quota, model, and deployment entitlement must still be verified before implementation.
 
-| Provider/tool | Access shown | What it can do, in simple language | Nestline decision |
+| Provider/tool | Access shown | What it can do, in simple language | Maya AI decision |
 |---|---|---|---|
 | [xAI / Grok](https://docs.x.ai/developers/model-capabilities/text/structured-outputs) | Not confirmed in the supplied list | Generates the specialist agents' structured draft after RAG gives it trusted evidence | **Candidate model:** verify API access and benchmark it against one available fallback; it was not removed |
 | OpenAI | ChatGPT Pro given | Helps team members research, reason, and code in ChatGPT | **Team-use only unless a separate API key/billing is confirmed:** ChatGPT Pro is not treated as backend API access |
@@ -67,9 +67,9 @@ Before assigning implementation work, record `available`, `unavailable`, or `unv
 
 ## 1. What are we building?
 
-Nestline is a week-aware maternal journey companion. A user tells Compass where they are in their journey, optionally enters allergies, conditions, symptoms, appointments, and fictional demo documents, and receives a home page tailored to that week. They can ask questions, understand what their uploaded records say, create and save a weekly nutrition/movement/well-being plan, prepare questions for an appointment, and navigate symptoms safely.
+Maya AI is a week-aware maternal journey companion. A user tells Ask Maya where they are in their journey, optionally enters allergies, conditions, symptoms, appointments, and fictional demo documents, and receives a home page tailored to that week. They can ask questions, understand what their uploaded records say, create and save a weekly nutrition/movement/well-being plan, prepare questions for an appointment, and navigate symptoms safely.
 
-Nestline combines three types of information without mixing them:
+Maya AI combines three types of information without mixing them:
 
 1. **Public guidance:** reviewed, source-backed maternal-health information.
 2. **Personal facts:** information the user confirms or that is extracted from their uploaded documents and then confirmed.
@@ -81,11 +81,11 @@ The AI organizes and explains this information. It does not diagnose, prescribe,
 
 Pregnancy and early-postpartum information is fragmented across prescriptions, reports, visit summaries, verbal instructions, appointments, public guidance, and different people. A generic chatbot may answer broadly but cannot reliably distinguish what a user's record documents, what the user merely reported, what a public guideline says, and what requires professional attention.
 
-Nestline provides a continuity layer: a confirmed change can update the user's timeline, current-week context, relevant retrieval filters, graph relationships, saved-plan status, appointment questions, and human-review packet without allowing the model to silently rewrite personal truth.
+Maya AI provides a continuity layer: a confirmed change can update the user's timeline, current-week context, relevant retrieval filters, graph relationships, saved-plan status, appointment questions, and human-review packet without allowing the model to silently rewrite personal truth.
 
 ### 1.2 Users
 
-| User | What Nestline provides | Capstone boundary |
+| User | What Maya AI provides | Capstone boundary |
 |---|---|---|
 | Pregnant or postpartum user | Weekly education, record organization, questions, plans, symptoms, and follow-up | Primary interface |
 | Person who may be pregnant | Testing/verification education and safe next-step navigation | Never assert pregnancy |
@@ -175,8 +175,8 @@ This is a small provider benchmark, not a multi-provider production router. The 
 - [Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) and [Replit Deployment](https://docs.replit.com/build/troubleshooting) can both host the Streamlit entrypoint. The team must test secrets, startup, logs, reset behavior, and public access before selecting one; hosting is not yet locked.
 - [Supabase](https://supabase.com/docs/guides/database/overview) provides Postgres, Row Level Security, Storage integration, and pgvector support. Its [hybrid-search guidance](https://supabase.com/docs/guides/ai/hybrid-search) uses Postgres full-text search plus pgvector, matching the Retrieval Gateway.
 - [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview) is designed for stateful workflows, durable execution, and human-in-the-loop control; we use a mostly predetermined workflow with bounded agent nodes, not an unrestricted autonomous loop.
-- [LangSmith evaluation](https://docs.langchain.com/langsmith/evaluation-quickstart) separates dataset, target function, and evaluators; Nestline's eval plan follows that structure and evaluates both individual nodes and complete graph runs.
-- [Grok structured outputs](https://docs.x.ai/developers/model-capabilities/text/structured-outputs) support schema-constrained responses and tool-call arguments on supported models, which fits Nestline's typed agent contracts. Access and capability still do not prove safety or quality; the provider benchmark remains mandatory.
+- [LangSmith evaluation](https://docs.langchain.com/langsmith/evaluation-quickstart) separates dataset, target function, and evaluators; Maya AI's eval plan follows that structure and evaluates both individual nodes and complete graph runs.
+- [Grok structured outputs](https://docs.x.ai/developers/model-capabilities/text/structured-outputs) support schema-constrained responses and tool-call arguments on supported models, which fits Maya AI's typed agent contracts. Access and capability still do not prove safety or quality; the provider benchmark remains mandatory.
 
 ---
 
@@ -251,7 +251,7 @@ flowchart TB
         USER["Streamlit user input"]:::human
         PUB["Approved public guidance"]:::data
         DOC["Fictional demo or user-provided document"]:::data
-        HELP["Nestline product-help content"]:::data
+        HELP["Maya AI product-help content"]:::data
         SRULE["Reviewed safety rule specification"]:::data
     end
 
@@ -380,11 +380,11 @@ Partly.
 - WHO, ICMR-NIN, and many movement/mental-health guidelines are **not weekly**. Their advice applies across a wider period or depends on symptoms, conditions, or professional clearance.
 - Postpartum guidance is often organized around the first 24 hours, day 3, days 7–14, week 6, or general recovery—not a unique article for every week through week 12.
 
-Therefore, Nestline must not claim that every domain changes every week. The product has a separate weekly profile, but stable evidence may appear in consecutive weeks when its real applicability has not changed.
+Therefore, Maya AI must not claim that every domain changes every week. The product has a separate weekly profile, but stable evidence may appear in consecutive weeks when its real applicability has not changed.
 
 ### 4.2 Final dataset strategy: layered, not one giant PDF
 
-Nestline must not choose between “WHO rules” and “a week-wise PDF.” They solve different problems and are required together. WHO is a strong authority for care principles, recommendations, timing, and boundaries, but it is not a complete source for 42 unique pregnancy pages and 12 unique postpartum pages. A week-by-week source can support the weekly experience, but it must not replace authoritative clinical guidance or become personalized medical advice.
+Maya AI must not choose between “WHO rules” and “a week-wise PDF.” They solve different problems and are required together. WHO is a strong authority for care principles, recommendations, timing, and boundaries, but it is not a complete source for 42 unique pregnancy pages and 12 unique postpartum pages. A week-by-week source can support the weekly experience, but it must not replace authoritative clinical guidance or become personalized medical advice.
 
 The approved design uses four clearly separated layers:
 
@@ -490,7 +490,7 @@ This prevents duplicate storage while keeping the user experience weekly. The so
 
 ### 4.6 Month-only input
 
-If the user knows only a month, Nestline stores an approximate range:
+If the user knows only a month, Maya AI stores an approximate range:
 
 | Month | Approximate week range |
 |---:|---|
@@ -504,7 +504,7 @@ If the user knows only a month, Nestline stores an approximate range:
 | 8 | 32–35 |
 | 9 | 36–40+ |
 
-Nestline does not secretly select a week. It displays the range and retrieves only information supported across that range. Exact weekly claims require an estimated due date or user-provided week.
+Maya AI does not secretly select a week. It displays the range and retrieves only information supported across that range. Exact weekly claims require an estimated due date or user-provided week.
 
 ### 4.7 Source coverage plan
 
@@ -555,7 +555,7 @@ These lanes prevent the system from treating every piece of text as the same kin
 | Guideline | Approved public evidence | General cited education | Personalized diagnosis/treatment |
 | Weekly profile | Reviewed configuration and week-specific evidence links | Dashboard and exact-week context | Evidence without underlying source spans |
 | Safety | Reviewed deterministic rule specification | Pre-generation urgent routing | Autonomous clinical triage/diagnosis |
-| Product help | Nestline usage instructions | How to upload, edit, save, reset, or delete | Medical guidance |
+| Product help | Maya AI usage instructions | How to upload, edit, save, reset, or delete | Medical guidance |
 
 ### 4.10 Source-registry record
 
@@ -667,7 +667,7 @@ flowchart LR
 
 ### Streamlit onboarding flow
 
-1. Show what Nestline can/cannot do and the public-demo privacy warning.
+1. Show what Maya AI can/cannot do and the public-demo privacy warning.
 2. Ask the user to choose Personal Empty Workspace or Fictional Demo Mode.
 3. Ask where they are: may be pregnant, pregnant, or postpartum.
 4. Present one timing dropdown:
@@ -692,7 +692,7 @@ flowchart LR
 - Conflicting due date and week are displayed together and require confirmation; the system never silently chooses.
 - The week rolls forward deterministically with time.
 - Weeks 1–2 and “may be pregnant” use careful dating/verification language and do not assert a confirmed pregnancy.
-- Dating priority is: user-confirmed estimate from a dated clinical document, then user-confirmed estimated due date, then manually entered week/day, then approximate month range. A disagreement creates `dating_conflict`; Nestline does not adjudicate it.
+- Dating priority is: user-confirmed estimate from a dated clinical document, then user-confirmed estimated due date, then manually entered week/day, then approximate month range. A disagreement creates `dating_conflict`; Maya AI does not adjudicate it.
 - Symptoms entered during onboarding are stored as time-stamped symptom events, not timeless permanent facts.
 
 ---
@@ -785,7 +785,7 @@ version where its workflow needs them. This V1 decision is recorded in
 Think of RAG as a librarian:
 
 1. The user asks a question.
-2. Nestline first identifies the exact week, domain, and personal context.
+2. Maya AI first identifies the exact week, domain, and personal context.
 3. The librarian retrieves only the most relevant approved public passages and permitted personal facts.
 4. The model writes an answer using that evidence.
 5. A verifier checks whether the answer is actually supported.
@@ -1201,13 +1201,13 @@ Render in this order:
 8. next appointment, open questions, and follow-ups;
 9. weekly plan: none, draft, saved, or stale;
 10. unresolved extraction/conflict/human-review status;
-11. quick actions and persistent Compass chat.
+11. quick actions and persistent Ask Maya chat.
 
 The dashboard uses prevalidated database content and does not call every agent on page load.
 
 ### 13.3 Chat capabilities
 
-Compass can:
+Ask Maya can:
 
 - explain stage-appropriate public guidance;
 - explain an uploaded record with page/span evidence;
@@ -1219,9 +1219,9 @@ Compass can:
 - check a traditional practice against available approved evidence;
 - show uncertainty and request human clarification.
 
-Compass cannot diagnose, prescribe, change medication, infer professional clearance, guarantee safety, or answer unsupported medical questions from model memory.
+Ask Maya cannot diagnose, prescribe, change medication, infer professional clearance, guarantee safety, or answer unsupported medical questions from model memory.
 
-A traditional-practice question must return one of three explicit evidence states: `supported_for_general_comfort`, `insufficient_evidence_or_uncertain`, or `potentially_unsafe_or_requires_professional_review`. Nestline never places an unverified “nuskha” proactively in the weekly do-list.
+A traditional-practice question must return one of three explicit evidence states: `supported_for_general_comfort`, `insufficient_evidence_or_uncertain`, or `potentially_unsafe_or_requires_professional_review`. Maya AI never places an unverified “nuskha” proactively in the weekly do-list.
 
 ---
 
@@ -1257,7 +1257,7 @@ stale_reason
 
 ### Optional n8n placement—not part of the committed core
 
-Nestline does not require n8n for the capstone. Streamlit, LangGraph/Python, Supabase, the provider adapter, and LangSmith cover the core product. If the team later chooses n8n, it may handle only asynchronous conveniences such as:
+Maya AI does not require n8n for the capstone. Streamlit, LangGraph/Python, Supabase, the provider adapter, and LangSmith cover the core product. If the team later chooses n8n, it may handle only asynchronous conveniences such as:
 
 - opt-in appointment reminders;
 - weekly digest email generated from already validated data;
@@ -1403,7 +1403,7 @@ Every Streamlit view requires loading, empty, success, validation-error, recover
 
 ## 17. Architecture pre-mortem
 
-Assume Nestline failed after the capstone. These are the most likely reasons and the design changes that prevent avoidable waste.
+Assume Maya AI failed after the capstone. These are the most likely reasons and the design changes that prevent avoidable waste.
 
 ### Tigers — real threats
 
@@ -1611,7 +1611,7 @@ Each scenario must pass three consecutive times from a reset Demo Mode before re
 
 ## 20. Definition of done
 
-Nestline is capstone-complete only when:
+Maya AI is capstone-complete only when:
 
 - Streamlit is the deployed interface and `streamlit_app.py` is the entry point;
 - Personal Mode is empty and Demo Mode is visibly fictional/resettable;
@@ -1644,7 +1644,7 @@ The architecture is decided. Before implementation, the team still must provide 
 7. A qualified reviewer before describing any content as clinically reviewed.
 8. Locally appropriate emergency/help wording before external testing.
 
-Until those production-grade reviews exist, Nestline remains a synthetic-data educational capstone—not a product for real clinical reliance.
+Until those production-grade reviews exist, Maya AI remains a synthetic-data educational capstone—not a product for real clinical reliance.
 
 ---
 
