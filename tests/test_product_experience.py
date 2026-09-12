@@ -193,11 +193,15 @@ class Stage9ProductExperienceTests(unittest.TestCase):
         state = {
             "stage9_demo_chat_history": [1],
             "stage9_demo_plan_execution": "x",
+            "stage10_demo_plan_commit": {"state_version": 5},
+            "stage10_demo_idempotency_key": "demo-key",
             "auth_session": "personal",
             "workspace_id": "personal-workspace",
         }
         reset_demo_state_keys(state)
         self.assertNotIn("stage9_demo_chat_history", state)
+        self.assertNotIn("stage10_demo_plan_commit", state)
+        self.assertNotIn("stage10_demo_idempotency_key", state)
         self.assertEqual(state["auth_session"], "personal")
         self.assertEqual(state["workspace_id"], "personal-workspace")
 

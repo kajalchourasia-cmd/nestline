@@ -55,38 +55,38 @@
     "latency_ms_by_component": {
       "exact_sql": {
         "count": 12,
-        "mean": 0.443492,
-        "max": 1.5692
+        "mean": 0.300675,
+        "max": 0.473
       },
       "graph": {
         "count": 12,
-        "mean": 0.01495,
-        "max": 0.1649
+        "mean": 0.016008,
+        "max": 0.1777
       },
       "personal_full_text": {
         "count": 12,
-        "mean": 0.185892,
-        "max": 0.7809
+        "mean": 0.180042,
+        "max": 0.4043
       },
       "personal_vector": {
         "count": 12,
-        "mean": 0.146008,
-        "max": 0.3483
+        "mean": 0.144583,
+        "max": 0.2474
       },
       "public_full_text": {
         "count": 12,
-        "mean": 0.998217,
-        "max": 1.8639
+        "mean": 1.037117,
+        "max": 1.9903
       },
       "public_vector": {
         "count": 12,
-        "mean": 0.965867,
-        "max": 2.2968
+        "mean": 1.017708,
+        "max": 1.9682
       },
       "weekly_profile": {
         "count": 12,
-        "mean": 0.002242,
-        "max": 0.0048
+        "mean": 0.004208,
+        "max": 0.023
       }
     }
   },
@@ -118,13 +118,13 @@
       "missing": [],
       "order_digest": "7b311fc0df7b08b81824d1d4194b5f83de4d3e541a7b0f8d9a5a998b8e1ada83",
       "components": {
-        "exact_sql": 1.5691999869886786,
+        "exact_sql": 0.4614000063156709,
         "public_full_text": 0.0,
         "public_vector": 0.0,
         "weekly_profile": 0.0,
-        "personal_full_text": 0.7808999944245443,
-        "personal_vector": 0.34830000367946923,
-        "graph": 0.0022000021999701858
+        "personal_full_text": 0.40430000808555633,
+        "personal_vector": 0.1598999951966107,
+        "graph": 0.0014999968698248267
       }
     },
     {
@@ -154,13 +154,13 @@
       "missing": [],
       "order_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
       "components": {
-        "exact_sql": 0.4354000120656565,
+        "exact_sql": 0.2747999969869852,
         "public_full_text": 0.0,
         "public_vector": 0.0,
         "weekly_profile": 0.0,
-        "personal_full_text": 0.21150000975467265,
-        "personal_vector": 0.18879999697674066,
-        "graph": 0.16489998961333185
+        "personal_full_text": 0.12440000136848539,
+        "personal_vector": 0.13949999993201345,
+        "graph": 0.17769999976735562
       }
     },
     {
@@ -190,13 +190,13 @@
       "missing": [],
       "order_digest": "b011065b918f403f5c194eb18a3a9e38fa5b133f5b1c701a46971c5189da6226",
       "components": {
-        "exact_sql": 0.3012999950442463,
-        "public_full_text": 1.8639000045368448,
-        "public_vector": 2.296799997566268,
-        "weekly_profile": 0.004799992893822491,
-        "personal_full_text": 0.12419999984558672,
-        "personal_vector": 0.1294999965466559,
-        "graph": 0.0017999991541728377
+        "exact_sql": 0.2702000056160614,
+        "public_full_text": 1.4720000035595149,
+        "public_vector": 1.257299998542294,
+        "weekly_profile": 0.0044000043999403715,
+        "personal_full_text": 0.112599998828955,
+        "personal_vector": 0.12820000119972974,
+        "graph": 0.0015999976312741637
       }
     },
     {
@@ -227,13 +227,13 @@
       "missing": [],
       "order_digest": "f5c061b8245fd1960594c9a1d0f6c2a2dcec70665de81be55bd7ddd227143a56",
       "components": {
-        "exact_sql": 0.2948000037577003,
-        "public_full_text": 1.4088999887462705,
-        "public_vector": 1.3142999960109591,
-        "weekly_profile": 0.00449999060947448,
-        "personal_full_text": 0.13729999773204327,
-        "personal_vector": 0.13129999570082873,
-        "graph": 0.00100000761449337
+        "exact_sql": 0.2615000121295452,
+        "public_full_text": 1.9561000081012025,
+        "public_vector": 1.9681999983731657,
+        "weekly_profile": 0.0046000059228390455,
+        "personal_full_text": 0.2339999919058755,
+        "personal_vector": 0.17680000746622682,
+        "graph": 0.001300009898841381
       }
     },
     {
@@ -261,13 +261,13 @@
       "missing": [],
       "order_digest": "82029541aaa1edcce2b66d39785b4d3b556976e28d75883374e232e939a7fee8",
       "components": {
-        "exact_sql": 0.2773000014713034,
-        "public_full_text": 1.7174999957205728,
-        "public_vector": 1.247499996679835,
-        "weekly_profile": 0.0027999922167509794,
-        "personal_full_text": 0.1142999972216785,
-        "personal_vector": 0.12509999214671552,
-        "graph": 0.001100008375942707
+        "exact_sql": 0.3226000117138028,
+        "public_full_text": 1.561600001878105,
+        "public_vector": 1.2740999954985455,
+        "weekly_profile": 0.003100009053014219,
+        "personal_full_text": 0.15050001093186438,
+        "personal_vector": 0.1640999980736524,
+        "graph": 0.0011999945854768157
       }
     },
     {
@@ -295,13 +295,13 @@
       "missing": [],
       "order_digest": "012a0f6a742652ad018438b1169d35dae09b770e33a94b802bfe2b7cb705daf5",
       "components": {
-        "exact_sql": 0.40820000867825,
-        "public_full_text": 1.4664000045740977,
-        "public_vector": 1.8511999951442704,
-        "weekly_profile": 0.0032999960239976645,
-        "personal_full_text": 0.12250000145286322,
-        "personal_vector": 0.12820000119972974,
-        "graph": 0.001400010660290718
+        "exact_sql": 0.2683000057004392,
+        "public_full_text": 1.4341000060085207,
+        "public_vector": 1.4875000051688403,
+        "weekly_profile": 0.0034999975468963385,
+        "personal_full_text": 0.16379999578930438,
+        "personal_vector": 0.2474000066285953,
+        "graph": 0.001500011421740055
       }
     },
     {
@@ -329,13 +329,13 @@
       "missing": [],
       "order_digest": "c0987fda92fc86175e3610d8988556893fd97c42805ad56fcb03ac94563a278a",
       "components": {
-        "exact_sql": 0.48919999971985817,
-        "public_full_text": 1.5115999995032325,
-        "public_vector": 1.2295000051381066,
-        "weekly_profile": 0.003000008291564882,
-        "personal_full_text": 0.1711000077193603,
-        "personal_vector": 0.16660000255797058,
-        "graph": 0.001600012183189392
+        "exact_sql": 0.2931000053649768,
+        "public_full_text": 1.3478000037139282,
+        "public_vector": 1.2944999907631427,
+        "weekly_profile": 0.0031999952625483274,
+        "personal_full_text": 0.14879999798722565,
+        "personal_vector": 0.12789999891538173,
+        "graph": 0.0011999945854768157
       }
     },
     {
@@ -363,13 +363,13 @@
       "missing": [],
       "order_digest": "1c4839eb91aa2851d8f9fe7e6a96cc9a3bfcb7ac542ff1c212b8dac752c60d8c",
       "components": {
-        "exact_sql": 0.2730999985942617,
-        "public_full_text": 1.3599999947473407,
-        "public_vector": 1.2106999929528683,
-        "weekly_profile": 0.003000008291564882,
-        "personal_full_text": 0.11930000619031489,
-        "personal_vector": 0.12840000272262841,
-        "graph": 0.0009999930625781417
+        "exact_sql": 0.47300000733230263,
+        "public_full_text": 1.9902999920304865,
+        "public_vector": 1.5922000020509586,
+        "weekly_profile": 0.004899993655271828,
+        "personal_full_text": 0.19209999300073832,
+        "personal_vector": 0.14290001126937568,
+        "graph": 0.0011999945854768157
       }
     },
     {
@@ -397,13 +397,13 @@
       "missing": [],
       "order_digest": "821f8268d4d15bebd70fabab199054b6a650fb6c8ad5dd6bf771615e6749a9c0",
       "components": {
-        "exact_sql": 0.34240000240970403,
-        "public_full_text": 1.3060000055702403,
-        "public_vector": 1.239799996255897,
-        "weekly_profile": 0.002700006007216871,
-        "personal_full_text": 0.1221999991685152,
-        "personal_vector": 0.12910000805277377,
-        "graph": 0.0010999938240274787
+        "exact_sql": 0.2778000052785501,
+        "public_full_text": 1.273000001674518,
+        "public_vector": 1.7853000026661903,
+        "weekly_profile": 0.02300000051036477,
+        "personal_full_text": 0.3223000094294548,
+        "personal_vector": 0.1773999974830076,
+        "graph": 0.0015999976312741637
       }
     },
     {
@@ -429,13 +429,13 @@
       "missing": [],
       "order_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
       "components": {
-        "exact_sql": 0.4700999998021871,
+        "exact_sql": 0.29599999834317714,
         "public_full_text": 0.0,
         "public_vector": 0.0,
         "weekly_profile": 0.0,
-        "personal_full_text": 0.1664000010350719,
-        "personal_vector": 0.13050000416114926,
-        "graph": 0.001200009137392044
+        "personal_full_text": 0.15639999764971435,
+        "personal_vector": 0.13000000035390258,
+        "graph": 0.001100008375942707
       }
     },
     {
@@ -461,13 +461,13 @@
       "missing": [],
       "order_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
       "components": {
-        "exact_sql": 0.3127999952994287,
+        "exact_sql": 0.2641000028233975,
         "public_full_text": 0.0,
         "public_vector": 0.0,
         "weekly_profile": 0.0,
-        "personal_full_text": 0.12319999223109335,
-        "personal_vector": 0.12929999502375722,
-        "graph": 0.00100000761449337
+        "personal_full_text": 0.1112000027205795,
+        "personal_vector": 0.12440000136848539,
+        "graph": 0.001100008375942707
       }
     },
     {
@@ -495,13 +495,13 @@
       "missing": [],
       "order_digest": "393c6189db9fe5030084bb9e87d0b7caaa332ca2b3da2ab7afec11ca2f597111",
       "components": {
-        "exact_sql": 0.14810000720899552,
-        "public_full_text": 1.3443000061670318,
-        "public_vector": 1.2006000033579767,
-        "weekly_profile": 0.0027999922167509794,
-        "personal_full_text": 0.03779999678954482,
-        "personal_vector": 0.016999998479150236,
-        "graph": 0.0010999938240274787
+        "exact_sql": 0.1453000004403293,
+        "public_full_text": 1.41050000092946,
+        "public_vector": 1.5534000121988356,
+        "weekly_profile": 0.0037999998312443495,
+        "personal_full_text": 0.040099999750964344,
+        "personal_vector": 0.01649999467190355,
+        "graph": 0.001100008375942707
       }
     }
   ],

@@ -23,7 +23,10 @@
   ],
   "external_delivery": "unavailable",
   "fictional_only_evaluation": true,
-  "migration": "20260912000100_stage10_state_review_lifecycle.sql",
+  "migrations": [
+    "20260912000100_stage10_state_review_lifecycle.sql",
+    "20260912000200_stage10_rpc_hardening_and_reset.sql"
+  ],
   "ordinary_service_role": "forbidden",
   "plan_lifecycle": [
     "draft",

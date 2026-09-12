@@ -95,6 +95,8 @@ def main() -> int:
                 ),
             ],
         }
+        app.session_state["stage9_started"] = True
+        app.session_state["stage9_mode"] = "Personal Mode"
         app.run()
         initial_decisions = [
             item for item in app.radio if item.label == "Decision"
@@ -123,6 +125,8 @@ def main() -> int:
             expires_in=3600,
         )
         public_app.session_state.workspace_id = WORKSPACE_ID
+        public_app.session_state["stage9_started"] = True
+        public_app.session_state["stage9_mode"] = "Personal Mode"
         public_app.run()
     finally:
         SupabaseOnboardingGateway.list_workspaces = original_list

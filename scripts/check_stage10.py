@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 
 from scripts.build_stage10_evals import cases as canonical_cases
+from scripts.export_stage10_retention_inventory import inventory
+from scripts.export_stage10_self_review import review
 from scripts.export_state_lifecycle_schema import coverage_bundle, schema_bundle
 
 
@@ -17,6 +19,8 @@ COVERAGE = ROOT / "docs/STAGE-10-COVERAGE-MANIFEST.json"
 EVAL_REPORT = ROOT / "docs/STAGE-10-EVAL-RESULTS.json"
 STORIES = ROOT / "docs/STAGE-10-CAPSTONE-STORY-RESULTS.json"
 SELF_REVIEW = ROOT / "docs/STAGE-10-SELF-REVIEW-FINDINGS.json"
+CONCURRENCY = ROOT / "docs/STAGE-10-CONCURRENCY-AND-DELETION-RESULTS.json"
+RETENTION = ROOT / "docs/STAGE-10-DELETION-RETENTION-INVENTORY.json"
 HANDOFF = ROOT / "docs/STAGE-10-IMPLEMENTATION-SELF-VERIFICATION-AND-CAPSTONE-READINESS.md"
 
 
@@ -32,15 +36,21 @@ def check() -> dict:
         ROOT / "app/services/capstone_flows.py",
         ROOT / "app/pages_and_components/stage9.py",
         ROOT / "supabase/migrations/20260912000100_stage10_state_review_lifecycle.sql",
+        ROOT / "supabase/migrations/20260912000200_stage10_rpc_hardening_and_reset.sql",
         ROOT / "supabase/tests/stage10_state_review_lifecycle.test.sql",
+        ROOT / "supabase/tests/stage10_rpc_hardening_and_reset.test.sql",
         ROOT / "supabase/fixtures/stage10_stage9_upgrade.sql",
         ROOT / "supabase/fixtures/stage10_stage9_upgrade_check.sql",
         ROOT / "scripts/check_stage10_state_api.py",
+        ROOT / "scripts/check_stage10_concurrency_and_deletion_api.py",
         ROOT / "scripts/check_stage10_ui.py",
+        ROOT / "scripts/export_stage10_self_review.py",
+        ROOT / "scripts/export_stage10_retention_inventory.py",
         ROOT / "tests/test_state_lifecycle.py",
         ROOT / "tests/test_capstone_flows.py",
         ROOT / "evals/stage10_state_lifecycle.jsonl",
-        SCHEMA, COVERAGE, EVAL_REPORT, STORIES, SELF_REVIEW, HANDOFF,
+        SCHEMA, COVERAGE, EVAL_REPORT, STORIES, SELF_REVIEW, CONCURRENCY,
+        RETENTION, HANDOFF,
     ]
     for path in required:
         if not path.is_file():
@@ -50,32 +60,63 @@ def check() -> dict:
         errors.append("Stage 10 exported schemas are stale")
     if COVERAGE.is_file() and _json(COVERAGE) != coverage_bundle():
         errors.append("Stage 10 coverage manifest is stale")
+
     expected_cases = canonical_cases()
     if EVAL_REPORT.is_file():
         report = _json(EVAL_REPORT)
-        if not report.get("valid") or report.get("cases") != {"passed": len(expected_cases), "total": len(expected_cases)}:
+        expected = {"passed": len(expected_cases), "total": len(expected_cases)}
+        if not report.get("valid") or report.get("cases") != expected:
             errors.append("Stage 10 evaluation report is stale or failed")
         if report.get("capstone_story_runs") != {"passed": 9, "total": 9}:
             errors.append("all three connected stories did not pass three reset runs")
         if report.get("unauthorized_writes") != 0 or report.get("external_transmissions") != 0:
             errors.append("Stage 10 evaluation performed an unauthorized write or transmission")
+
     if STORIES.is_file():
         stories = _json(STORIES)
         if stories.get("passed") != 9 or stories.get("total") != 9:
             errors.append("Stage 10 capstone story evidence is incomplete")
-        if any(item.get("ordinary_generation_calls") for item in stories.get("runs", []) if item.get("story") == "urgent-review"):
+        if any(item.get("ordinary_generation_calls") for item in stories.get("runs", [])
+               if item.get("story") == "urgent-review"):
             errors.append("urgent capstone story invoked ordinary generation")
+
+    if SELF_REVIEW.is_file() and _json(SELF_REVIEW) != review():
+        errors.append("Stage 10 self-review findings are stale")
     if SELF_REVIEW.is_file():
-        unresolved = [item["id"] for item in _json(SELF_REVIEW).get("findings", []) if item.get("post_status") != "PASS"]
+        unresolved = [item["id"] for item in _json(SELF_REVIEW).get("findings", [])
+                      if item.get("post_status") != "PASS"]
         if unresolved:
             errors.append(f"Stage 10 self-review findings remain unresolved: {unresolved}")
 
-    migration = required[4].read_text(encoding="utf-8") if required[4].is_file() else ""
+    if CONCURRENCY.is_file():
+        concurrency = _json(CONCURRENCY)
+        if not concurrency.get("valid") or concurrency.get("checks") != 26:
+            errors.append("Stage 10 concurrency/deletion matrix is stale or failed")
+        if concurrency.get("workspace_reset_public_tables_checked") != 10:
+            errors.append("Stage 10 workspace reset coverage is incomplete")
+        if any(value.get("committed") != 1 or value.get("rejected") != 1
+               for value in concurrency.get("concurrency", {}).values()):
+            errors.append("Stage 10 concurrency races did not commit exactly one contender")
+        if (not concurrency.get("response_loss_replay")
+                or concurrency.get("old_idempotency_replay_after_reset")):
+            errors.append("Stage 10 idempotency/reset evidence is invalid")
+
+    if RETENTION.is_file() and _json(RETENTION) != inventory():
+        errors.append("Stage 10 deletion/retention inventory is stale")
+
+    migration_paths = [
+        ROOT / "supabase/migrations/20260912000100_stage10_state_review_lifecycle.sql",
+        ROOT / "supabase/migrations/20260912000200_stage10_rpc_hardening_and_reset.sql",
+    ]
+    migration = "\n".join(
+        path.read_text(encoding="utf-8") for path in migration_paths if path.is_file()
+    )
     for required_sql in (
         "public.stage10_commit", "public.stage10_durable_state",
         "private.stage10_plan_dependencies", "plans_one_active_per_workspace",
         "revoke insert, update, delete", "external_delivery_scheduled",
         "stage10_bind_plan_scope", "stage10_invalidate_fact_change",
+        "stage10_assert_object_keys", "stage10_prepare_workspace_delete", "PT409",
     ):
         if required_sql not in migration:
             errors.append(f"Stage 10 migration lacks required control: {required_sql}")
@@ -85,10 +126,13 @@ def check() -> dict:
     safety = json.loads((ROOT / "data/safety/rule_spec.yaml").read_text(encoding="utf-8"))
     if safety.get("status") != "draft":
         errors.append("Stage 10 changed the draft safety specification boundary")
-    combined = "".join(path.read_text(encoding="utf-8") for path in required[:3] if path.is_file()).casefold()
+    combined = "".join(
+        path.read_text(encoding="utf-8") for path in required[:3] if path.is_file()
+    ).casefold()
     for forbidden in ("import openai", "import langchain", "import n8n"):
         if forbidden in combined:
             errors.append(f"Stage 10 deterministic boundary added a forbidden provider: {forbidden}")
+
     if HANDOFF.is_file():
         handoff = HANDOFF.read_text(encoding="utf-8")
         verdicts = (
@@ -100,15 +144,24 @@ def check() -> dict:
 
     return {
         "valid": not errors,
-        "stage": 10, "schema_version": "10.0.0",
-        "database_migration_required": True, "remote_migration_applied": False,
-        "paid_provider_required": False, "external_delivery_enabled": False,
-        "clinical_validation": False, "public_release_ready": False,
+        "stage": 10,
+        "schema_version": "10.0.0",
+        "database_migration_required": True,
+        "remote_migration_applied": False,
+        "paid_provider_required": False,
+        "external_delivery_enabled": False,
+        "clinical_validation": False,
+        "public_release_ready": False,
         "verified": {
             "typed_development_cases": len(expected_cases),
-            "capstone_story_runs": 9, "command_kinds": 7,
-            "plan_lifecycle_states": 7, "review_states": 9,
-            "urgent_generation_calls": 0, "external_transmissions": 0,
+            "capstone_story_runs": 9,
+            "command_kinds": 7,
+            "plan_lifecycle_states": 7,
+            "review_states": 9,
+            "authenticated_api_checks": 14,
+            "concurrency_and_deletion_checks": 26,
+            "urgent_generation_calls": 0,
+            "external_transmissions": 0,
         },
         "limitations": [
             "Controlled fictional fixtures do not prove clinical or production quality.",

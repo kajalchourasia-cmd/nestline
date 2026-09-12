@@ -1,243 +1,294 @@
 # Stage 10 implementation, self-verification, and capstone readiness
 
-**Current evidence status:** local implementation complete; final verdict remains NO-GO until one legacy permission regression is aligned with the stricter Stage 10 contract and rerun.
+**Evidence status:** the Stage 10 implementation and its local integration verification are complete on the corrected Stage 5–8 foundation. Public/clinical release remains blocked by human review, released-content, and live-provider gates.
 
 ## Verdict
 
-`STAGE 10 NO-GO — CAPSTONE MUST NOT BE RELEASED`
+`STAGE 10 ACCEPTED FOR CONTROLLED ENGINEERING — CAPSTONE READY FOR INDEPENDENT REVIEW`
 
-This verdict is intentionally conservative. Stage 10's implementation, focused tests, clean migration, exact Stage 9 upgrade, authenticated APIs, UI integration and repeated fictional capstone stories pass. The complete pgTAP run still has one failing legacy file because its Stage 2 assertions require authenticated clients to write directly to four tables that Stage 10 now protects behind the single State Committer. The implementation keeps the stronger Stage 10 security rule. The legacy assertion has not been rewritten without explicit approval.
+Equivalent release-preparation boundary: `STAGE 10 ACCEPTED FOR CONTROLLED CAPSTONE VALIDATION — RELEASE PREPARATION MAY BEGIN`.
 
-## Entry gate and repository state
+This GO applies to a local, fictional-data, controlled capstone review. It does not authorize deployment, remote migrations, public health guidance, real clinician operations, external notifications, or use of real personal/medical data.
 
-- Accepted Stage 9 remote SHA used as the base: `8cba505ef6b9f1a9d1d608bb38f9451fd438a79b`.
-- Stage 10 branch: `feat/stage-10-state-review-lifecycle`.
-- Accepted Stage 8 ancestor: `2444f1c15b9b8a37b38a76b0257b76d2180f4b17`.
-- `git merge-base --is-ancestor 2444f1c15b9b8a37b38a76b0257b76d2180f4b17 8cba505ef6b9f1a9d1d608bb38f9451fd438a79b` returned success.
-- Accepted Stage 9 GitHub run: `34671124041`; `validate` job `103492544145` and `supabase-integration` job `103492544054` both passed on the exact base SHA.
-- Starting worktree was clean. Current worktree contains the Stage 10 implementation and this evidence; it is intentionally uncommitted and unpushed while the final database regression is unresolved.
-- No PR, merge, deployment, remote migration, external message, notification, paid-provider request or real patient-data operation occurred.
+## Repository and entry evidence
 
-## Plain-language implementation
+- Corrected Stage 5–8 base: `e2a8c542648f97c9bb93d73528f2414a4f41e5c8`.
+- Corrected Stage 9 checkpoint: `078b21b` on the ancestry of this branch.
+- Stage 10 restored implementation checkpoint: `a044ecb8fd2be9c7986c8401367956f85bcbd3e6`.
+- Integration branch: `integration/capstone-demo-final`.
+- The corrected base is an ancestor of the integration branch (`git merge-base --is-ancestor` exit 0).
+- Final report-bearing commit: pending until this evidence file is committed; the exact non-self-referential SHA is reported outside this commit.
+- The original recovery stash remains preserved as `stash@{0}`.
+- No PR, merge, force-push, deployment, remote migration, external message, notification, paid-provider call, or real patient-data operation occurred.
 
-Stage 10 adds one guarded door for durable changes. A chat answer, uploaded-document extraction or agent proposal cannot write facts or plans by itself. The authenticated user must explicitly confirm an action, and the State Committer checks ownership, expected version, provenance, validation, constraints and consent inside one transaction. A repeated click returns the same logical result. A stale concurrent action is rejected without overwriting newer truth.
+## Plain-language behavior
 
-Confirmed document facts preserve their original candidate and exact page/span. Corrections create a new fact and supersede the old fact instead of erasing history. Plans follow an explicit lifecycle. Relevant changes follow stored dependencies and mark only affected plans stale. Simulated review is consented, minimal, truthful and separate from immediate urgent safety handling. External reminder delivery remains unavailable.
+The app now has one guarded doorway for saved changes. Chat and workers can suggest a fact, task, review packet, or plan, but cannot save it directly. The authenticated user must review and explicitly submit a typed command. The State Committer checks the real session workspace, current version, provenance, consent, constraints, and allowed transition inside one database transaction.
+
+A duplicate submission returns the original logical result. Two stale commands racing from the same version cannot both win. A material confirmed change marks only dependent plans stale and records the causal connection. Deleting a workspace clears the public product rows and private Stage 10 ledgers, so recreating a workspace cannot replay an old idempotency result.
 
 ## Requirement-to-implementation map
 
-| Requirement | Implementation | Executable evidence |
+| Requirement | Implementation | Verification evidence |
 |---|---|---|
-| Single authorized write boundary | `app/services/state_committer.py`; `public.stage10_commit(uuid,jsonb)` | `tests/test_state_lifecycle.py`; Stage 10 pgTAP; two-principal API check |
-| Strict commands/results and trusted scope | `app/schemas/state_lifecycle.py`; authenticated snapshot/RPC | exported schema; forged scope/caller tests; RLS/API checks |
-| Fact confirm/correct/reject and supersession | in-memory and SQL committers; decision ledger | exact-provenance, conflict, correction and supersession tests |
-| Saved-plan lifecycle | strict payloads, plan transition map and lifecycle-event ledger | lifecycle unit matrix and pgTAP transition history |
-| User-edit revalidation | `ValidatedPlanEdit`; item/field/value/trace cross-validation | schema mutation test and SQL transactional check |
-| Dependency-driven staleness | normalized dependencies plus graph nodes/edges and selective triggers | positive/negative selectivity tests and causal-chain capstone story |
-| Follow-up/reminder consent | typed reminder contract and durable task table | missing-fields rejection and truthful unavailable-delivery tests |
-| Simulated review | minimal packet, explicit transition graph and consent record | consent, invalid transition, idempotency, timeout/unavailable and urgent independence tests |
-| Stage 9 UI wiring | Stage Committer actions in plans, records and simulated review; authenticated durable reload | `scripts.check_stage10_ui`; recovered offline Stage 4 UI smoke |
-| Clean and upgrade migration | forward-only `20260912000100` migration and exact Stage 9 fixture | clean reset, exact upgrade fixture/check, lint |
-| Deterministic evidence and CI | schema/eval/check scripts and workflow additions | 33/33 dev cases; 9/9 stories; checker and CI commands |
+| Single authorized write boundary | `app/services/state_committer.py`; `public.stage10_commit(uuid,jsonb)` | unit tests, 71 Stage 10 pgTAP assertions, 40 authenticated API/concurrency checks |
+| Trusted authenticated scope | RPC derives caller from `auth.uid()` and checks owner membership | forged-scope, cross-workspace, anonymous and direct-write denials |
+| Strict command/result contracts | `app/schemas/state_lifecycle.py`; strict SQL JSON-key and 64 KiB checks | 33 typed development cases; malformed/extra/oversized payload tests |
+| Atomic versioned commits | private implementation uses a transaction, expected state version, ledgers and state increments | stale-write, rollback and three simultaneous race matrices |
+| Idempotency | workspace-scoped key uniqueness plus command hash and committed response | replay, same-key/different-payload, response-loss and reset tests |
+| Fact confirm/correct/reject | decision ledger, exact provenance, supersession and confirmation state | unit, pgTAP and authenticated API coverage |
+| Plan lifecycle | `draft`, `user_reviewed`, `saved`, `active`, `stale`, `replaced`, `archived` | complete valid/invalid transition matrix |
+| User-edit validation | Stage 8 validation disposition, source evidence, constraints and unresolved-conflict checks | unsafe edit and stale snapshot rejection cases |
+| Selective staleness | normalized dependency rows and table-specific invalidation triggers | relevant-change positive and unrelated-change negative tests |
+| Graph continuity | plan/fact/document nodes and causal edges | document → fact/restriction → plan item → stale plan → question story |
+| Follow-ups/reminders | typed in-app tasks; reminder consent/date/time/timezone/channel; external delivery false | missing-consent/field and unavailable-delivery tests |
+| Simulated review | minimal consented packet and nine-state transition graph | minimum-data, decline, timeout, unavailable, duplicate and urgent-independence tests |
+| Personal/Demo persistence isolation | authenticated workspace state plus deterministic mode reset | UI, API, reset/deletion and two-principal checks |
+| Clean and upgrade migrations | forward migrations `20260912000100` and `20260912000200` | clean replay and exact Stage 9 → Stage 10 upgrade, each with 325/325 pgTAP and 110/110 API checks |
 
 ## State Committer contract
 
-`StateCommitCommand` contains:
+Seven command kinds are supported through the one write boundary:
 
-- schema version, command UUID and stable idempotency key;
-- expected database-derived state version;
-- submitted timestamp and the only permitted caller, `authenticated_ui`;
-- typed proposed payload;
-- exact provenance;
-- explicit actor confirmation/consent evidence.
+1. `fact_decision`;
+2. `plan_create`;
+3. `plan_transition`;
+4. `follow_up_create`;
+5. `follow_up_transition`;
+6. `review_create`;
+7. `review_transition`.
 
-Owner and workspace identity are not command fields. `AuthenticatedCommitScope` is constructed from the authenticated session. The SQL RPC checks `auth.uid()` against the workspace owner. Ordinary service-role calls and direct authenticated writes are denied.
+Every command carries a schema version, command ID, idempotency key, expected state version, timestamp, typed payload, provenance, and explicit actor/confirmation evidence where applicable. Unknown keys, oversized JSON, invalid identifiers, malformed nested objects, unsupported transitions, missing consent, stale versions, unresolved conflicts, unsafe plan content, or unauthorized scope are rejected without a partial write.
 
-`StateCommitResult` reports committed, replayed or rejected state; old/new versions; affected entities and plans; a typed rejection; the current state for stale-write review; and a redacted audit trace. Traces record no raw personal text, no service-role use, no direct-agent write and zero generation calls.
+The public wrapper is executable only by `authenticated`. Its implementation function is private, has a fixed search path, and cannot be called by ordinary clients. The caller-supplied workspace is only a target to authorize; it never establishes identity. Ordinary clients and agents have read-only table access where required and cannot mutate Stage 10-owned facts, plans, items, reviews, ledgers, or dependencies directly.
 
-The in-memory repository exists only for deterministic fictional tests. The Supabase adapter uses the user's access token and publishable key. Fixture setup in the local API checker uses the local service key only to create and remove isolated test principals and fixtures; all product calls use authenticated user JWTs.
+## Idempotency and concurrency
 
-## Fact decisions
+The database-connected matrix used two authenticated fictional principals and independent HTTP RPC requests. It passed **26/26** checks:
 
-| Action | Durable behavior | Personalization eligibility |
-|---|---|---|
-| Confirm | Preserve candidate, create confirmed health fact, record decision/provenance | Eligible only after commit |
-| Correct | Preserve candidate, create corrected fact, supersede prior fact and record linkage | New confirmed version eligible after commit |
-| Reject | Preserve candidate and decision; create no active fact | Never eligible |
-| Conflict | Commit is rejected until clarified | Never eligible |
+- same key in different workspaces is isolated;
+- exact replay and response-loss replay return the committed result;
+- same key with different payload is rejected;
+- concurrent plan saves: 1 committed, 1 rejected;
+- fact change versus save: 1 committed, 1 rejected;
+- fact change versus activate: 1 committed, 1 rejected;
+- a stale retry returns current state for review;
+- workspace deletion removes all checked product state;
+- the other workspace remains unchanged;
+- a recreated workspace cannot replay the old workspace's idempotency result.
 
-Exact document ID, document-fact ID, page, span and SHA-256 must agree with the stored candidate. Missing or altered provenance rejects atomically.
+The first implementation used SQLSTATE `40001` for an application-level stale version. PostgREST treated it as a retryable serialization failure, causing the caller to wait until timeout. Migration `20260912000200_stage10_rpc_hardening_and_reset.sql` changes this to `PT409`, preserving the conflict response while returning immediately.
+
+## Fact confirmation and correction
+
+Document-derived proposals retain source document, page, exact span, extraction confidence, and confirmation status. Confirm, correct, and reject are explicit user actions. Correction creates a new version and a supersession link; it never rewrites source history. Only successfully committed confirmed facts can personalize later reads. Unconfirmed, rejected, conflicting, and superseded facts remain excluded from active personalization.
 
 ## Plan lifecycle
 
-| From | Allowed next states | Guard |
-|---|---|---|
-| creation | `draft` | accepted Stage 8 validation, current confirmed journey, full active-constraint dependencies |
-| `draft` | `user_reviewed`, `archived` | explicit action |
-| `user_reviewed` | `saved`, `archived` | explicit save confirmation and current versions |
-| `saved` | `active`, `replaced`, `archived` | explicit action; replacement must already be saved |
-| `active` | `replaced`, `archived` | explicit action |
-| `stale` | `replaced`, `archived` | cannot be reactivated or silently resaved |
-| `replaced` | `archived` | history remains visible |
-| `archived` | none | terminal |
+| From | Allowed next state |
+|---|---|
+| `draft` | `user_reviewed`, `archived` |
+| `user_reviewed` | `saved`, `draft`, `archived` |
+| `saved` | `active`, `replaced`, `archived` |
+| `active` | `stale`, `replaced`, `archived` |
+| `stale` | `replaced`, `archived` |
+| `replaced` | `archived` |
+| `archived` | none |
 
-Every plan stores owner/workspace, version, current journey and journey-state version, week, creation/review/save timestamps, preferences, confirmed constraints, component outputs, evidence IDs, validated user edits, status, replacement link and stale reasons. A plan item carries evidence, confirmed-fact links and its validation state.
+A persisted plan contains owner/workspace, journey week and state version, creation/review timestamps, preferences, confirmed constraints, component outputs, source evidence, user edits, status, stale reason, items, and normalized dependencies. At save/activate time, current authenticated state is reloaded. A view, rerun, retry, or generated draft is never treated as review or confirmation. Stale plans remain visible but cannot be active or silently resaved.
 
-A Streamlit view, rerun or retry is not review or save confirmation. Stable command keys prevent duplicate mutations. The UI displays the committed version returned by the State Committer.
+## Dependency-driven staleness and graph continuity
 
-## Dependency and invalidation behavior
+Dependencies are stored for the exact journey state, allergies, restrictions, conditions, symptom state, medication/supplement records, clinician instructions, and evidence used by the plan. Relevant committed changes stale dependent plans in the same authorized transaction. Unrelated changes leave them unchanged. Missing dependency information fails visibly. No trigger regenerates, replaces, saves, or activates a plan automatically.
 
-Normalized dependencies cover journey state, allergy, restriction, condition, symptom, medication, supplement, clinician instruction and evidence. Plan creation fails if an active confirmed allergy, restriction or clinician instruction is missing from its dependencies. Validated edits must match the persisted plan item.
+The connected fictional document story preserves this path:
 
-Relevant fact/journey/symptom/medication/evidence changes mark matching plans and items stale in the same authorized flow. Corrections invalidate dependencies on superseded truth as well as the new fact. Unrelated material keys do not stale unaffected plans. Missing required dependency data rejects the plan visibly. Invalidation never regenerates, replaces, saves or activates a plan.
+`document → proposed/confirmed restriction → affected plan item → stale plan → professional question`
 
-The stored graph preserves causal continuity. The fictional continuity story records document candidate to confirmed restriction, affected plan item, stale plan and follow-up question. The user-visible result includes the causal chain and stale reason.
+## Deletion, reset, and retention
 
-## Follow-up and reminder behavior
+`docs/STAGE-10-DELETION-RETENTION-INVENTORY.json` is generated from the canonical inventory and covers 13 Stage 10 state objects. The hardening migration installs a workspace-delete preparation trigger that safely removes private audit/idempotency/dependency rows and public product rows in foreign-key order while retaining unrelated workspaces. The API matrix verifies 10 public workspace-scoped tables reach zero rows, private replay becomes impossible, and the second principal is unchanged.
 
-In-app follow-up tasks require provenance and explicit confirmation. A reminder requires opt-in, exact timestamp, timezone and channel. `in_app` may be stored as an organizational reminder. Email, SMS and push return `external_delivery_unavailable`; `external_delivery_scheduled` remains false. No n8n, background worker or notification transmission was added. Urgent guidance never depends on a task or reminder.
+This is a product workspace-reset contract for controlled engineering. It is not a legal retention policy or proof of compliance; privacy/legal owners still need to set production retention periods and backup-erasure procedures.
 
-## Simulated review behavior
+## Follow-up, reminders, and simulated review
 
-Review packets contain only the question, current journey reference, minimum relevant confirmed fact IDs, user-reported context IDs, exact span IDs, trace reference, unresolved conflict IDs, requested action and consent record. The schema caps each personal-data list, rejects the unrelated-data flag and requires immediate safety completion for urgent cases.
+Follow-up tasks are in-app records with owner/workspace, provenance, status, and due information when known. A reminder requires opt-in plus date/time, timezone, and channel. External delivery remains explicitly unavailable and no notification is scheduled or sent.
 
-Valid states are `not_required`, `offered`, `consented`, `queued`, `reviewed`, `resumed`, `declined`, `unavailable` and `timed_out`. Only the documented transitions are permitted. A case cannot queue before consent. Every surface says `Simulated review` or `Simulated response`; no clinician identity or response-time guarantee is created. The urgent fictional story completes fixed safety behavior first, records zero ordinary-generation calls, and only then offers the simulated packet.
+Simulated review packets contain only the relevant question, journey state, minimum confirmed/user-reported context, exact evidence spans, trace, conflict, requested action, and consent record. Valid states are `not_required`, `offered`, `consented`, `queued`, `reviewed/responded`, `resumed`, `declined`, `unavailable`, and `timed_out`. Every surface says simulated. Urgent fixed guidance completes first and is independent of consent, queue state, or reviewer availability.
 
 ## Stage 9 UI integration
 
-- Records: the fictional candidate can be confirmed through the State Committer; the UI then shows the committed fact, stale-plan consequence and causal chain.
-- Plans: the fictional edited plan follows create, explicit review and explicit save commands; the direct-storage-write control remains disabled.
-- Simulated review: consent and queue actions use State Committer transitions; external submission remains disabled.
-- Personal Mode: authenticated renders call `stage10_durable_state` and display durable counts/plan status. Session state is only display state.
-- Offline/error state: network, timeout and OS failures become a recoverable unavailable message. The older Stage 4 UI smoke now passes with zero network calls.
-- Duplicate protection: stable idempotency keys make reruns/retries replay-safe.
+The Stage 9 UI routes fact decisions, plan review/save, follow-up, and simulated-review actions through the State Committer adapter. Pending, committed, rejected, stale conflict, retry-safe, offline, and unavailable states are explicit. Stable idempotency keys protect Streamlit reruns and repeated clicks. Refresh/relogin loads durable state through the storage interface; session state holds only temporary interaction state. Demo reset clears both Stage 9 and Stage 10 keys so fictional state does not leak into Personal Mode.
 
-## Development evaluation inventory
+## Generated development evidence
 
-The visible deterministic Stage 10 set contains 33 typed lifecycle cases. It covers caller/scope forgery, cross-workspace denial, exact provenance, confirm/correct/reject/conflict behavior, atomic rollback, all lifecycle boundaries, plan-edit validation, active-constraint dependency completeness, relevant and unrelated invalidation, correction supersession, reminder consent, simulated-review minimization and transitions, medication boundaries, allergen rejection, audit minimization, idempotency and recoverable storage unavailability.
+- Stage 10 typed cases: **33/33**, including **13/13 critical**.
+- Connected Stage 10 stories: **9/9** (three stories × three deterministic resets).
+- Stage 10 focused pgTAP: **71/71** (`38 + 33`).
+- Stage 10 authenticated state API: **14/14**.
+- Concurrency/deletion API: **26/26**.
+- Full Python suite: **480/480**.
+- Clean database history: **325/325 pgTAP** and **110/110 authenticated API checks**.
+- Exact Stage 9 → Stage 10 upgrade: **325/325 pgTAP** and **110/110 authenticated API checks**.
+- Database lint: **0 findings** for `public` and `private`.
+- Urgent ordinary-generation calls: **0**.
+- External transmissions: **0**.
 
-Results after rectification:
+Machine-readable evidence:
 
-- Stage 10 typed cases: **33/33**.
-- Critical Stage 10 cases: **13/13**.
-- Connected fictional capstone stories: **9/9** (three stories, each run three times from isolated reset state).
-- Focused Stage 10 pgTAP: **38/38**.
-- Stage 10 authenticated API: **14/14**, two principals.
-- Stage 10 UI integration: **7/7**.
-- Full Python repository suite: **451/451**.
+- `data/schemas/state_lifecycle.schema.json`;
+- `docs/STAGE-10-COVERAGE-MANIFEST.json`;
+- `docs/STAGE-10-EVAL-RESULTS.json`;
+- `docs/STAGE-10-CAPSTONE-STORY-RESULTS.json`;
+- `docs/STAGE-10-CONCURRENCY-AND-DELETION-RESULTS.json`;
+- `docs/STAGE-10-DELETION-RETENTION-INVENTORY.json`;
+- `docs/STAGE-10-SELF-REVIEW-FINDINGS.json`;
+- `docs/STAGE-10-CHECK-RESULTS.json`.
 
-## Repeated connected capstone stories
+## Exact verification commands
 
-| Story | Runs | Result | Durable state observed |
-|---|---:|---|---|
-| Resolve P10, confirm fictional sesame allergy, create sourced edited plan, review and save | 3 | 3/3 PASS | saved plan, state version 5 |
-| Fictional document fact to confirmed restriction, graph dependency, follow-up question and stale plan | 3 | 3/3 PASS | stale affected plan only, state version 4 |
-| Curated urgent red flag, immediate fixed safety, consented minimum simulated packet | 3 | 3/3 PASS | zero ordinary generation, queued simulated review, state version 4 |
+```powershell
+.venv\Scripts\python.exe -m unittest discover -s tests -q
+.venv\Scripts\python.exe -m scripts.run_contract_evals
+.venv\Scripts\python.exe -m scripts.run_journey_evals
+.venv\Scripts\python.exe -m scripts.run_stage5_retrieval_evals
+.venv\Scripts\python.exe -m scripts.run_stage5_paraphrase_evals
+.venv\Scripts\python.exe -m scripts.run_stage6_safety_evals
+.venv\Scripts\python.exe -m scripts.run_stage7_evals
+.venv\Scripts\python.exe -m scripts.run_stage8_evals
+.venv\Scripts\python.exe -m scripts.run_stage9_evals
+.venv\Scripts\python.exe -m scripts.run_stage10_evals
+.venv\Scripts\python.exe -m scripts.check_stage1
+.venv\Scripts\python.exe -m scripts.check_stage2
+.venv\Scripts\python.exe -m scripts.check_stage3_ui
+.venv\Scripts\python.exe -m scripts.check_stage3
+.venv\Scripts\python.exe -m scripts.check_stage4_readiness
+.venv\Scripts\python.exe -m scripts.check_stage4_ui
+.venv\Scripts\python.exe -m scripts.check_stage4
+.venv\Scripts\python.exe -m scripts.check_stage5
+.venv\Scripts\python.exe -m scripts.check_stage6
+.venv\Scripts\python.exe -m scripts.check_stage7
+.venv\Scripts\python.exe -m scripts.check_stage8
+.venv\Scripts\python.exe -m scripts.check_stages5_8_rectification
+.venv\Scripts\python.exe -m scripts.check_stage9_ui
+.venv\Scripts\python.exe -m scripts.check_stage9
+.venv\Scripts\python.exe -m scripts.check_stage10_ui
+.venv\Scripts\python.exe -m scripts.check_stage10 --write-report
+pnpm exec supabase db reset --local --version 20260911001300 --no-seed
+pnpm exec supabase migration up --local
+pnpm exec supabase test db --local <each supabase/tests/*.test.sql>
+.venv\Scripts\python.exe -m scripts.check_stage2_storage_api
+.venv\Scripts\python.exe -m scripts.check_stage3_onboarding_api
+.venv\Scripts\python.exe -m scripts.check_stage4_document_api
+.venv\Scripts\python.exe -m scripts.check_stage5_retrieval_api
+.venv\Scripts\python.exe -m scripts.check_stage10_state_api
+.venv\Scripts\python.exe -m scripts.check_stage10_concurrency_and_deletion_api
+pnpm exec supabase db lint --local --schema public --schema private
+git diff --check
+```
 
-These controlled fixtures demonstrate software state transitions. They are not clinical validation, a real upload study or authorization to release.
+## One self-review and consolidated rectification
 
-## Verification commands and observed results
+The generated self-review contains **14/14 PASS** findings. The consolidated correction:
 
-| Command/gate | Result |
-|---|---|
-| `python -m unittest discover -s tests -q` | 451/451 PASS |
-| `python -m scripts.validate_content` | 63 profiles, 0 published, 31 sources, 55 spans, 0 errors |
-| `python -m scripts.validate_content --require-review-ready` | PASS with 0 errors |
-| `python -m scripts.run_contract_evals` | 64/64 PASS |
-| `python -m scripts.run_journey_evals` | 26/26 PASS |
-| Stage 1–5 checkers | all PASS |
-| Stage 6 safety eval/check | 45/45; critical 41/41; urgent zero-generation 25/25; PASS |
-| Stage 7 eval/check | 76/76; critical 64/64; PASS |
-| Stage 8 eval/check | 62/62; critical 50/50; PASS |
-| Stage 9 eval/check | 38/38 and stories 9/9; PASS |
-| Stage 3, 4, 9 and 10 Streamlit checks | PASS; Stage 10 7/7 |
-| `supabase db reset --local --no-seed` | clean replay PASS through `20260912000100` |
-| Exact `20260911001300` Stage 9 fixture, `migration up`, upgrade check | PASS |
-| `supabase db lint --local --schema public --schema private` | 0 findings on clean and upgraded histories |
-| Stage 2/3/4/5/10 authenticated API scripts | 13/13, 17/17, 15/15, 25/25, 14/14; total 84/84 PASS |
-| Stage 10 pgTAP | 38/38 PASS |
-| All pgTAP files | 6/7 files PASS; Stage 2 legacy file FAILS after 32/122 due permission-contract conflict |
-| `git diff --check` | to be rerun after final documentation alignment |
-| GitHub checks on Stage 10 commit | not run because the branch is uncommitted/unpushed pending the required regression decision |
+1. preserved the single authenticated State Committer instead of restoring direct client CRUD;
+2. aligned the legacy Stage 2 final-schema tests with that stricter contract while preserving all 122 assertions;
+3. added strict JSON shape/size checks and fixed search paths;
+4. made the private implementation non-callable by ordinary clients;
+5. replaced retrying `40001` application conflicts with immediate typed `PT409` responses;
+6. added real simultaneous authenticated race checks and response-loss replay;
+7. completed workspace deletion across public and private Stage 10 state;
+8. prevented idempotency replay after reset/recreation;
+9. fixed plan provenance in API fixtures and upgrade fixtures;
+10. corrected upgrade fixture fingerprint collision without changing product behavior;
+11. made Demo reset remove both Stage 9 and Stage 10 temporary state;
+12. kept legacy Stage 3/4 smoke assertions and navigated them through the new shell;
+13. restored the expected Personal Mode product title and privacy boundary;
+14. added canonical retention and self-review generators and CI coverage.
 
-## First self-review and consolidated rectification
+## Issue register
 
-The machine-readable review is `docs/STAGE-10-SELF-REVIEW-FINDINGS.json`. It records ten findings. Nine have been corrected and rerun:
-
-1. replaced an invalid shared multi-table trigger with table-specific invalidation;
-2. bound plan/review owner and journey fields from database truth;
-3. added durable owner-only state reload;
-4. typed and cross-validated plan edits;
-5. required every active hard constraint dependency;
-6. invalidated superseded fact dependencies during correction;
-7. removed authenticated direct table mutation from Stage 10-owned state;
-8. converted offline storage failure into a recoverable UI state;
-9. fixed a PL/pgSQL alias collision exposed by clean pgTAP.
-
-The tenth finding is the unresolved legacy Stage 2 permission assertion described below.
-
-## Honest issue register
-
-| ID | Severity | Evidence | User/safety impact | Disposition | Blocks release |
+| ID | Severity | Observed evidence | Disposition | Controlled capstone blocker | Public/release blocker |
 |---|---|---|---|---|---|
-| S10-SR-010 | High | Stage 2 pgTAP expects authenticated direct CRUD on health facts, reviews, plan items and plans; Stage 10 revokes those writes. The file reports four policy failures and then permission denial at assertion 32/122. | Restoring the grants would let clients bypass the State Committer's version, consent, constraint, provenance and idempotency checks. | Kept fail-closed. Legacy test alignment requires explicit approval because changing an existing expectation was rejected by automatic approval review. | Yes |
-| S10-LIM-001 | Medium | Only fictional in-memory and local Supabase fixtures were used. | Production load, reliability and real user behavior are unproven. | Open for later controlled validation. | No for engineering review; yes for release |
-| S10-LIM-002 | High | Safety/content specification remains draft with incomplete qualified clinical, India-localisation and licence review. | Health content cannot be presented as clinically/publicly approved. | Existing fail-closed boundary preserved. | Yes for public release |
-| S10-LIM-003 | Medium | External email/SMS/push and real human review are unavailable. | The prototype cannot deliver external reminders or clinician review. | UI and contracts state unavailable; no fake success. | No for local capstone |
-| S10-LIM-004 | Medium | Sealed final holdout was not opened and no outside-user walkthrough was performed in this stage. | Final generalization and independent usability remain unmeasured. | Intentionally deferred to authorized evaluation. | Yes for final claims |
+| S10-LEGACY-CRUD | High | Old Stage 2 assertions expected direct writes after Stage 10 | Corrected tests to assert owner read plus direct-write denial; 122/122 pass | No | No |
+| S10-RPC-RETRY | High | stale `40001` caused PostgREST retry/timeout | changed application conflict to `PT409`; concurrent matrix passes | No | No |
+| S10-RPC-SHAPE | High | wrapper accepted broader JSON than the typed contract | exact-key, nested-key and size validation added | No | No |
+| S10-DELETE | High | private ledgers/self-references could outlive workspace deletion | ordered cleanup trigger plus 26-check API matrix | No | Requires production retention review |
+| S10-DEMO-RESET | Medium | Stage 10 session keys were not cleared by Stage 9 reset | reset namespace corrected and tested | No | No |
+| S10-UPGRADE-FIXTURE | Low | fixture fingerprint collided with an older deterministic row | unique fictional fingerprint used; both histories pass | No | No |
+| S10-LIVE-PROVIDER | Medium | no authorized paid/live provider benchmark | deterministic providers remain clearly labelled | No | Yes for provider claims |
+| S10-CONTENT-REVIEW | High | zero public weekly releases; safety/content/licence reviews remain open | production/public paths remain fail-closed | No | Yes |
+| S10-REAL-OPERATIONS | High | no clinician service, external reminder, deployment, legal/privacy approval | surfaces state unavailable/simulated | No | Yes |
+| S10-HOLDOUT-USABILITY | Medium | sealed holdout and independent external-user study were not run | preserved for authorized final evaluation | No | Yes for final quality claims |
 
-No required check was silently skipped. Live provider/model benchmarks, external transmissions, remote migration and deployment were deliberately not run because they are outside this task and prohibited.
+No required local engineering check was silently skipped. GitHub checks on the final report-bearing commit cannot run until the user authorizes pushing this branch; they remain pending rather than being reported as passed.
 
-## Migration, configuration and operator impact
+## Migration and configuration impact
 
-- New forward-only local migration: `supabase/migrations/20260912000100_stage10_state_review_lifecycle.sql`.
-- Adds plan lifecycle fields and constraints, private dependency/lifecycle/fact-decision/idempotency ledgers, public follow-up tasks, simulated-review state, owner-only durable snapshot and State Committer RPC.
-- Replaces authenticated direct state mutations with owner-readable tables plus the single authenticated RPC.
-- Adds table-specific dependency invalidation triggers and graph continuity.
-- Verified clean replay and exact accepted Stage 9 schema upgrade.
-- The migration was not applied remotely.
-- No new secret, provider or paid credential is required. `.env.example` needs no Stage 10 secret.
-- Existing local Supabase and Docker configuration are sufficient.
+- Forward-only local migrations:
+  - `supabase/migrations/20260912000100_stage10_state_review_lifecycle.sql`;
+  - `supabase/migrations/20260912000200_stage10_rpc_hardening_and_reset.sql`.
+- No remote migration was applied.
+- No new secret, provider, paid credential, external service, or environment key is required.
+- `.env.example` contains placeholders only.
+- Docker and local Supabase are required for database integration verification.
 
-## Complete changed-file inventory
+## Stage 10 changed-file inventory
 
 - `.github/workflows/data-contracts.yml`
 - `app/pages_and_components/onboarding.py`
 - `app/pages_and_components/stage9.py`
 - `app/schemas/state_lifecycle.py`
 - `app/services/capstone_flows.py`
+- `app/services/product_experience.py`
 - `app/services/state_committer.py`
 - `data/schemas/state_lifecycle.schema.json`
 - `docs/STAGE-10-CAPSTONE-STORY-RESULTS.json`
+- `docs/STAGE-10-CHECK-RESULTS.json`
+- `docs/STAGE-10-CONCURRENCY-AND-DELETION-RESULTS.json`
 - `docs/STAGE-10-COVERAGE-MANIFEST.json`
+- `docs/STAGE-10-DELETION-RETENTION-INVENTORY.json`
 - `docs/STAGE-10-EVAL-RESULTS.json`
-- `docs/STAGE-10-SELF-REVIEW-FINDINGS.json`
 - `docs/STAGE-10-IMPLEMENTATION-SELF-VERIFICATION-AND-CAPSTONE-READINESS.md`
+- `docs/STAGE-10-SELF-REVIEW-FINDINGS.json`
 - `evals/stage10_state_lifecycle.jsonl`
 - `scripts/build_stage10_evals.py`
 - `scripts/check_stage10.py`
+- `scripts/check_stage10_concurrency_and_deletion_api.py`
 - `scripts/check_stage10_state_api.py`
 - `scripts/check_stage10_ui.py`
+- `scripts/export_stage10_retention_inventory.py`
+- `scripts/export_stage10_self_review.py`
 - `scripts/export_state_lifecycle_schema.py`
 - `scripts/run_stage10_evals.py`
 - `scripts/stage10_fixture_support.py`
-- `supabase/fixtures/stage10_stage9_upgrade.sql`
+- `streamlit_app.py`
 - `supabase/fixtures/stage10_stage9_upgrade_check.sql`
+- `supabase/fixtures/stage10_stage9_upgrade.sql`
 - `supabase/migrations/20260912000100_stage10_state_review_lifecycle.sql`
+- `supabase/migrations/20260912000200_stage10_rpc_hardening_and_reset.sql`
+- `supabase/tests/stage10_rpc_hardening_and_reset.test.sql`
 - `supabase/tests/stage10_state_review_lifecycle.test.sql`
+- `supabase/tests/stage2_security_and_lifecycle.test.sql`
 - `tests/test_capstone_flows.py`
+- `tests/test_product_experience.py`
 - `tests/test_state_lifecycle.py`
 
-## Privacy, release and scope confirmation
+## Privacy, scope, and external-action confirmation
 
-- Repository fixtures use fictional UUIDs, names and `example.invalid` addresses only.
-- No raw personal text is written to Stage 10 audit traces.
-- No agent/model receives database write authority or service-role credentials.
-- The safety specification remains draft and public/live health behavior remains fail-closed.
-- No external review packet, reminder or notification was sent.
-- No remote migration, deployment, PR or merge was performed.
-- The sealed holdout was not opened.
+- All committed fixtures use fictional UUIDs, fictional names, and `example.invalid` identities.
+- No raw personal text is stored in Stage 10 audit traces.
+- No model or agent receives direct database write authority or service-role credentials.
+- Safety and public content remain draft/unreleased and live routing stays fail-closed.
+- No external review packet, reminder, notification, or message was transmitted.
+- No remote migration, deployment, PR, merge, main-branch change, or paid-provider request occurred.
+- The sealed final holdout was not opened.
 
-## Required action before a GO verdict
+## Remaining gates and owners
 
-Approve updating the legacy `supabase/tests/stage2_security_and_lifecycle.test.sql` permission expectations so that, after the Stage 10 migration, it verifies owner-readable access plus denial of direct authenticated mutation for health facts, plans, plan items and simulated reviews. The total assertion coverage must be preserved or increased; no permission or safety rule will be weakened. After approval, rerun all 7 pgTAP files, all authenticated APIs, database lint, the full Python/checker suite and GitHub checks on the exact pushed commit. Only successful evidence permits changing this document to the controlled-engineering capstone GO verdict.
+- **Kajal/product:** independent review of this integration branch and authorization to push/review.
+- **Clinical and India-localisation reviewers:** qualify safety wording, routine symptom policy, and health content.
+- **Licence reviewer:** approve public reuse and embedding rights.
+- **Privacy/legal:** approve retention, deletion, consent, and real operational data handling.
+- **Engineering/release:** run GitHub `validate` and `supabase-integration` on the exact pushed commit, then separately authorize any deployment or remote migration.

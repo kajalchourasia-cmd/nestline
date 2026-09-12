@@ -179,7 +179,7 @@ def main() -> int:
                 "items": [{"item_id": item_id, "domain": "nutrition", "title": "Fictional breakfast", "body": "Choose a validated sesame-free option.", "day": "monday", "time_window": "morning", "record_only": False, "evidence_ids": [evidence_id], "applied_constraint_ids": fact_result["entity_ids"][1:], "material_keys": ["oats"], "excluded_material_keys": ["sesame"], "contributor": "nutrition-agent-v1"}],
                 "dependencies": [{"kind": "journey_state", "entity_id": journey_id, "material_key": "pregnancy-week-24"}, {"kind": "allergy", "entity_id": fact_result["entity_ids"][-1], "material_key": "sesame", "source_item_id": item_id}, {"kind": "evidence", "entity_id": evidence_id, "material_key": f"stage10-api-{marker}", "source_item_id": item_id}],
             },
-            {"kind": "validated_plan", "source_id": "stage8-validated-fixture"},
+            {"kind": "validated_plan", "source_id": "stage8-validated-fixture", "validation_policy_version": "stage8-validation-v1"},
         )
         status, result = _commit(client, tokens[0], owner_workspace, plan_command)
         _expect_success(status, "validated plan create")
@@ -260,6 +260,8 @@ def main() -> int:
         for workspace_id in workspace_ids:
             client.request("DELETE", f"/rest/v1/workspaces?id=eq.{quote(workspace_id)}", key=client.service_key)
         if created_release:
+            client.request("DELETE", f"/rest/v1/guideline_chunks?release_id=eq.{quote(created_release)}", key=client.service_key)
+            client.request("DELETE", f"/rest/v1/public_sources?release_id=eq.{quote(created_release)}", key=client.service_key)
             client.request("DELETE", f"/rest/v1/content_releases?id=eq.{quote(created_release)}", key=client.service_key)
         for user_id in user_ids:
             client.request("DELETE", f"/auth/v1/admin/users/{quote(user_id)}", key=client.service_key)

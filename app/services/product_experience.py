@@ -614,7 +614,7 @@ def reset_demo_state_keys(state) -> None:
     """Deterministically clear Stage 9 UI state without touching Personal Mode."""
 
     for key in list(state.keys()):
-        if str(key).startswith("stage9_demo_"):
+        if str(key).startswith(("stage9_demo_", "stage10_demo_")):
             del state[key]
 
 

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def _app(page: str) -> AppTest:
     app = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=20)
+    app.session_state["stage9_started"] = True
     app.session_state["stage9_mode"] = "Demo Mode"
     app.session_state["stage9_demo_page"] = page
     app.run()

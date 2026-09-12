@@ -4,7 +4,7 @@ insert into public.workspaces(id,owner_user_id,mode,display_name) values
   ('ca100000-0000-4000-8000-000000000001','ca000000-0000-4000-8000-000000000001',
    'fictional_demo','Stage 9 upgrade fixture');
 insert into public.content_releases(id,corpus_version,release_fingerprint,status,published_at)
-values('ca200000-0000-4000-8000-000000000001','stage10-upgrade-fixture',repeat('a',64),
+values('ca200000-0000-4000-8000-000000000001','stage10-upgrade-fixture',repeat('9',64),
   'published',clock_timestamp());
 insert into public.journey_states(
   id,workspace_id,stage,timing_source,gestational_week,gestational_day,user_confirmed,

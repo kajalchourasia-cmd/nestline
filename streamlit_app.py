@@ -52,7 +52,8 @@ st.query_params["mode"] = "demo" if mode == ProductMode.DEMO.value else "persona
 if mode == ProductMode.DEMO.value:
     render_rapid_demo()
 else:
-    st.title("Nestline")
+    st.title("Nestline Compass")
+    st.warning("Development privacy boundary: use fictional information only.")
     st.subheader("Start my journey")
     st.info(
         "Personal Mode starts empty. Demo fixtures are never copied into this "

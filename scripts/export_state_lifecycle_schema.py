@@ -57,7 +57,10 @@ def coverage_bundle() -> dict:
         "external_delivery": "unavailable",
         "ordinary_service_role": "forbidden",
         "agent_direct_writes": "forbidden",
-        "migration": "20260912000100_stage10_state_review_lifecycle.sql",
+        "migrations": [
+            "20260912000100_stage10_state_review_lifecycle.sql",
+            "20260912000200_stage10_rpc_hardening_and_reset.sql",
+        ],
         "remote_migration_applied": False,
         "fictional_only_evaluation": True,
     }
@@ -73,4 +76,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

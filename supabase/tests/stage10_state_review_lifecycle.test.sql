@@ -59,7 +59,8 @@ create or replace function pg_temp.stage10_command(
     'schema_version','10.0.0','command_id',extensions.gen_random_uuid(),
     'idempotency_key',command_key,'expected_state_version',state_version,
     'submitted_at',clock_timestamp(),'caller','authenticated_ui',
-    'provenance',jsonb_build_object('kind',source_kind,'source_id','pgtap-stage10'),
+    'provenance',jsonb_build_object('kind',source_kind,'source_id','pgtap-stage10') ||
+      case when source_kind='validated_plan' then jsonb_build_object('validation_policy_version','stage8-validation-v1') else '{}'::jsonb end,
     'confirmation',jsonb_build_object('confirmed',true,'confirmation_id','pgtap-confirm',
       'confirmed_at',clock_timestamp(),'wording_version','stage10-confirmation-v1',
       'consent_scope','Apply this fictional action'),
