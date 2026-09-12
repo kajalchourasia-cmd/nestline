@@ -17,7 +17,7 @@ This GO applies to a local, fictional-data, controlled capstone review. It does 
 - Stage 10 restored implementation checkpoint: `a044ecb8fd2be9c7986c8401367956f85bcbd3e6`.
 - Integration branch: `integration/capstone-demo-final`.
 - The corrected base is an ancestor of the integration branch (`git merge-base --is-ancestor` exit 0).
-- Final report-bearing commit: pending until this evidence file is committed; the exact non-self-referential SHA is reported outside this commit.
+- Verified implementation/evidence commit: `70f3f0e9f7f88196012bf7af8188966e3079161c`; the report-only follow-up SHA is reported outside its own commit.
 - The original recovery stash remains preserved as `stash@{0}`.
 - No PR, merge, force-push, deployment, remote migration, external message, notification, paid-provider call, or real patient-data operation occurred.
 
@@ -222,7 +222,7 @@ The generated self-review contains **14/14 PASS** findings. The consolidated cor
 | S10-REAL-OPERATIONS | High | no clinician service, external reminder, deployment, legal/privacy approval | surfaces state unavailable/simulated | No | Yes |
 | S10-HOLDOUT-USABILITY | Medium | sealed holdout and independent external-user study were not run | preserved for authorized final evaluation | No | Yes for final quality claims |
 
-No required local engineering check was silently skipped. GitHub checks on the final report-bearing commit cannot run until the user authorizes pushing this branch; they remain pending rather than being reported as passed.
+No required local engineering check was silently skipped. GitHub `validate` and `supabase-integration` passed on implementation/evidence SHA `70f3f0e9f7f88196012bf7af8188966e3079161c` in [workflow run 34697772681](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34697772681).
 
 ## Migration and configuration impact
 
@@ -291,4 +291,4 @@ No required local engineering check was silently skipped. GitHub checks on the f
 - **Clinical and India-localisation reviewers:** qualify safety wording, routine symptom policy, and health content.
 - **Licence reviewer:** approve public reuse and embedding rights.
 - **Privacy/legal:** approve retention, deletion, consent, and real operational data handling.
-- **Engineering/release:** run GitHub `validate` and `supabase-integration` on the exact pushed commit, then separately authorize any deployment or remote migration.
+- **Engineering/release:** GitHub checks passed on the implementation/evidence SHA; independently review the branch, then separately authorize any PR, merge, deployment, or remote migration.

@@ -21,7 +21,8 @@ The five GO verdicts cover controlled local engineering and fictional-data capst
 | Rapid Stage 9 functional layer | integration ancestry | `516315e` |
 | Stage 9 checkpoint report | integration ancestry | `078b21b` |
 | Restored Stage 10 checkpoint | `integration/capstone-demo-final` | `a044ecb8fd2be9c7986c8401367956f85bcbd3e6` |
-| Final report-bearing commit | `integration/capstone-demo-final` | pending this commit; exact SHA must be reported externally after commit |
+| Verified implementation/evidence commit | `integration/capstone-demo-final` | `70f3f0e9f7f88196012bf7af8188966e3079161c` |
+| Report metadata follow-up | `integration/capstone-demo-final` | exact non-self-referential remote head is reported outside this commit |
 
 `git merge-base --is-ancestor e2a8c542648f97c9bb93d73528f2414a4f41e5c8 HEAD` returned 0. The old Stage 10 work was first preserved, its original stash remains retained, and the restoration was applied on the integration ancestry rather than on `main`.
 
@@ -251,7 +252,7 @@ The Stage 0 **publication** checker remains intentionally non-green because the 
 | INT-PRIVACY-LEGAL | High | no final privacy/legal/retention approval | local fictional data only | No | Yes |
 | INT-SEALED-HOLDOUT | Medium | sealed holdout intentionally unopened | prevents overfitting; final generalization unmeasured | No | Yes for final quality claim |
 | INT-USABILITY | Medium | internal keyboard/walkthrough evidence only | no claim of formal user research or WCAG conformance | No | Yes for usability/conformance claims |
-| INT-CI-PENDING | Medium | final branch has not been pushed because authorization is required | local checks complete; GitHub jobs pending exact SHA | No before push review | Yes for merge/release |
+| INT-CI | Low | GitHub ran both required jobs on implementation SHA `70f3f0e9f7f88196012bf7af8188966e3079161c` | `validate` and `supabase-integration` passed; report-only follow-up is rechecked separately | No | No |
 | INT-STASH | Low | original Stage 10 recovery stash remains | retained intentionally for recoverability until review | No | No |
 
 ## Migration, configuration, provider, and external-action impact
@@ -327,7 +328,7 @@ git diff --check
 
 ## GitHub and review status
 
-Local implementation and evidence are ready for commit and independent review. The branch has not been pushed because the handoff explicitly requires user authorization before pushing. Therefore GitHub `validate` and `supabase-integration` on the final report-bearing commit are **pending**, not passed. A PR, merge, and deployment remain outside the authorized scope.
+The implementation/evidence commit `70f3f0e9f7f88196012bf7af8188966e3079161c` is pushed to Kajal's `integration/capstone-demo-final` branch. GitHub `validate` and `supabase-integration` both passed on that exact SHA: [workflow run](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34697772681), [validate job](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34697772681/job/103564108697), and [Supabase integration job](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34697772681/job/103564108664). No PR, merge, or deployment was performed.
 
 ## Complete changed-file inventory from the accepted Stage 5–8 base
 
@@ -421,6 +422,6 @@ Local implementation and evidence are ready for commit and independent review. T
 
 ## Required next decisions
 
-1. Authorize pushing `integration/capstone-demo-final` so GitHub can run `validate` and `supabase-integration` on the exact evidence commit.
-2. Ask Kajal to independently review the branch and generated reports after CI completes.
+1. Ask Kajal to independently review `integration/capstone-demo-final` and its generated evidence.
+2. Create or merge a PR only after that review and a separate explicit decision.
 3. Keep deployment, remote migrations, public content, real review, and external notifications blocked until their separate owners approve them.
