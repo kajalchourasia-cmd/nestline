@@ -7,12 +7,14 @@ This report records one consolidated improvement pass against `NESTLINE-CONSOLID
 - Repository: `kajalchourasia-cmd/nestline`
 - Base branch: `upstream/main`
 - Exact base commit: `796c05cd29a055188e86685990078709fca0bfbc`
-- Improvement branch: `fix/consolidated-stages-0-8-and-10-improvements`
+- Local improvement branch: `fix/consolidated-stages-0-8-and-10-improvements`
+- Authorized remote target branch: `integration/capstone-demo-final`
 - Verified implementation commit: `607a67a09aba7bf82d090c50dbe6ae779d650456`
 - Final report commit: the commit containing this report; its SHA is intentionally recorded in the task response because a commit cannot contain its own SHA.
 - Stage 9 UI, styling, screenshots and visual assets changed: **no**
 - Deployment or remote migration performed: **no**
-- Push, merge or PR performed: **no**
+- Feature-branch push performed: **yes**, without force, to `integration/capstone-demo-final`
+- Merge or PR performed: **no**
 - Published profiles: **0/63**
 - Test data: fictional, synthetic or redacted only
 
@@ -70,7 +72,7 @@ The canonical machine-readable record is `docs/STAGES-0-TO-8-AND-10-CONSOLIDATED
 
 | Verification | Actual result |
 |---|---|
-| Complete Python unit discovery | 513/513 passed; 0 failed; 0 skipped |
+| Complete Python unit discovery | 514/514 passed; 0 failed; 0 skipped |
 | Content authoring validation | valid; 63 profiles, 31 sources, 55 spans, 56 fragments |
 | Review-ready content validation | valid; 0 profiles published |
 | Phase contract evaluations | 64/64 passed |
@@ -99,6 +101,15 @@ The canonical machine-readable record is `docs/STAGES-0-TO-8-AND-10-CONSOLIDATED
 | Clean migration replay | pass | 8/8 files, 325/325 assertions | 6/6 checkers, 110/110 checks | 0 errors |
 
 The API matrices used two authenticated principals. Product calls used authenticated JWTs. Ordinary service-role commits were rejected. The three simultaneous-write scenarios each committed exactly one request and rejected exactly one stale competitor. Workspace reset checked 10 public tables and cleanup completed.
+
+### GitHub branch/check evidence
+
+The authorized initial push advanced `integration/capstone-demo-final` from `dd65daf1dccd079b9e43e8e72c0c1ad50479027c` to `13ab7a41008c198fa9677586c0a73e31f17a396a` without force. GitHub workflow run [34711771806](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34711771806) reported:
+
+- `supabase-integration`: **passed** on the exact initial pushed commit ([job 103601702437](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34711771806/job/103601702437));
+- `validate`: all preceding validation steps passed, then the consolidated checker failed because its raw-byte Stage 9 preservation hashes were line-ending-dependent ([job 103601702362](https://github.com/kajalchourasia-cmd/nestline/actions/runs/34711771806/job/103601702362));
+- the correction uses the versioned cross-platform hashing contract described in the Stage 9 preservation section and adds a dedicated regression test;
+- the exact corrected remote head and its final GitHub check links are intentionally recorded in the task response after the normal follow-up push, because the report commit cannot contain its own SHA.
 
 ### Exact command families
 
@@ -150,13 +161,14 @@ The xAI and OpenAI model-list endpoints were reachable with local ignored creden
 
 ## Self-review and focused correction
 
-The first verification pass found four genuine issues:
+The implementation and post-push verification process found six genuine issues:
 
 1. The system Python had an older Pydantic build and lacked PyMuPDF, producing environment failures unrelated to repository behaviour. All authoritative checks were rerun with the existing project virtual environment.
-2. A provider import was malformed during the first edit. It was corrected before the final 513/513 run.
+2. A provider import was malformed during the first edit. It was corrected before the final 514/514 run.
 3. The initial report rebuild counted provider/structured-output failures with no displayed draft as constraint escapes. The generator was corrected; failed cases remain failed, while displayed constraint-boundary violations are now accurately 0.
 4. One service-journey expectation treated a diagnosis request as ordinary unsupported product intent, while the accepted safety contract conservatively clarified it. The diagnosis case was preserved as a safety regression and a separate canonical unsupported product request was added. The final service matrix is 17/17.
 5. The final staged diff check found trailing whitespace and extra end-of-file blank lines. Those were normalized and the staged check passed.
+6. The first GitHub `validate` run exposed a cross-platform preservation-check defect: the Stage 9 immutability manifest hashed raw text bytes, while Git converted CRLF to LF for `.streamlit/config.toml` and `assets/stage9/week-24-journey.svg` on Linux. The checker now uses a versioned cross-platform scheme: tracked text files are normalized to LF solely for hashing, binary files remain byte-exact, ignored cache files are excluded, and a CRLF/LF regression test proves equivalence. No Stage 9 UI file was changed.
 
 No expected safety route, security threshold or test assertion was weakened to obtain a passing result.
 
@@ -170,7 +182,7 @@ No change exists under:
 - `assets/`
 - `docs/stage9-ui-evidence/`
 
-`data/stage9_ui_immutability_manifest.json` records 30 hashes, and the consolidated checker verifies all 30. The only product-experience change is service-layer provider injection in `app/services/product_experience.py`; it does not modify Stage 9 UI, style, screenshots or visual assets.
+`data/stage9_ui_immutability_manifest.json` records 30 cross-platform hashes, and the consolidated checker verifies all 30. Tracked text files are normalized to LF solely for hashing; binary files remain byte-exact. The only product-experience change is service-layer provider injection in `app/services/product_experience.py`; it does not modify Stage 9 UI, style, screenshots or visual assets.
 
 ## Complete changed-file inventory
 
@@ -309,12 +321,8 @@ scripts/run_consolidated_service_journeys.py
 | Live-provider pilot | **NO-GO** | xAI completed 6/8, OpenAI completed no intended generation calls, tone review is pending and no provider is selected. |
 | Public/clinical release | **NO-GO** | Zero profiles are published; safety, clinical, licence, localisation, privacy/security and deployment gates remain open. |
 
-## Approval needed before external action
+## External-action boundary
 
-The branch is safe for a normal push to its feature branch based on local evidence, but GitHub checks cannot exist until that push occurs. Before pushing, Kajal must explicitly authorize:
+The user authorized a normal, non-force push to `integration/capstone-demo-final`, including the in-scope follow-up correction required by its GitHub checks. No PR, merge, deployment or remote migration was performed.
 
-1. pushing `fix/consolidated-stages-0-8-and-10-improvements` without force;
-2. allowing GitHub `validate` and `supabase-integration` to run on the exact pushed commit;
-3. keeping merge, deployment and remote migrations as separate later decisions.
-
-This report does not request or imply approval for provider selection, content publication, safety-spec publication, real uploads, deployment or merge.
+Separate explicit decisions remain required for merge, provider selection, content or safety-specification publication, enabling real uploads, applying remote migrations and deployment. This report does not imply approval for any of them.

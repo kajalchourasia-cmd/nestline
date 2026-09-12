@@ -26,6 +26,7 @@ from app.services.redaction import (
 )
 from app.services.state_committer import InMemoryStateCommitter
 from app.services.state_service import ModeSafeStateService
+from scripts.build_stage9_immutability_manifest import stable_sha256
 from scripts.stage10_fixture_support import (
     OWNER_A,
     WORKSPACE_A,
@@ -314,6 +315,19 @@ class ModeSafeStateServiceTests(unittest.TestCase):
         )
         with self.assertRaises(RuntimeError):
             service.load_snapshot(WORKSPACE_A)
+
+
+class Stage9ImmutabilityManifestTests(unittest.TestCase):
+    def test_stage9_hash_is_line_ending_stable(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "config.toml"
+            path.write_bytes(b"[theme]\r\nbase = 'light'\r\n")
+            windows_digest, windows_mode = stable_sha256(path)
+            path.write_bytes(b"[theme]\nbase = 'light'\n")
+            linux_digest, linux_mode = stable_sha256(path)
+            self.assertEqual(windows_digest, linux_digest)
+            self.assertEqual(windows_mode, "normalized_lf_sha256")
+            self.assertEqual(linux_mode, "normalized_lf_sha256")
 
 
 if __name__ == "__main__":

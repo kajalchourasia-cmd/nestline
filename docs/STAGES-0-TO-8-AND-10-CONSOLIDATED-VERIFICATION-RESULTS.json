@@ -5,11 +5,12 @@
   "branch": "fix/consolidated-stages-0-8-and-10-improvements",
   "scope": {
     "stage9_ui_modified": false,
-    "remote_push_performed": false,
+    "remote_push_performed": true,
     "human_approval_invented": false,
     "published_profiles": 0,
     "deployment_performed": false,
-    "remote_migration_applied": false
+    "remote_migration_applied": false,
+    "remote_target_branch": "integration/capstone-demo-final"
   },
   "python": {
     "content_review_ready": {
@@ -41,8 +42,8 @@
       "findings": 0
     },
     "unit_tests": {
-      "passed": 513,
-      "total": 513
+      "passed": 514,
+      "total": 514
     }
   },
   "stages": {
@@ -193,6 +194,15 @@
     "evaluation_datasets": 12,
     "capabilities": 21,
     "evaluation_cases": 446,
-    "stage9_immutable_files": "30/30"
+    "stage9_immutable_files": "30/30",
+    "stage9_immutability_schema": "stage9-ui-immutability-v2"
+  },
+  "ci": {
+    "initial_head": "13ab7a41008c198fa9677586c0a73e31f17a396a",
+    "workflow_run": "https://github.com/kajalchourasia-cmd/nestline/actions/runs/34711771806",
+    "validate": "failed_cross_platform_raw_hash_then_corrected_locally",
+    "supabase_integration": "passed",
+    "correction": "stage9-ui-immutability-v2-normalized-text-hash",
+    "final_exact_commit_checks": "recorded_in_task_response"
   }
 }
