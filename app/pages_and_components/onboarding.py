@@ -23,6 +23,7 @@ from app.schemas.onboarding import (
     SymptomInput,
 )
 from app.services.journey import JourneyResolutionError, JourneyResolver, SystemClock
+from app.services.state_committer import SupabaseStateCommitterClient
 from app.services.onboarding import (
     AuthSession,
     OnboardingError,
@@ -309,6 +310,35 @@ def _render_personal_onboarding(
 
 
 
+def _render_durable_state(project_url: str, publishable_key: str, session: AuthSession, workspace_id) -> None:
+    """Read committed truth after every render; session state is display state only."""
+    st.subheader("Committed workspace state")
+    try:
+        durable = SupabaseStateCommitterClient(
+            project_url, publishable_key, session.access_token,
+        ).load_snapshot(workspace_id)
+    except RuntimeError:
+        st.warning(
+            "Durable Stage 10 state is unavailable. No save is shown as successful. "
+            "Apply the reviewed migration locally before using this controlled feature."
+        )
+        return
+    st.caption(
+        f"Loaded from the authenticated storage layer · state version {durable['state_version']}. "
+        "Refresh and relogin reload this record."
+    )
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Confirmed facts", len(durable["facts"]))
+    c2.metric("Plans", len(durable["plans"]))
+    c3.metric("Follow-ups", len(durable["follow_up_tasks"]))
+    c4.metric("Simulated reviews", len(durable["simulated_review_cases"]))
+    for plan in durable["plans"]:
+        label = f"Plan v{plan['version']} · {plan['status']}"
+        if plan["status"] == "stale":
+            st.warning(label + " · " + "; ".join(plan.get("stale_reasons", [])))
+        else:
+            st.info(label)
+
 def render_onboarding(
     project_url: str,
     publishable_key: str,
@@ -325,6 +355,7 @@ def render_onboarding(
     if workspace is None:
         return
     workspace_id = workspace["id"]
+    _render_durable_state(project_url, publishable_key, session, workspace_id)
     if workspace["mode"] == "fictional_demo":
         state = gateway.fetch_current_journey_state(workspace_id)
         st.success("Fictional Maya demo workspace is ready.")

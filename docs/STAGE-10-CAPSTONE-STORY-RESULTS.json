@@ -1,0 +1,246 @@
+{
+  "called_clinical_validation": false,
+  "deterministic_reset_before_each_run": true,
+  "external_transmissions": 0,
+  "fictional": true,
+  "manual_database_edits": 0,
+  "passed": 9,
+  "runs": [
+    {
+      "causal_chain": [
+        "confirmed allergy",
+        "validated plan item",
+        "explicit user review",
+        "saved plan"
+      ],
+      "committed_entity_ids": [
+        "50000000-0000-0000-0000-000000000001",
+        "6c2e38b6-a237-43c5-9766-ecb7ce020afb",
+        "6e37a1cd-7b44-4c0c-913b-8f44eb78394c"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "Controlled fictional fixture; this is software-contract evidence, not clinical validation.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "saved",
+      "review_state": null,
+      "run": 1,
+      "schema_version": "10.0.0",
+      "state_version": 5,
+      "story": "plan-save"
+    },
+    {
+      "causal_chain": [
+        "confirmed allergy",
+        "validated plan item",
+        "explicit user review",
+        "saved plan"
+      ],
+      "committed_entity_ids": [
+        "50000000-0000-0000-0000-000000000001",
+        "0945a457-26f8-4e37-ba3e-82c97a3ce95a",
+        "f14ef2c6-2531-4ae6-9065-85a583e76418"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "Controlled fictional fixture; this is software-contract evidence, not clinical validation.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "saved",
+      "review_state": null,
+      "run": 2,
+      "schema_version": "10.0.0",
+      "state_version": 5,
+      "story": "plan-save"
+    },
+    {
+      "causal_chain": [
+        "confirmed allergy",
+        "validated plan item",
+        "explicit user review",
+        "saved plan"
+      ],
+      "committed_entity_ids": [
+        "50000000-0000-0000-0000-000000000001",
+        "01ad5ab7-4ef3-4023-aa64-991fd47b01be",
+        "64228076-4c8b-4f5d-824e-66e032b1f92b"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "Controlled fictional fixture; this is software-contract evidence, not clinical validation.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "saved",
+      "review_state": null,
+      "run": 3,
+      "schema_version": "10.0.0",
+      "state_version": 5,
+      "story": "plan-save"
+    },
+    {
+      "causal_chain": [
+        "fictional document span",
+        "confirmed sesame allergy",
+        "affected nutrition plan item",
+        "stale plan",
+        "confirmed in-app appointment question"
+      ],
+      "committed_entity_ids": [
+        "d84c8d5a-c7d1-42b8-9ad5-85a2452227fd",
+        "50000000-0000-0000-0000-000000000001",
+        "a2eb50f5-d6a2-4bad-8abc-f44845b711e6",
+        "7e80c8d6-5d4d-4287-b302-b1bde6a93a66"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "The source upload is a pre-registered fictional fixture; production upload remains outside this stage.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "stale",
+      "review_state": null,
+      "run": 1,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "record-continuity"
+    },
+    {
+      "causal_chain": [
+        "fictional document span",
+        "confirmed sesame allergy",
+        "affected nutrition plan item",
+        "stale plan",
+        "confirmed in-app appointment question"
+      ],
+      "committed_entity_ids": [
+        "609e5952-6cf5-4f34-a152-08a2a53f13aa",
+        "50000000-0000-0000-0000-000000000001",
+        "582fd92e-572d-4360-9149-f6b8da87babd",
+        "9f6901ac-a938-4f2a-9b51-5a77b95a17a8"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "The source upload is a pre-registered fictional fixture; production upload remains outside this stage.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "stale",
+      "review_state": null,
+      "run": 2,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "record-continuity"
+    },
+    {
+      "causal_chain": [
+        "fictional document span",
+        "confirmed sesame allergy",
+        "affected nutrition plan item",
+        "stale plan",
+        "confirmed in-app appointment question"
+      ],
+      "committed_entity_ids": [
+        "93f557e5-8556-4e56-8cdf-f8e864256dd5",
+        "50000000-0000-0000-0000-000000000001",
+        "b58fede0-7761-4095-b030-9e8227fc887c",
+        "bc07ec6b-8b7c-480b-80cf-943f127d1db5"
+      ],
+      "external_transmissions": 0,
+      "fact_status": "confirmed",
+      "fictional": true,
+      "limitation": "The source upload is a pre-registered fictional fixture; production upload remains outside this stage.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": "stale",
+      "review_state": null,
+      "run": 3,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "record-continuity"
+    },
+    {
+      "causal_chain": [
+        "curated red flag",
+        "fixed immediate safety route",
+        "explicit packet consent",
+        "simulated queue"
+      ],
+      "committed_entity_ids": [
+        "b04fab20-e3be-4df6-9761-6db1d99c18ba"
+      ],
+      "external_transmissions": 0,
+      "fact_status": null,
+      "fictional": true,
+      "limitation": "No clinician is connected and no packet leaves the local fictional fixture.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": null,
+      "review_state": "queued",
+      "run": 1,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "urgent-review"
+    },
+    {
+      "causal_chain": [
+        "curated red flag",
+        "fixed immediate safety route",
+        "explicit packet consent",
+        "simulated queue"
+      ],
+      "committed_entity_ids": [
+        "e3304a62-a026-4cbf-8857-ffba4fb8fd29"
+      ],
+      "external_transmissions": 0,
+      "fact_status": null,
+      "fictional": true,
+      "limitation": "No clinician is connected and no packet leaves the local fictional fixture.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": null,
+      "review_state": "queued",
+      "run": 2,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "urgent-review"
+    },
+    {
+      "causal_chain": [
+        "curated red flag",
+        "fixed immediate safety route",
+        "explicit packet consent",
+        "simulated queue"
+      ],
+      "committed_entity_ids": [
+        "f5310c9e-987a-4449-b0b2-80ad19bd0d11"
+      ],
+      "external_transmissions": 0,
+      "fact_status": null,
+      "fictional": true,
+      "limitation": "No clinician is connected and no packet leaves the local fictional fixture.",
+      "manual_database_edits": 0,
+      "ordinary_generation_calls": 0,
+      "passed": true,
+      "plan_status": null,
+      "review_state": "queued",
+      "run": 3,
+      "schema_version": "10.0.0",
+      "state_version": 4,
+      "story": "urgent-review"
+    }
+  ],
+  "schema_version": "10.0.0",
+  "total": 9
+}

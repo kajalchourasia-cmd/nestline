@@ -726,3 +726,67 @@ Nestline-function semantic mismatches are both zero. The secret-free evidence is
 `data/supabase/stage4-remote-verification.json`.
 
 No GitHub commit, push or pull request was performed.
+
+## Stage 5 hybrid retrieval and causal graph - 11 September 2026
+
+### What was implemented
+
+- Added 20 versioned retrieval contracts and a single read-only Retrieval Gateway for exact SQL, Postgres full-text, pgvector, bounded graph traversal and deterministic reciprocal-rank fusion.
+- Bound personal scope to the authenticated owner and care episode. Client text cannot override workspace scope, and ordinary retrieval does not use the service role.
+- Added hard pre-ranking filters for confirmation, release, lane, stage, week/range, jurisdiction, domain, applicability, version, retirement and corpus state.
+- Added separate versioned public and personal caches, state-change invalidation, explicit abstention/conflict/missing/degraded failures, and record-only medication plus safety-evaluation-only symptom handling.
+- Added the bounded document-to-restriction/conflict-to-plan-to-stale-plan/question graph path with cycle, depth, count and workspace boundaries.
+- Added five frozen development questions, deterministic fixture embeddings, vector-only/hybrid/ranking-trial/graph-ablation experiments, pgTAP security tests, authenticated API checks and a deterministic CI checker.
+- Added additive migration `20260911001300_stage5_hybrid_retrieval.sql`. It was tested locally from the exact Stage 4 schema, from the deployed Stage 3 route through Stages 4-5, and on a clean replay. It was not deployed.
+
+### What failed and how it was corrected
+
+1. A SQL result alias could not be used in one ordered return query. Ordering by the result ordinal preserved the contract and fixed the migration.
+2. Replacing the original graph uniqueness rule broke the Stage 4 `ON CONFLICT` contract. The original UUID uniqueness was restored and a separate partial public-node identity index was added.
+3. Removing legacy retrieval functions broke earlier database contracts. Strict, permission-safe compatibility wrappers retained the earlier API while the new gateway became the Stage 5 path.
+4. An older Stage 2 test expected an unconfirmed chunk to be visible. The test was corrected to the stronger rule: unconfirmed private chunks are never retrieval candidates.
+5. Canonical graph vocabulary was incomplete. An additive mapping and validator aligned old stored labels with the approved Stage 5 types.
+6. Personal-cache cleanup encountered a foreign-key race during workspace cascade deletion. The invalidation trigger now treats the expected deleted-parent case as cleanup, while retaining other failures.
+7. Graph fixture matching initially required every query term and missed the relationship case. It now requires a meaningful path term while preserving every hard permission and scope filter.
+8. The API fixture initially used a personal mode inconsistent with supervised fixtures. It was changed to a controlled development release and seeded confirmed state.
+9. A public SQL candidate inherited the stored row domain when one passage served several domains. The function now returns the requested filtered domain so ranking and traces cannot mislabel the query lane.
+10. The Stage 5 synthetic corpus changed a broad Stage 0 review fingerprint and made the governed handoff appear stale. The fingerprint boundary now excludes this downstream, non-release fixture, with a regression proving that Stage 5 changes cannot rebind Stage 0 approval evidence.
+11. One evidence-driven score-ranking trial produced no Recall@5 or precision gain. It was recorded and rejected; the simpler deterministic base ranker remains active.
+
+### Final local evidence
+
+- 212/212 Python unit tests, 64/64 content contracts and 26/26 journey cases passed.
+- Stage 1, Stage 2, Stage 3, Stage 4 and Stage 5 checkers passed; both Streamlit smoke tests passed.
+- 254/254 database assertions and 70/70 authenticated API checks passed on exact Stage 4 upgrade and clean histories; database lint returned zero findings.
+- Frozen Stage 5 behavior passed 26/26. Recall@5 and citation/evidence precision were 18/18; confirmed-personal-fact precision was 11/11; graph correctness was absent when disabled and 1/1 when enabled. Every prohibited leakage and decoy counter was zero.
+- All 63 weekly profiles remain drafts. No real medical data, production embeddings or paid-model credentials were used.
+
+### What remains open
+
+The deterministic SHA-256 fixture embedding proves interfaces, filters and repeatability, not production semantic quality. The 26-case synthetic development corpus is small and does not prove clinical quality. Clinical, India-localisation, licence, product/publication, production embedding-provider, real-upload scanning and Stage 6 Safety Gate reviews remain open with their owners.
+
+**Rectified decision:** Stage 5 is ready for independent re-review; Stage 6 remains blocked until that review accepts the answerability correction. Public, clinical and production use remain NO-GO. The reviewed baseline is 448eb6d2ab7b4e8cc7db9fc42ce5c523a7fe10a7; implementation commit dcec1f9e847a64185330ba4406a886bcced688b2 is pushed to the review branch and the migration remains undeployed.
+
+### Stage 5 answerability rectification
+
+- Reproduced the unsupported-public-guidance and unresolved-conflict failures on the reviewed commit before changing code.
+- Replaced broad any-evidence truthiness with fixed server-side public, personal-record, mixed-personalized and graph evidence requirements.
+- Established database-derived journey, active-condition and state-version boundaries before filtering and cache lookup.
+- Minimized personal context by purpose, domain and meaningful query subject; final inspection caught and removed an unrelated peanut-allergy passage from the prenatal-yoga conflict packet.
+- Expanded frozen truth from 5 to 26 cases across all seven domains and the required conflict, missing, graph, condition, week, stale-state, possible-pregnancy and postpartum states.
+- Regenerated schemas, metrics, corrected Evidence Packets and the independent-review handoff from repository scripts.
+
+The rectification implementation commit was pushed to the review branch. Nothing was merged or deployed, and Stage 6 was not started.
+### Stage 5 second rectification — 12 September 2026
+
+The independent return-for-changes review was checked against remote HEAD `3991896135eca094bc0ab0462f3e87c615469978`. Every material finding reproduced: cache results depended on public/causal execution order, small candidate limits truncated later large requests, caller-constructed policies could weaken evidence requirements, contradictory packet/result combinations validated, and generic category questions could hide matching conflicts.
+
+Corrections bind policy identity and candidate limit into cache identity, build policies inside the gateway, enforce packet/result cross-field invariants, and use policy-bounded category relevance for conflicts and missing information. The frozen set now has 28 cases. The 10/10 cache, 10/10 policy, 17/17 contract-mutation, 6/6 generic-conflict and 6/6 generic-missing matrices pass.
+
+Final local evidence: 223/223 Python tests, 47/47 focused Stage 5 tests, 64/64 content contracts, 26/26 journey cases, 28/28 retrieval behavior/support/journey decisions, 254/254 pgTAP assertions, 70/70 authenticated API checks, exact Stage 4 upgrade, clean 15-migration replay, zero application-schema lint findings and a clean whitespace check.
+
+A local Supabase reset initially returned while schema initialization was still settling; readiness was checked directly before rerunning the exact upgrade successfully. One API checker was first invoked with system Python and stopped on a missing development package before any API assertion; the project virtual environment passed it 15/15.
+
+The first GitHub run after publication passed validate and failed the combined Supabase step because a Stage 3 future-date test mixed UTC current_date with the application India-date guard at midnight IST. The test clock was aligned to Asia/Kolkata; both upgrade paths and the clean path then passed locally before republishing.
+
+**Decision:** Stage 5 is `READY FOR INDEPENDENT RE-REVIEW` locally. Stage 6 remains blocked. The corrected implementation commit is `467422a62a3db31740a2d631538a73c2f34cc526` and is authorized for publication to the review branch; no migration was deployed.

@@ -15,7 +15,10 @@ def main() -> int:
     os.environ["NESTLINE_SUPABASE_URL"] = "https://stage3-smoke.invalid"
     os.environ["NESTLINE_SUPABASE_PUBLISHABLE_KEY"] = "stage3-smoke-publishable-key"
 
-    app = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=15).run()
+    app = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=15)
+    app.session_state["stage9_started"] = True
+    app.session_state["stage9_mode"] = "Personal Mode"
+    app.run()
     if app.exception:
         messages = [str(item.value) for item in app.exception]
         raise AssertionError(f"Streamlit render raised exceptions: {messages}")

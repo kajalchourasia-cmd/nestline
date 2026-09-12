@@ -1,0 +1,1018 @@
+{
+  "bounded_attempts": {
+    "composition_calls_on_failed_validation": 0,
+    "maximum_repairs_observed": 1,
+    "maximum_retrieval_retries_observed": 1,
+    "urgent_ordinary_composition_calls": 0
+  },
+  "case_results": [
+    {
+      "case_id": "valid_supported_answer",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 17.9483,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "valid_week_plan",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 11.441,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "valid_day_plan",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 11.3385,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "valid_user_edited_plan",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 17.0143,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "five_visible_provenance_labels",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 20.6135,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "fabricated_citation",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "fabricated_citation"
+      ],
+      "latency_ms": 8.0324,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "fabricated_citation"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "citation_not_in_stage7_packet",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_not_in_packet"
+      ],
+      "latency_ms": 7.912,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_not_in_packet"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "missing_material_citation",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "material_claim_without_evidence"
+      ],
+      "latency_ms": 6.0427,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "material_claim_without_evidence"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "retired_evidence",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "evidence_retired"
+      ],
+      "latency_ms": 6.8284,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "evidence_retired"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "unapproved_evidence",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "evidence_unapproved"
+      ],
+      "latency_ms": 5.3967,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "evidence_unapproved"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_source",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_source_mismatch"
+      ],
+      "latency_ms": 5.3371,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_source_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_span_text",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "span_text_mismatch"
+      ],
+      "latency_ms": 5.356,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "span_text_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_span_hash",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "span_hash_mismatch"
+      ],
+      "latency_ms": 7.4662,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "span_hash_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_workspace",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "evidence_wrong_workspace"
+      ],
+      "latency_ms": 6.1461,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "evidence_wrong_workspace"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_stage",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "journey_mismatch"
+      ],
+      "latency_ms": 5.938,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "journey_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_week",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "wrong_week"
+      ],
+      "latency_ms": 4.9954,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "wrong_week"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_week_range",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "wrong_week"
+      ],
+      "latency_ms": 5.0058,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "wrong_week"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "wrong_jurisdiction",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "wrong_jurisdiction"
+      ],
+      "latency_ms": 7.587,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "wrong_jurisdiction"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "stale_state",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "stale_state_version"
+      ],
+      "latency_ms": 6.0988,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "stale_state_version"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "allergy_direct",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "allergy_violation"
+      ],
+      "latency_ms": 5.8794,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "allergy_violation"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "allergy_hidden_tag",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "allergy_violation"
+      ],
+      "latency_ms": 5.5115,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "allergy_violation"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "restriction_override",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "restriction_violation",
+        "public_overrides_personal"
+      ],
+      "latency_ms": 5.2767,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "restriction_violation",
+        "public_overrides_personal"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "condition_dropped",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "condition_context_dropped"
+      ],
+      "latency_ms": 6.9926,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "condition_context_dropped"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "instruction_override",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "confirmed_instruction_violation",
+        "public_overrides_personal"
+      ],
+      "latency_ms": 6.2314,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "confirmed_instruction_violation",
+        "public_overrides_personal"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "condition_required_missing",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 5.9193,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "condition_excluded_present",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 6.5036,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "medication_change",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "prescribing_or_medication_change"
+      ],
+      "latency_ms": 11.7366,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "prescribing_or_medication_change",
+        "prescribing_or_medication_change"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "diagnosis",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "diagnosis"
+      ],
+      "latency_ms": 4.4416,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "diagnosis"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "inferred_clearance",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "inferred_clearance"
+      ],
+      "latency_ms": 4.0376,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "inferred_clearance"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "unsafe_reassurance",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "unsafe_reassurance"
+      ],
+      "latency_ms": 3.9282,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "unsafe_reassurance"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "fake_review",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "fake_professional_review"
+      ],
+      "latency_ms": 3.7587,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "fake_professional_review"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "summary_boundary_bypass",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "prescribing_or_medication_change"
+      ],
+      "latency_ms": 4.5988,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "prescribing_or_medication_change"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "unauthorized_action",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "unauthorized_action"
+      ],
+      "latency_ms": 4.8326,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "unauthorized_action"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "public_overrides_record",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "public_overrides_personal"
+      ],
+      "latency_ms": 4.7362,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "public_overrides_personal"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "unsupported_packet",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "unsupported_evidence_packet"
+      ],
+      "latency_ms": 6.2562,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "unsupported_evidence_packet"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "partial_packet",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "partial_evidence_packet"
+      ],
+      "latency_ms": 5.2616,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "partial_evidence_packet"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "relevant_conflict",
+      "expected_disposition": "clarify",
+      "expected_finding_codes": [
+        "relevant_conflict"
+      ],
+      "latency_ms": 4.6331,
+      "observed_disposition": "clarify",
+      "observed_finding_codes": [
+        "relevant_conflict"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "required_missing_information",
+      "expected_disposition": "clarify",
+      "expected_finding_codes": [
+        "required_information_missing"
+      ],
+      "latency_ms": 5.0902,
+      "observed_disposition": "clarify",
+      "observed_finding_codes": [
+        "required_information_missing"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "urgent_composition_attempt",
+      "expected_disposition": "escalate",
+      "expected_finding_codes": [
+        "urgent_composition_blocked"
+      ],
+      "latency_ms": 9.1941,
+      "observed_disposition": "escalate",
+      "observed_finding_codes": [
+        "urgent_composition_blocked"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "plausible_irrelevant",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 4.6834,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "partial_semantic_support",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_partial_support"
+      ],
+      "latency_ms": 6.7396,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_partial_support"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "weaker_semantic_support",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_weaker_support"
+      ],
+      "latency_ms": 6.635,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_weaker_support"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "uncertain_semantic_support",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "semantic_support_uncertain"
+      ],
+      "latency_ms": 6.5005,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "semantic_support_uncertain"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "similar_words_opposite_conclusion",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 7.3422,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "two_claims_one_supporting_span",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 6.2967,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "general_nutrition_not_allergy_support",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 7.4724,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "movement_intensity_mismatch",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "latency_ms": 6.1946,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "citation_irrelevant"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "raw_recorded_constraint_plan",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 13.4346,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "raw_urgent_plan",
+      "expected_disposition": "escalate",
+      "expected_finding_codes": [
+        "urgent_composition_blocked"
+      ],
+      "latency_ms": 6.2658,
+      "observed_disposition": "escalate",
+      "observed_finding_codes": [
+        "urgent_composition_blocked"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "raw_ambiguous_plan",
+      "expected_disposition": "clarify",
+      "expected_finding_codes": [
+        "safety_clarification_blocked"
+      ],
+      "latency_ms": 8.1774,
+      "observed_disposition": "clarify",
+      "observed_finding_codes": [
+        "safety_clarification_blocked"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "semantic_evaluator_unavailable",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "semantic_evaluator_unavailable"
+      ],
+      "latency_ms": 3.5021,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "semantic_evaluator_unavailable"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "semantic_evaluator_timeout",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "semantic_evaluator_timeout"
+      ],
+      "latency_ms": 3.5576,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "semantic_evaluator_timeout"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "one_mechanical_repair",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 6.6405,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "repair_not_allowed",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "provenance_label_invalid"
+      ],
+      "latency_ms": 6.3088,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "provenance_label_invalid"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "repair_failure",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "provenance_label_missing",
+        "repair_failed"
+      ],
+      "latency_ms": 4.3601,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "repair_failed",
+        "provenance_label_missing"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "second_repair_prevented",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "provenance_label_missing"
+      ],
+      "latency_ms": 6.1578,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "provenance_label_missing"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "one_retrieval_retry",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 4.0921,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "second_retry_prevented",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "unsupported_evidence_packet"
+      ],
+      "latency_ms": 4.0662,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "unsupported_evidence_packet"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "plan_item_link_missing",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "plan_item_unvalidated"
+      ],
+      "latency_ms": 14.1657,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "plan_item_unvalidated"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "plan_item_evidence_mismatch",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "plan_evidence_mismatch"
+      ],
+      "latency_ms": 13.7513,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "plan_evidence_mismatch",
+        "plan_evidence_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "plan_claim_evidence_mismatch",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "plan_evidence_mismatch"
+      ],
+      "latency_ms": 11.0538,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "plan_evidence_mismatch",
+        "plan_evidence_mismatch"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "plan_constraint_link_dropped",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "required_constraint_dropped"
+      ],
+      "latency_ms": 10.3599,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "required_constraint_dropped"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "combined_plan_conflict",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "plan_combined_constraint_failure"
+      ],
+      "latency_ms": 13.9742,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "plan_combined_constraint_failure"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "stale_plan",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "plan_combined_constraint_failure"
+      ],
+      "latency_ms": 11.6723,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "plan_combined_constraint_failure"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "supplement_timing_change",
+      "expected_disposition": "abstain",
+      "expected_finding_codes": [
+        "prescribing_or_medication_change"
+      ],
+      "latency_ms": 13.461,
+      "observed_disposition": "abstain",
+      "observed_finding_codes": [
+        "prescribing_or_medication_change",
+        "prescribing_or_medication_change",
+        "prescribing_or_medication_change"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "schema_extra_field",
+      "expected_disposition": "schema_rejected",
+      "expected_finding_codes": [
+        "schema_invalid"
+      ],
+      "latency_ms": 4.9038,
+      "observed_disposition": "schema_rejected",
+      "observed_finding_codes": [
+        "schema_invalid"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "schema_invalid_claim_kind",
+      "expected_disposition": "schema_rejected",
+      "expected_finding_codes": [
+        "schema_invalid"
+      ],
+      "latency_ms": 4.3174,
+      "observed_disposition": "schema_rejected",
+      "observed_finding_codes": [
+        "schema_invalid"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "trace_data_minimisation",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 4.1742,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    },
+    {
+      "case_id": "proposal_only_no_write",
+      "expected_disposition": "pass",
+      "expected_finding_codes": [],
+      "latency_ms": 5.1292,
+      "observed_disposition": "pass",
+      "observed_finding_codes": [],
+      "passed": true
+    }
+  ],
+  "cases": {
+    "passed": 69,
+    "total": 69
+  },
+  "critical_cases": {
+    "passed": 57,
+    "total": 57
+  },
+  "dataset": "visible synthetic Stage 8 development set; sealed final holdout not accessed",
+  "failures": [],
+  "groups": {
+    "answerability": {
+      "passed": 4,
+      "total": 4
+    },
+    "applicability": {
+      "passed": 2,
+      "total": 2
+    },
+    "boundary": {
+      "passed": 7,
+      "total": 7
+    },
+    "citation": {
+      "passed": 7,
+      "total": 7
+    },
+    "consistency": {
+      "passed": 1,
+      "total": 1
+    },
+    "constraint": {
+      "passed": 5,
+      "total": 5
+    },
+    "cross_stage": {
+      "passed": 3,
+      "total": 3
+    },
+    "evidence": {
+      "passed": 1,
+      "total": 1
+    },
+    "happy_path": {
+      "passed": 1,
+      "total": 1
+    },
+    "journey": {
+      "passed": 5,
+      "total": 5
+    },
+    "permission": {
+      "passed": 2,
+      "total": 2
+    },
+    "plan": {
+      "passed": 10,
+      "total": 10
+    },
+    "provenance": {
+      "passed": 1,
+      "total": 1
+    },
+    "repair": {
+      "passed": 4,
+      "total": 4
+    },
+    "retry": {
+      "passed": 2,
+      "total": 2
+    },
+    "safety": {
+      "passed": 1,
+      "total": 1
+    },
+    "schema": {
+      "passed": 2,
+      "total": 2
+    },
+    "semantic": {
+      "passed": 10,
+      "total": 10
+    },
+    "trace": {
+      "passed": 1,
+      "total": 1
+    }
+  },
+  "latency_ms": {
+    "count": 67,
+    "max": 2.8793,
+    "median": 0.4498
+  },
+  "limitations": [
+    "The deterministic lexical fixture evaluator is not a production entailment benchmark.",
+    "The visible synthetic set does not establish clinical validity or public-release readiness.",
+    "No paid-provider or sealed-holdout result is claimed."
+  ],
+  "provider": {
+    "deterministic_fixture_evaluator": true,
+    "live_semantic_benchmark_run": false,
+    "paid_provider_required": false
+  },
+  "schema_version": "8.0.0",
+  "stage": 8,
+  "valid": true,
+  "validator_coverage": {
+    "boundary_validator": {
+      "negative": 11,
+      "positive": 56
+    },
+    "citation_validator": {
+      "negative": 20,
+      "positive": 44
+    },
+    "consistency_validator": {
+      "negative": 12,
+      "positive": 52
+    },
+    "evidence_verifier": {
+      "negative": 6,
+      "positive": 58
+    },
+    "personal_constraint_validator": {
+      "negative": 5,
+      "positive": 59
+    },
+    "schema_validator": {
+      "negative": 1,
+      "positive": 66
+    },
+    "state_journey_validator": {
+      "negative": 5,
+      "positive": 59
+    }
+  },
+  "zero_persistent_writes": {
+    "passed": 67,
+    "total": 67
+  }
+}

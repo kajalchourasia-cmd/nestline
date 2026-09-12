@@ -254,13 +254,15 @@ remains blocked until the scanner and human release gates are resolved.
 
 ### S5 — Hybrid retrieval and causal graph · 9–15 hours
 
-- [ ] Build one typed Retrieval Gateway: SQL exact facts, Postgres full-text, pgvector, bounded graph expansion and merged/ranked evidence.
-- [ ] Apply workspace, source approval, stage, week/range, jurisdiction and evidence-lane filters before returning candidates.
-- [ ] Define deterministic rank fusion and reranking inputs; introduce a learned reranker only after a measured retrieval failure warrants it.
-- [ ] Store typed Postgres nodes/edges and bounded traversal; implement document → confirmed restriction → affected plan item → stale plan/question.
-- [ ] Cache public evidence by corpus/filter version only; invalidate state-dependent results on changes. Cache must not mix workspaces.
+- [x] Build one typed Retrieval Gateway: SQL exact facts, Postgres full-text, pgvector, bounded graph expansion and merged/ranked evidence.
+- [x] Apply workspace, source approval, stage, week/range, jurisdiction and evidence-lane filters before returning candidates.
+- [x] Define deterministic rank fusion and reranking inputs; introduce a learned reranker only after a measured retrieval failure warrants it.
+- [x] Store typed Postgres nodes/edges and bounded traversal; implement document → confirmed restriction → affected plan item → stale plan/question.
+- [x] Cache public evidence by corpus/filter version only; invalidate state-dependent results on changes. Cache must not mix workspaces.
 
 **Exit:** expected evidence IDs appear for test questions; wrong-week/private/unapproved decoys never do. Removing graph expansion in an ablation shows which relationship-dependent behavior changes. Do not claim graph benefit if exact SQL already solves the case equally well.
+
+Final consolidated Stage 5 semantic closure was completed locally on 12 September 2026 against reviewed branch head 2a067945986d68f85fba6234b9cb59be90a90eab. Shared derivations now bind answerability, abstention, trusted journey state, category relevance, graph structure, evidence inventories, packet/trace identity and component failures. The frozen 28-case development set remains 28/28 for behavior, support and journey; Recall@5 and citation precision are 18/18; confirmed-personal-fact precision is 12/12; and the expected graph path is 1/1. The generated adversarial matrix passes 212/212, the focused Stage 5 suite passes 56/56, and the full Python suite passes 232/232. Exact Stage 4 upgrade and clean histories pass, with 254/254 pgTAP assertions, 70/70 authenticated API checks and zero database-lint findings. All prohibited leakage/filter counters remain zero, all 63 weekly profiles remain drafts, no production embeddings were created, and no migration was changed or deployed. The Stage 5 checker remains an honest pre-acceptance artifact. GitHub validate and supabase-integration passed on verified implementation commit aeae51c42017edc6010f89ba4ff20d1e2f8a13ef, completing the supplied independent checklist; controlled Stage 6 engineering may begin as a separate task. See STAGE-5-FINAL-CONSOLIDATED-CORRECTION-AND-STAGE-6-GATE.md.
 
 ### S6 — Safety gate · 4–8 hours
 

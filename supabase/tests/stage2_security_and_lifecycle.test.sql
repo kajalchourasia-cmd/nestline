@@ -183,6 +183,8 @@ begin
   ) using target;
   get diagnostics affected_rows = row_count;
   return affected_rows;
+exception when others then
+  return 0;
 end;
 $$;
 
@@ -220,7 +222,7 @@ select ok(
     when table_name = 'journey_states' then commands = array['SELECT']
     when table_name = 'private_documents' then commands = array['INSERT', 'SELECT', 'UPDATE']
     when table_name = any(array['document_chunks', 'document_facts', 'medication_mentions', 'graph_nodes', 'graph_edges']) then commands = array['SELECT']
-    when table_name = 'health_facts' then commands = array['DELETE', 'INSERT', 'SELECT', 'UPDATE']
+    when table_name = any(array['health_facts', 'plans', 'plan_items', 'human_review_cases']) then commands = array['SELECT']
     else commands = array['ALL']
   end,
   format('%s has its complete authenticated policy set', table_name)
@@ -261,23 +263,30 @@ select is((select count(*) from public.graph_edges
 
 select ok(
   pg_temp.updated_workspace_rows(table_name, '11000000-0000-0000-0000-000000000001') > 0,
-  format('owner can update %s', table_name)
+  format('owner can update non-State-Committer table %s', table_name)
 )
 from unnest(array[
-  'health_facts', 'symptom_events', 'appointments',
-  'appointment_questions', 'plans', 'plan_items',
-  'human_review_cases', 'notifications', 'feedback'
+  'symptom_events', 'appointments', 'appointment_questions', 'notifications', 'feedback'
 ]) table_name;
+select is(
+  pg_temp.updated_workspace_rows(table_name, '11000000-0000-0000-0000-000000000001'),
+  0::bigint,
+  format('owner direct update is denied for State-Committer table %s', table_name)
+)
+from unnest(array['health_facts', 'plans', 'plan_items', 'human_review_cases']) table_name;
 
 select ok(
   pg_temp.delete_is_allowed(table_name, '11000000-0000-0000-0000-000000000001'),
-  format('owner can delete %s through its table policy', table_name)
+  format('owner can delete non-State-Committer table %s through its table policy', table_name)
 )
 from unnest(array[
-  'health_facts', 'symptom_events', 'appointments', 'appointment_questions',
-  'plans', 'plan_items', 'human_review_cases',
-  'notifications', 'feedback'
+  'symptom_events', 'appointments', 'appointment_questions', 'notifications', 'feedback'
 ]) table_name;
+select ok(
+  not pg_temp.delete_is_allowed(table_name, '11000000-0000-0000-0000-000000000001'),
+  format('owner direct delete is denied for State-Committer table %s', table_name)
+)
+from unnest(array['health_facts', 'plans', 'plan_items', 'human_review_cases']) table_name;
 
 select is(
   pg_temp.sqlstate_of($command$
@@ -301,8 +310,8 @@ select is(
   (select count(*) from public.match_document_chunks(
     '11000000-0000-0000-0000-000000000001', '[1,0,0]'::extensions.vector, 6
   )),
-  1::bigint,
-  'owner can retrieve an embedded private chunk'
+  0::bigint,
+  'Stage 5 compatibility retrieval excludes an unconfirmed private chunk'
 );
 
 select is(
@@ -410,24 +419,22 @@ select is(
   'non-owner workspace roles are rejected by the database'
 );
 
--- Deleting a current confirmed health fact invalidates every saved dependent
--- and removes its graph node in the same transaction.
+-- The final schema does not let an authenticated client delete confirmed truth
+-- directly. A rejected bypass leaves facts, plans, questions, and graph intact.
 select set_config('request.jwt.claim.sub', '10000000-0000-0000-0000-000000000001', true);
 set local role authenticated;
-delete from public.health_facts
-where id = '41000000-0000-0000-0000-000000000001';
+select is(pg_temp.sqlstate_of($command$
+  delete from public.health_facts
+  where id = '41000000-0000-0000-0000-000000000001'
+$command$),'42501','confirmed health fact deletion is denied outside State Committer');
+select is((select confirmation_status from public.health_facts where id =
+  '41000000-0000-0000-0000-000000000001'),'confirmed','denied deletion preserves confirmed truth');
 select is((select status from public.plans where id = '50000000-0000-0000-0000-000000000001'),
-          'stale', 'fact deletion makes the plan stale');
-select is((select state from public.plan_items where id = '51000000-0000-0000-0000-000000000001'),
-          'stale', 'fact deletion makes the plan item stale');
-select is((select status from public.appointment_questions where id = '49000000-0000-0000-0000-000000000001'),
-          'stale', 'fact deletion makes the appointment question stale');
-select ok((select has_dating_conflict and not user_confirmed from public.journey_states
-           where id = '42000000-0000-0000-0000-000000000001'),
-          'fact deletion forces journey reconfirmation');
-select is((select count(*) from public.graph_nodes
-           where entity_id = '41000000-0000-0000-0000-000000000001'),
-          0::bigint, 'fact deletion removes its graph node');
+  'draft','denied deletion cannot stale or alter the plan');
+select is((select status from public.appointment_questions where id =
+  '49000000-0000-0000-0000-000000000001'),'saved','denied deletion cannot alter follow-up questions');
+select is((select count(*) from public.graph_nodes where entity_id =
+  '41000000-0000-0000-0000-000000000001'),1::bigint,'denied deletion preserves causal graph history');
 
 -- Storage policies are tested against the same owner and outsider identities.
 select is(
