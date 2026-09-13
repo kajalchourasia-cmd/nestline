@@ -309,6 +309,13 @@ def home(session_id: UUID) -> dict:
         },
         "mode": "demo",
         "fictional": True,
+        "record_context": "connected" if session.use_fictional_sample_record else "not_connected",
+        "context_notice": (
+            "A fictional sample care record is connected."
+            if session.use_fictional_sample_record else
+            "No care record is connected. Personalised answers remain limited; "
+            "missing context must be requested or cause the flow to stop rather than guess."
+        ),
         "public_release_available": False,
     }
 
@@ -323,6 +330,12 @@ def chat(payload: ChatRequest) -> dict:
         "display": execution.display.model_dump(mode="json"),
         "mode": "demo",
         "fictional": True,
+        "record_context": "connected" if session.use_fictional_sample_record else "not_connected",
+        "context_notice": (
+            "A fictional sample care record is connected."
+            if session.use_fictional_sample_record else
+            "No care record is connected. This response cannot assume missing personal information."
+        ),
     }
 
 

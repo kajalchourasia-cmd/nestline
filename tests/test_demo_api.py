@@ -33,6 +33,37 @@ class DemoApiTests(unittest.TestCase):
         self.assertEqual(home["journey"]["exact"], 26)
         self.assertEqual(home["confirmed_context"]["allergies"], ["Peanut"])
         self.assertEqual(home["kpis"]["care_records"], 1)
+        self.assertEqual(home["record_context"], "connected")
+
+    def test_record_free_onboarding_allows_limited_home_and_chat(self):
+        response = self.onboard(
+            use_fictional_sample_record=False,
+            allergies=[],
+            diets=[],
+        )
+        self.assertEqual(response.status_code, 200)
+
+        home = self.client.get(f"/v1/demo/home/{self.session_id}")
+        self.assertEqual(home.status_code, 200)
+        home_body = home.json()
+        self.assertEqual(home_body["kpis"]["care_records"], 0)
+        self.assertEqual(home_body["record_context"], "not_connected")
+        self.assertIn("No care record is connected", home_body["context_notice"])
+
+        chat = self.client.post(
+            "/v1/demo/chat",
+            json={
+                "session_id": self.session_id,
+                "text": "What allergies are in my record?",
+            },
+        )
+        self.assertEqual(chat.status_code, 200)
+        chat_body = chat.json()
+        self.assertEqual(chat_body["record_context"], "not_connected")
+        self.assertIn("cannot assume missing personal information", chat_body["context_notice"])
+        self.assertEqual(chat_body["display"]["route"], "abstained")
+        self.assertIn("missing record", chat_body["display"]["summary"].lower())
+        self.assertEqual(chat_body["display"]["ordinary_generation_calls"], 0)
 
     def test_invalid_week_is_rejected(self):
         response = self.onboard(timeline_value="60")

@@ -49,6 +49,8 @@ export type HomeData = {
   kpis: { care_records: number; upcoming_appointment: string | null; plan_state: string };
   mode: "demo";
   fictional: true;
+  record_context: "connected" | "not_connected";
+  context_notice: string;
   public_release_available: boolean;
 };
 
@@ -79,7 +81,7 @@ export const mayaApi = {
     method: "POST", body: JSON.stringify(payload),
   }),
   home: (sessionId: string) => request<HomeData>(`/v1/demo/home/${sessionId}`),
-  chat: (sessionId: string, text: string) => request<{ display: MayaDisplay }>("/v1/demo/chat", {
+  chat: (sessionId: string, text: string) => request<{ display: MayaDisplay; record_context: "connected" | "not_connected"; context_notice: string }>("/v1/demo/chat", {
     method: "POST", body: JSON.stringify({ session_id: sessionId, text }),
   }),
   plan: (sessionId: string, focus: "balanced" | "nutrition" | "movement" | "wellbeing" = "balanced") => request<PlanResponse>("/v1/demo/plan", {
