@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-09-12T22:09:06.753978+00:00",
+  "checked_at_utc": "2026-09-13T03:22:57.763523+00:00",
   "execution": "Local checks; this report does not attest a GitHub Actions run",
-  "tests_run": 525,
+  "tests_run": 541,
   "checks": {
     "software_tests": {
       "arguments": [
@@ -14,7 +14,7 @@
       ],
       "exit_code": 0,
       "stdout": "",
-      "stderr": "----------------------------------------------------------------------\nRan 525 tests in 5.186s\n\nOK"
+      "stderr": "----------------------------------------------------------------------\nRan 541 tests in 4.378s\n\nOK"
     },
     "authoring_validation": {
       "arguments": [

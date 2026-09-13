@@ -1,5 +1,7 @@
 # Final Capstone + Maya UI Integration Verification
 
+> **Historical integration baseline.** This report records the earlier conservative correction at its reviewed commit. Current React product-surface status and superseding restoration evidence are in [MAYA-AI-PRODUCT-UI-RESTORATION-AND-PRE-MERGE-VERIFICATION.md](MAYA-AI-PRODUCT-UI-RESTORATION-AND-PRE-MERGE-VERIFICATION.md). The original findings and results below are preserved as historical evidence.
+
 **Date:** 13 September 2026 (IST)
 **Repository:** `kajalchourasia-cmd/nestline`
 **Local branch:** `integration/final-capstone-maya-ui`

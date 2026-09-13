@@ -1,5 +1,6 @@
 import unittest
 from datetime import date, timedelta
+from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
@@ -153,6 +154,67 @@ class DemoApiTests(unittest.TestCase):
         response = self.client.post(f"/v1/demo/document-sample/{self.session_id}")
         self.assertEqual(response.status_code, 200)
         self.assertIn("Real medical file upload is not enabled", response.json()["warning"])
+
+    def test_session_validation_supports_stale_browser_recovery(self):
+        valid = self.client.get(f"/v1/demo/session/{self.session_id}")
+        self.assertEqual(valid.status_code, 200)
+        self.assertFalse(valid.json()["onboarding_complete"])
+        missing = self.client.get(f"/v1/demo/session/{uuid4()}")
+        self.assertEqual(missing.status_code, 404)
+
+    def test_home_cards_are_governed_and_keep_gated_sections_visible(self):
+        self.onboard()
+        home = self.client.get(f"/v1/demo/home/{self.session_id}").json()
+        self.assertGreaterEqual(len(home["content_cards"]), 7)
+        required = {
+            "card_id", "domain", "title", "summary", "journey_scope",
+            "evidence_ids", "review_state", "display_allowed", "limitations",
+            "suggested_action",
+        }
+        self.assertTrue(all(required <= set(card) for card in home["content_cards"]))
+        self.assertTrue(all(not card["display_allowed"] for card in home["content_cards"]))
+        self.assertFalse(home["public_release_available"])
+
+    def test_month_range_never_becomes_an_exact_comparison(self):
+        response = self.onboard(timeline_mode="month", timeline_value="6")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.json()["journey"]["exact"])
+        home = self.client.get(f"/v1/demo/home/{self.session_id}").json()
+        preview = home["comparison_preview"]
+        self.assertEqual(preview["display_mode"], "range_confirmation")
+        self.assertFalse(preview["eligible_context"])
+        self.assertIsNone(preview["exact_week"])
+
+    def test_exact_week_uses_editorial_preview_with_measurements_gated(self):
+        self.onboard(timeline_mode="week", timeline_value="26")
+        preview = self.client.get(f"/v1/demo/home/{self.session_id}").json()["comparison_preview"]
+        self.assertEqual(preview["display_mode"], "exact_week_editorial_preview")
+        self.assertEqual(preview["exact_week"], 26)
+        self.assertEqual(preview["approval_reviewer"], "Kajal")
+        self.assertEqual(preview["approval_date"], "2026-09-11")
+        self.assertEqual(preview["measurement_review_state"], "pending")
+        self.assertEqual(preview["image_ownership_or_licence"], "pending")
+        self.assertEqual(len(preview["catalogue_sha256"]), 64)
+
+    def test_postpartum_never_receives_pregnancy_comparison(self):
+        response = self.onboard(
+            journey="postpartum",
+            timeline_mode="birth_date",
+            timeline_value=(date.today() - timedelta(days=10)).isoformat(),
+        )
+        self.assertEqual(response.status_code, 200)
+        home = self.client.get(f"/v1/demo/home/{self.session_id}").json()
+        self.assertEqual(home["comparison_preview"]["display_mode"], "postpartum_hidden")
+        self.assertFalse(home["comparison_preview"]["eligible_context"])
+
+    def test_missing_context_is_not_reported_as_none(self):
+        self.onboard(
+            diets=[], allergies=[], symptoms=[], use_fictional_sample_record=False,
+        )
+        home = self.client.get(f"/v1/demo/home/{self.session_id}").json()
+        self.assertEqual(home["confirmed_context"]["diets_status"], "not_provided")
+        self.assertEqual(home["confirmed_context"]["allergies_status"], "not_provided")
+        self.assertEqual(home["records"][0]["status"], "not_provided")
 
 
 if __name__ == "__main__":

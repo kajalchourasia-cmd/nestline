@@ -45,6 +45,80 @@ SPEC_PATH = APP_ROOT / "data" / "safety" / "rule_spec.yaml"
 SAFETY_SPEC = SafetySpec.model_validate_json(SPEC_PATH.read_text(encoding="utf-8"))
 SAFETY_GATE = SafetyGate(SAFETY_SPEC, mode="evaluation_only")
 
+COMPARISON_APPROVAL = {
+    "approval_id": "KAJAL-STAGE-1-PRODUCT-REVIEW-2026-09-11",
+    "approval_reviewer": "Kajal",
+    "approval_capacity": "Product/content review",
+    "approval_date": "2026-09-11",
+    "catalogue_version": "1.0.0",
+    "catalogue_sha256": "D3554DFE325FE3DEBF8A7FFF78A391BA262200F885B305C08946448697E247E8",
+}
+
+
+def _governed_card(card_id: str, domain: str, title: str, journey_scope: str, suggested_action: str) -> dict:
+    return {
+        "card_id": card_id,
+        "domain": domain,
+        "title": title,
+        "summary": "Reviewed guidance for this section is awaiting specialist and release review.",
+        "journey_scope": journey_scope,
+        "evidence_ids": [],
+        "review_state": "awaiting_specialist_review",
+        "display_allowed": False,
+        "limitations": [
+            "No public weekly profile is released.",
+            "The product structure is available; health claims remain hidden.",
+        ],
+        "suggested_action": suggested_action,
+    }
+
+
+def _governed_cards(session: "DemoSession") -> list[dict]:
+    scope = session.journey_label
+    if session.journey.stage == "postpartum":
+        return [
+            _governed_card("pp-recovery", "recovery", "Recovery", scope, "Ask Maya about recovery"),
+            _governed_card("pp-nourishment", "nutrition", "Nourishment", scope, "Build a nutrition plan"),
+            _governed_card("pp-feeding", "feeding", "Feeding", scope, "Ask Maya a feeding question"),
+            _governed_card("pp-wellbeing", "wellbeing", "Wellbeing", scope, "Build a wellbeing plan"),
+            _governed_card("pp-documents", "documents", "Care records", scope, "Review sample record status"),
+        ]
+    return [
+        _governed_card("preg-health", "health", "This week", scope, "Ask Maya a week-aware question"),
+        _governed_card("preg-nutrition", "nutrition", "Nutrition", scope, "Build a nutrition plan"),
+        _governed_card("preg-movement", "movement", "Movement", scope, "Build a movement plan"),
+        _governed_card("preg-symptoms", "symptoms", "Symptoms", scope, "Describe a symptom to Maya"),
+        _governed_card("preg-wellbeing", "wellbeing", "Wellbeing", scope, "Build a wellbeing plan"),
+        _governed_card("preg-preparation", "preparation", "Preparation", scope, "Prepare questions for a visit"),
+        _governed_card("preg-documents", "documents", "Care records", scope, "Review sample record status"),
+    ]
+
+
+def _comparison_preview(session: "DemoSession") -> dict:
+    journey = session.journey
+    base = {
+        **COMPARISON_APPROVAL,
+        "review_state": "editorial_product_preview_only",
+        "measurement_review_state": "pending",
+        "image_ownership_or_licence": "pending",
+        "exact_week": None,
+        "range_start": journey.range_start,
+        "range_end": journey.range_end,
+        "eligible_context": False,
+        "display_mode": "out_of_range",
+        "limitations": [
+            "Editorial comparison only; not a clinical growth assessment.",
+            "Measurements, specialist review, localisation, and image licensing remain pending.",
+        ],
+    }
+    if journey.stage == "postpartum":
+        return {**base, "display_mode": "postpartum_hidden"}
+    if journey.exact is None:
+        return {**base, "display_mode": "range_confirmation"}
+    if 1 <= journey.exact <= 41:
+        return {**base, "eligible_context": True, "display_mode": "exact_week_editorial_preview", "exact_week": journey.exact}
+    return base
+
 
 class OnboardingRequest(BaseModel):
     session_id: UUID | None = None
@@ -254,6 +328,18 @@ def create_demo_session() -> DemoSessionResponse:
     return DemoSessionResponse(session_id=session.session_id)
 
 
+@app.get("/v1/demo/session/{session_id}")
+def validate_demo_session(session_id: UUID) -> dict:
+    session = _session(session_id)
+    return {
+        "session_id": session.session_id,
+        "valid": True,
+        "onboarding_complete": session.context is not None,
+        "mode": "demo",
+        "fictional": True,
+    }
+
+
 @app.post("/v1/demo/onboarding")
 def onboard(payload: OnboardingRequest) -> dict:
     session = _session(payload.session_id) if payload.session_id else STORE.create()
@@ -301,12 +387,30 @@ def home(session_id: UUID) -> dict:
             "diets": session.diets,
             "allergies": session.allergies,
             "symptoms": session.symptoms,
+            "diets_status": "confirmed" if session.diets else "not_provided",
+            "allergies_status": "confirmed" if session.allergies else "not_provided",
+            "symptoms_status": "reported" if session.symptoms else "not_provided",
         },
         "kpis": {
             "care_records": 1 if session.use_fictional_sample_record else 0,
             "upcoming_appointment": "Wednesday · 10:00" if session.use_fictional_sample_record else None,
             "plan_state": "not_created",
         },
+        "content_cards": _governed_cards(session),
+        "comparison_preview": _comparison_preview(session),
+        "records": [{
+            "document_id": "DEMO-DOC-001",
+            "label": "Fictional sample care record",
+            "status": "fictional_sample",
+            "summary": "One fictional appointment and one record-only supplement are available.",
+            "provenance": "Bundled synthetic Product Preview fixture",
+        }] if session.use_fictional_sample_record else [{
+            "document_id": "not-provided",
+            "label": "No care record added",
+            "status": "not_provided",
+            "summary": "You can continue without a record and use general Product Preview features.",
+            "provenance": "No document information was provided",
+        }],
         "mode": "demo",
         "fictional": True,
         "public_release_available": False,

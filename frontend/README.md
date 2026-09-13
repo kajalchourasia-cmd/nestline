@@ -1,35 +1,38 @@
-# Maya AI frontend
+# Maya AI React product
 
-This directory contains the React/Next.js Maya interface. It is a complementary local controlled-demo surface over the accepted Nestline services. The accepted Streamlit entry point remains the complete Stage 3–10 evaluator and durable-state surface.
+The React/Next.js application in this directory is the primary Maya AI user experience. It exposes the approved local Product Preview over the accepted journey, safety, orchestration, retrieval, and validation services. Streamlit remains an internal engineering, evidence, and legacy verification surface.
 
-The React demo currently provides:
+## Available in the Product Preview
 
-- journey onboarding for pregnancy and postpartum;
-- server-derived fictional context for preferences and allergies;
-- immediate Stage 6 safety handling for onboarding symptoms and chat;
-- a dashboard that hides unreleased weekly measurements and editorial health claims;
-- a connected Stage 7 plan draft that must pass Stage 8 validation;
-- Ask Maya over the Stage 6–8 safety, routing, evidence, and validation path;
-- one clearly marked fictional sample record.
+- five-step pregnancy and postpartum onboarding;
+- exact pregnancy week, due-date resolution, approximate month ranges, and postpartum timing;
+- a complete 41-week editorial comparison library;
+- pregnancy and postpartum dashboards;
+- nutrition, movement, symptoms, wellbeing, FAQ, and care-record tabs;
+- validated proposed day/week plans;
+- Ask Maya with evidence provenance and applied constraints;
+- Stage 6 clarification and fixed urgent routes before ordinary generation;
+- stale in-memory session recovery and visible API retry;
+- responsive desktop and 390px phone layouts.
 
-It does not provide Personal Mode, real medical-file upload, published weekly guidance, or the Stage 10 durable commit/save/review lifecycle. Do not enter real personal or medical information.
+Medical measurements remain hidden. Gated content stays visible with honest awaiting-review states. Real health-data upload, authenticated Personal Mode, durable React saving, clinical approval, live-provider selection, and deployment are unavailable. Use sample information only.
 
-## Local requirements
+## Requirements
 
 - Python 3.12
-- Node.js 22.13 or later (Node 24 is used in CI)
+- Node.js 22.13 or later; CI uses Node 24
 - npm
 
 ## Local run
 
-From a clean checkout, create the Python environment once:
+From a clean repository checkout:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Terminal 1, from the repository root:
+Terminal 1, repository root:
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
@@ -46,10 +49,10 @@ npm run dev
 
 Open `http://127.0.0.1:5173`.
 
-## Reset and troubleshooting
+## Reset and recovery
 
-Delete `frontend/.env.local` to restore the default local API address. Browser demo sessions are temporary; clear the site's local storage or open a private window to reset the client. Restart both local processes after dependency or environment changes.
+Use **Maya home** to return to the landing page and **Explore a sample week** to reset deterministic fictional context. Browser session IDs are temporary. If the API restarts, the UI validates the stored ID, recreates the fictional session from browser-session context, and retries the requested action once. If the API is unavailable, the relevant surface shows an error and retry action.
 
-If the UI reports that the API is unavailable, confirm `http://127.0.0.1:8000/healthz` returns `status: ok` and that `NEXT_PUBLIC_MAYA_API_URL` points to that API. If `npm` reports an engine mismatch, use Node 22.13 or later.
+To reset manually, clear local storage and session storage for `127.0.0.1:5173`, or open a private browser window.
 
-Deployment, remote secrets, public URLs, and production database configuration are intentionally outside this local integration.
+If the API does not respond, verify `http://127.0.0.1:8000/healthz` and `NEXT_PUBLIC_MAYA_API_URL` in `.env.local`. The committed `.env.example` contains a local placeholder only. No `.env` file or credential belongs in Git.

@@ -1,34 +1,39 @@
-# Maya AI UI integration status
+# Maya AI UI integration
 
-## Outcome
+## Current outcome
 
-The React interface in `frontend/` is integrated locally through the thin FastAPI adapter in `api/`. It complements the accepted Streamlit product/evaluator surface and preserves the existing backend contracts. It is not a replacement for Stage 10 durable state behavior.
+The React/Next.js application in `frontend/` is the primary Maya AI user experience. It uses the thin FastAPI adapter in `api/` to expose accepted Product Preview capabilities from Stages 3–8. Streamlit remains an internal engineering, evidence, and legacy verification surface.
+
+This document describes the current restoration branch. The earlier integration report is retained as a historical review baseline and is superseded for product-surface status by `MAYA-AI-PRODUCT-UI-RESTORATION-AND-PRE-MERGE-VERIFICATION.md`.
 
 ## Connected behavior
 
-| React surface | Backend path | Verified behavior |
+| React surface | Service boundary | Current behavior |
 |---|---|---|
-| Begin my journey | `POST /v1/demo/session` | Creates an isolated in-memory fictional session. |
-| Pregnancy week/month/due date and postpartum date | Stage 3 `JourneyResolver` | Preserves exact versus approximate timing and rejects invalid input. |
-| Diet and allergies | Server-built Stage 7 context | Applies scoped fictional constraints. |
-| Onboarding symptoms | Stage 6 Safety Gate | Urgent and clarification routes block dashboard navigation and ordinary generation. |
-| Fictional sample record | Controlled fixture | Adds one fictional appointment and record-only supplement; real upload remains disabled. |
-| Dashboard | `GET /v1/demo/home/{session}` | Shows resolved or recorded values; weekly measurements and unreleased editorial claims remain hidden. |
-| Connected plan | Stages 6 → 7 → 8 | Returns a proposed schedule only when validation permits it. |
-| Ask Maya | Stages 6 → 7 → 8 | Runs safety first; urgent output bypasses ordinary generation. Landing-page access creates a safe fictional preview context before opening chat. |
+| Begin my journey | `POST /v1/demo/session` | Opens onboarding immediately; creates an isolated in-memory fictional session. |
+| Pregnancy/postpartum timing | Stage 3 Journey Resolver | Preserves exact week, approximate range, due-date, and postpartum semantics. |
+| Preferences and allergies | Authenticated-shape fictional context | Keeps dietary preferences and confirmed sample allergies separate. |
+| Symptoms during onboarding/chat | Stage 6 Safety Gate | Urgent and clarification routes block ordinary continuation; urgent output makes zero ordinary-generation calls. |
+| Dashboard | `GET /v1/demo/home/{session}` | Returns journey KPIs, governed card states, fictional record status, and eligible editorial comparison metadata. |
+| 41-week library | Governed editorial catalogue | Shows weeks 1–41; measurements remain hidden and review/licence limitations remain visible. |
+| Plans | Stages 6 → 7 → 8 | Returns validated proposed schedules with applied constraints; nothing is durably saved. |
+| Ask Maya | Stages 6 → 7 → 8 | Sends displayed suggestions exactly, renders provenance/citations, and preserves safety precedence. |
+| Restart/retry | Demo session validation | Detects stale server memory, rebuilds selected fictional context, and retries without discarding the active UI result. |
 
 ## Preserved boundaries
 
-- The repository has 63 authored profiles and 0 published profiles. Draft weekly measurements, fetal comparisons, and health guidance are not rendered as released content.
-- The React adapter is Demo Mode only. It does not silently become Personal Mode or use a deterministic provider for Personal Mode.
-- Stage 10 durable fact confirmation, plan saving, state invalidation, and simulated-review writes remain on the accepted Streamlit/storage surface and are not claimed by this React UI.
-- Real medical uploads, live-provider selection, production evidence, deployment, remote migrations, and public/clinical release remain blocked.
-- Passing local fixture tests is software-contract evidence, not clinical validation.
+- The repository has 63 authored profiles and 0 published profiles.
+- No comparison is represented as clinically or measurement approved.
+- The product-approved editorial sequence is shown only as a non-clinical Product Preview with measurements hidden.
+- Real medical-file upload is disabled.
+- React Personal Mode, durable Stage 10 commits, production provider selection, remote migrations, deployment, and public/clinical release remain unavailable.
+- The fixture provider is deterministic test/demo infrastructure and cannot silently serve Personal Mode.
+- Passing local tests is software-contract evidence, not clinical validation.
 
 ## Local run
 
-Follow `frontend/README.md`. The checked-in `frontend/.env.example` contains only the local public API placeholder. No `.env` or secret is committed.
+Follow `frontend/README.md`. The committed `frontend/.env.example` contains only `NEXT_PUBLIC_MAYA_API_URL=http://127.0.0.1:8000`. No `.env` or secret is committed.
 
-## Source integration
+## Source and restoration lineage
 
-The local integration branch was created from `integration/capstone-demo-final` at `40ee1ae56d96697aad5f450994cc9340e95e6a10` and merged `integration/maya-ai-ui-demo` at `7a5531635242c997bacf33b2cabe2acbf67fa751` with normal Git ancestry. Full evidence is in `docs/FINAL-CAPSTONE-MAYA-UI-INTEGRATION-VERIFICATION.md`.
+The restoration branch `fix/maya-ai-product-ui-restoration` was created from the reviewed correction commit `abe80982736b7405ca62f0e0e60bc55cdf356740`, preserving the safety, dependency, CI, CORS, and onboarding interaction fixes. The complete verification and screenshot evidence is recorded in `docs/MAYA-AI-PRODUCT-UI-RESTORATION-AND-PRE-MERGE-VERIFICATION.md`.
